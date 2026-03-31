@@ -1,0 +1,11 @@
+services:
+  oracle-xe:
+    image: gvenzl/oracle-xe:21-slim
+    container_name: oracle-xe
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_PASSWORD: oracle123
+      APP_USER: devuser
+      APP_USER_PASSWORD: devuser123
+    restart: unless-stopped
