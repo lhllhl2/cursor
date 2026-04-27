@@ -1,0 +1,65 @@
+server:
+  port: ${SERVER_PORT:8089}
+spring:
+  application:
+    name: gateway-service
+  profiles:
+    active: ${ENV_CONFIG:k8s}
+  main:
+    allow-circular-references: true # 允许循环依赖，因为项目是三层架构，无法避免这个情况。
+    allow-bean-definition-overriding: true # 允许 Bean 覆盖，例如说 Feign 等会存在重复定义的服务
+  cloud:
+    nacos.config.preference: remote   # 优先使用nacos上的配置
+    gateway:
+      httpclient:
+        connect-timeout: 5000
+        response-timeout: 2m
+        pool:
+          type: fixed                  # 使用固定大小的连接池
+          max-connections: 500         # 最大连接数，支持300-500线程并发
+          acquire-timeout: 45000      # 获取连接的超时时间（45秒）
+          max-idle-time: 30s          # 连接最大空闲时间
+          max-life-time: 60s          # 连接最大生存时间
+          eviction-interval: 10s       # 连接池清理间隔
+      # 路由配置统一在 K8s ConfigMap 中管理
+      default-filters:
+      - AddRequestHeader=x-fii-gateway,fii
+      - AddResponseHeader=x-fii-gateway,fii
+      globalcors:
+        add-to-simple-url-handler-mapping: true   # 接收浏览器询问是否允许跨域的请求
+        cors-configurations:
+          # 仅在开发环境设置为*
+          '[/**]':
+            allowedOriginPatterns: "*"
+            allowedHeaders: "*"
+            allowedMethods: "*"      # 允许在请求中携带的头信息
+            allowCredentials: true   # 是否允许携带cookie
+            maxAge: 36000
+ribbon:
+  ConnectTimeout: 5000
+  ReadTimeout: 120000
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 120000
+
+jasolar:
+  info:
+    base-package: com.jasolar.mis.gateway  # 每个服务必须指定自己的base-package
+logging.level.default: TRACE
+
+permission:
+  ignoreUrls:
+    - /admin-api/system/i18n-menu/getAllTree
+    - /oauth-api/sso/oauth2/callback
+    - /system/datasync/fusion/report
+    - /system/datasync/fusion/report-asia
+  openUrls:
+    - /admin-api/user/update
+    - /admin-api/user/add
+    - /admin-api/user/delete
+    - /system/datasync/fusion/report
+    - /system/datasync/fusion/report-asia

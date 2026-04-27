@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cron-call-system-oa
+  namespace: jasolar
+  labels:
+    app: jasolar-system-prod
+    task: oa-cron
+    env: production
+spec:
+  schedule: "*/5 * * * *"
+  suspend: false
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      completions: 1
+      parallelism: 1
+      backoffLimit: 1
+      template:
+        spec:
+          restartPolicy: OnFailure
+          imagePullSecrets:
+            - name: harbor-secret
+          containers:
+            - name: curl
+              image: docker.jasolar.com/budget/curlimages-curl:8.5.0
+              imagePullPolicy: IfNotPresent
+              command: ["sh"]
+              args:
+                - "-c"
+                - "curl -sS -f -m 120 http://jasolar-system-service-prod:8081/budget-api/budget/oa/cron/hello"

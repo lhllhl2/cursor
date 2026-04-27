@@ -1,0 +1,49 @@
+spring:
+  cloud:
+    nacos:
+      #server-addr: 172.16.18.200:8848/  # Nacos 服务器地址
+      server-addr: 127.0.0.1:8848
+      username:  nacos  # Nacos 账号
+      password:  nacos
+      discovery: # 【注册中心】配置项
+        namespace: dev # 命名空间。这里使用 dev 开发环境
+        group: DEFAULT_GROUP # 使用的 Nacos 配置分组，默认为 DEFAULT_GROUP
+        metadata:
+          version: 1.0.0 # 服务实例的版本号，可用于灰度发布
+      config:
+        enabled: false
+        namespace: dev # 命名空间。这里使用 dev 开发环境
+        group: DEFAULT_GROUP # 使用的 Nacos 配置分组，默认为 DEFAULT_GROUP
+    service-registry:
+      auto-registration:
+        enabled: true # 关闭自动注册
+    gateway:
+      # 路由配置项，对应 RouteDefinition 数组
+      routes:
+        #- id: local-admin-api # 转发到本地调试
+          #uri: http://127.0.0.1:48081/
+          #predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            #- Path=/admin-api/system/**
+        #- id: admin-api # 转发到dev服务器的网关上
+          #uri: http://10.16.52.44:8089/
+          #predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            #- Path=/admin-api/**
+        #- id: app-api # 路由的编号
+          #uri: http://10.16.52.44:8089/
+          #predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            #- Path=/app-api/**
+        #- id: rpc-api # 路由的编号
+          #uri: http://10.16.52.44:8089/
+          #predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            #- Path=/rpc-api/**
+         - id: system-service
+           uri: lb://system-service
+           predicates:
+             - Path=/admin-api/**,/oauth-api/sso/**,/system/datasync/**
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 30000
+        readTimeout: 60000

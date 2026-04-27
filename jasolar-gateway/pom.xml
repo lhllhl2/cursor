@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>jasolar-parent</artifactId>
+		<groupId>com.jasolar.mis</groupId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>jasolar-gateway</artifactId>
+	<packaging>jar</packaging>
+	<name>${project.artifactId}</name>
+	<description>API 服务网关，基于 Spring Cloud Gateway 实现</description>
+	<dependencies>
+		<!-- 业务组件 -->
+<!--		<dependency>-->
+<!--			<groupId>com.jasolar.mis</groupId>-->
+<!--			<artifactId>jasolar-spring-boot-starter-gateway</artifactId>-->
+<!--		</dependency>-->
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-gateway</artifactId>
+		</dependency>
+
+		<!--研发机上使用-->
+<!--		<dependency>-->
+<!--			<groupId>com.alibaba.cloud</groupId>-->
+<!--			<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>-->
+<!--		</dependency>-->
+
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-kubernetes-fabric8</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-kubernetes-fabric8-loadbalancer</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<!-- Spring Boot 2.4+ 需要此依赖来支持bootstrap配置 -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-bootstrap</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-loadbalancer</artifactId>
+		</dependency>
+
+		<!-- OpenFeign 依赖 -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+
+		<!-- jasypt加密 -->
+		<dependency>
+			<groupId>com.github.ulisesbocchio</groupId>
+			<artifactId>jasypt-spring-boot-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.jasolar.mis</groupId>
+			<artifactId>jasolar-common</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.jasolar.mis</groupId>
+			<artifactId>jasolar-module-system-api</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springdoc</groupId>
+					<artifactId>springdoc-openapi-webmvc-core</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<!-- 设置构建的 jar 包名 -->
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<!-- 打包 -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${spring.boot.version}</version> <!-- 如果
+				spring.boot.version 版本修改，则这里也要跟着修改 -->
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal> <!-- 将引入的 jar 打入其中 -->
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>17</source>
+					<target>17</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

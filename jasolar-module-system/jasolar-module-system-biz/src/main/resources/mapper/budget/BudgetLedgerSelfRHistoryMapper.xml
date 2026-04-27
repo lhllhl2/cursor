@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.budget.BudgetLedgerSelfRHistoryMapper">
+
+    <insert id="insertBatch">
+        <if test="list != null and list.size() > 0">
+            INSERT ALL
+            <foreach collection="list" item="item">
+                INTO budget_ledger_self_r_history
+                (id, ledger_self_id, biz_type, related_id, creator, create_time, updater, update_time, deleted)
+                VALUES
+                (#{item.id}, #{item.ledgerSelfId}, #{item.bizType}, #{item.relatedId}, #{item.creator},
+                #{item.createTime}, #{item.updater}, #{item.updateTime}, #{item.deleted})
+            </foreach>
+            SELECT 1 FROM DUAL
+        </if>
+    </insert>
+
+</mapper>
+

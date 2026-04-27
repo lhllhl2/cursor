@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<groupId>com.jasolar.mis</groupId>
+		<artifactId>jasolar-framework</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>jasolar-biz-api</artifactId>
+	<packaging>jar</packaging>
+
+	<name>${project.artifactId}</name>
+	<description>定义基础在parent中会使用到的各业务API,防止parent依赖具体的业务服务</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.jasolar.mis</groupId>
+			<artifactId>jasolar-common</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId> <!-- 接口文档：使用最新版本的 Swagger 模型 -->
+            <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+	</dependencies>
+
+</project>

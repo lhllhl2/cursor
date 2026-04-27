@@ -1,0 +1,90 @@
+{
+  "title": {
+    "id": 0,
+    "en-US": "Department Expense",
+    "zh-CN": "部门费用"
+  },
+  "ehrCode": {
+    "id": 1,
+    "en-US": "EHR Organization Code",
+    "zh-CN": "EHR组织编码"
+  },
+  "controlCust1Cd": {
+    "en-US": "Expense Type Code",
+    "zh-CN": "费用类型编码"
+  },
+  "controlCust1Name": {
+    "en-US": "Expense Type Name",
+    "zh-CN": "费用类型名称"
+  },
+  "ehrName": {
+    "id": 2,
+    "en-US": "EHR Organization Name",
+    "zh-CN": "EHR组织名称"
+  },
+  "subjectCode": {
+    "id": 3,
+    "en-US": "Budget Subject Code",
+    "zh-CN": "预算科目编码"
+  },
+  "subjectName": {
+    "id": 4,
+    "en-US": "Budget Subject Name",
+    "zh-CN": "预算科目名称"
+  },
+  "amountYearTotal": {
+    "id": 5,
+    "en-US": "Annual Budget Amount",
+    "zh-CN": "年度预算数"
+  },
+  "amountAdj": {
+    "id": 6,
+    "en-US": "Budget Adjustment Amount",
+    "zh-CN": "预算调整数"
+  },
+  "amountTotal": {
+    "id": 7,
+    "en-US": "Total Budget Amount",
+    "zh-CN": "总预算数"
+  },
+  "amountFrozen": {
+    "id": 8,
+    "en-US": "Frozen Amount",
+    "zh-CN": "冻结数"
+  },
+  "amountOccupied": {
+    "id": 9,
+    "en-US": "Occupied Amount",
+    "zh-CN": "占用数"
+  },
+  "amountActual": {
+    "id": 10,
+    "en-US": "Occurred Amount",
+    "zh-CN": "发生数"
+  },
+  "amountAvailable": {
+    "id": 11,
+    "en-US": "Available Budget Amount",
+    "zh-CN": "可用预算数"
+  },
+  "q1": {
+    "id": 12,
+    "en-US": "Q1",
+    "zh-CN": "第一季度"
+  },
+  "q2": {
+    "id": 13,
+    "en-US": "Q2",
+    "zh-CN": "第二季度"
+  },
+  "q3": {
+    "id": 14,
+    "en-US": "Q3",
+    "zh-CN": "第三季度"
+  },
+  "q4": {
+    "id": 15,
+    "en-US": "Q4",
+    "zh-CN": "第四季度"
+  }
+}

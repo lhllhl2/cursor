@@ -1,0 +1,42 @@
+# 注意：当前使用外部 Nginx（绑定 NodePort 30090），此 Ingress 配置暂不使用
+# 如需切换到 K8s Ingress，请：
+# 1. 将 service-prod.yaml 改为 ClusterIP
+# 2. 应用此 Ingress 配置
+# 3. 在外部 Nginx 中移除相关配置
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: budgetcontrol-ingress
+  namespace: jasolar
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    # 如果需要 CORS，可以取消注释
+    # nginx.ingress.kubernetes.io/enable-cors: 'true'
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - budgetcontrol.jasolar.com
+      secretName: jasolar-com-tls
+  rules:
+    - host: budgetcontrol.jasolar.com
+      http:
+        paths:
+          # 前端服务路由 - 处理 /web 路径下的所有请求
+          # 注意：前端应用需要配置 VITE_BASE='/web' 才能正确工作
+          - path: /web
+            pathType: Prefix
+            backend:
+              service:
+                name: ja-fsms-fe
+                port:
+                  number: 4173
+          # 后端网关路由 - 处理所有其他请求（必须放在最后）
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: jasolar-gateway
+                port:
+                  number: 8089

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.budget.BudgetPoolDemRMapper">
+
+    <select id="selectByDimensions"
+            parameterType="java.util.List"
+            resultType="com.jasolar.mis.module.system.domain.budget.BudgetPoolDemR">
+        <if test="details == null or details.size == 0">
+            SELECT *
+            FROM budget_pool_dem_r
+            WHERE 1 = 0
+        </if>
+        <if test="details != null and details.size > 0">
+            SELECT *
+            FROM budget_pool_dem_r
+            WHERE deleted = 0
+              AND (year, quarter, morg_code, budget_subject_code, master_project_code) IN
+              <foreach collection="details" item="item" separator="," open="(" close=")">
+                  (#{item.year}, #{item.quarter}, #{item.managementOrg}, #{item.budgetSubjectCode}, #{item.masterProjectCode})
+              </foreach>
+        </if>
+    </select>
+
+    <select id="selectByDimensionsForContract"
+            parameterType="java.util.List"
+            resultType="com.jasolar.mis.module.system.domain.budget.BudgetPoolDemR">
+        <if test="details == null or details.size == 0">
+            SELECT *
+            FROM budget_pool_dem_r
+            WHERE 1 = 0
+        </if>
+        <if test="details != null and details.size > 0">
+            SELECT *
+            FROM budget_pool_dem_r
+            WHERE deleted = 0
+              AND (morg_code, budget_subject_code, master_project_code) IN
+              <foreach collection="details" item="item" separator="," open="(" close=")">
+                  (#{item.managementOrg}, #{item.budgetSubjectCode}, #{item.masterProjectCode})
+              </foreach>
+        </if>
+    </select>
+
+    <select id="selectByDimensionsForClaim"
+            parameterType="java.util.List"
+            resultType="com.jasolar.mis.module.system.domain.budget.BudgetPoolDemR">
+        <if test="details == null or details.size == 0">
+            SELECT *
+            FROM budget_pool_dem_r
+            WHERE 1 = 0
+        </if>
+        <if test="details != null and details.size > 0">
+            SELECT *
+            FROM budget_pool_dem_r
+            WHERE deleted = 0
+              AND (morg_code, budget_subject_code, master_project_code) IN
+              <foreach collection="details" item="item" separator="," open="(" close=")">
+                  (#{item.managementOrg}, #{item.budgetSubjectCode}, #{item.masterProjectCode})
+              </foreach>
+        </if>
+    </select>
+
+    <select id="selectByDimensionsWithYearAndQuarter"
+            parameterType="java.util.List"
+            resultType="com.jasolar.mis.module.system.domain.budget.BudgetPoolDemR">
+        <if test="dimensionParams == null or dimensionParams.size == 0">
+            SELECT *
+            FROM budget_pool_dem_r
+            WHERE 1 = 0
+        </if>
+        <if test="dimensionParams != null and dimensionParams.size > 0">
+            SELECT *
+            FROM budget_pool_dem_r
+            WHERE deleted = 0
+              AND (year, quarter, is_internal, morg_code, budget_subject_code, master_project_code, erp_asset_type) IN
+              <foreach collection="dimensionParams" item="item" separator="," open="(" close=")">
+                  (#{item.year}, #{item.quarter}, #{item.isInternal}, #{item.morgCode}, #{item.budgetSubjectCode}, #{item.masterProjectCode}, #{item.erpAssetType})
+              </foreach>
+        </if>
+    </select>
+
+    <select id="selectByDimensionsWithYearAndQuarterForProject"
+            parameterType="java.util.List"
+            resultType="com.jasolar.mis.module.system.domain.budget.BudgetPoolDemR">
+        <if test="dimensionParams == null or dimensionParams.size == 0">
+            SELECT *
+            FROM budget_pool_dem_r
+            WHERE 1 = 0
+        </if>
+        <if test="dimensionParams != null and dimensionParams.size > 0">
+            SELECT *
+            FROM budget_pool_dem_r
+            WHERE deleted = 0
+              AND (year, quarter, is_internal, master_project_code) IN
+              <foreach collection="dimensionParams" item="item" separator="," open="(" close=")">
+                  (#{item.year}, #{item.quarter}, #{item.isInternal}, #{item.masterProjectCode})
+              </foreach>
+        </if>
+    </select>
+
+    <!-- 按 PROJECT_ID 查询（项目编码变更时回退查找，避免重复创建 pool） -->
+    <select id="selectByProjectIdDimensions"
+            parameterType="java.util.List"
+            resultType="com.jasolar.mis.module.system.domain.budget.BudgetPoolDemR">
+        <if test="projectIdParams == null or projectIdParams.size == 0">
+            SELECT *
+            FROM budget_pool_dem_r
+            WHERE 1 = 0
+        </if>
+        <if test="projectIdParams != null and projectIdParams.size > 0">
+            SELECT *
+            FROM budget_pool_dem_r
+            WHERE deleted = 0
+              AND (year, quarter, is_internal, project_id) IN
+              <foreach collection="projectIdParams" item="item" separator="," open="(" close=")">
+                  (#{item.year}, #{item.quarter}, #{item.isInternal}, #{item.projectId})
+              </foreach>
+        </if>
+    </select>
+
+</mapper>
+

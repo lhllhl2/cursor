@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.ehr.ProjectControlRMapper">
+
+
+
+    <select id="getExceptData" resultType="com.jasolar.mis.module.system.resp.ProjectExceptResp">
+
+        (
+        SELECT prj_id as id,prj_cd,prj_nm,par_cd,par_nm, is_leaf as leaf,'1' as to_add  FROM ${dataIntegration}.VIEW_HSP_PROJECT
+        MINUS
+        SELECT prj_id as id,prj_cd,prj_nm,par_cd,par_nm,leaf,'1' as to_add FROM project_control_r where year = #{year}
+        )
+        union
+        (
+        SELECT prj_id as id,prj_cd,prj_nm,par_cd,par_nm,leaf,'2' as to_add  FROM project_control_r where year = #{year}
+        MINUS
+        SELECT prj_id as id,prj_cd,prj_nm,par_cd,par_nm,is_leaf as leaf,'2' as to_add  FROM ${dataIntegration}.VIEW_HSP_PROJECT
+        )
+
+    </select>
+
+    <update id="updateWithFields">
+        UPDATE project_control_r
+        <set>
+            prj_cd = #{prjCd},
+            prj_nm = #{prjNm},
+            par_cd = #{parCd},
+            par_nm = #{parNm},
+            leaf = #{leaf},
+            control_level = #{controlLevel},
+            year = #{year}
+            WHERE id = #{id}
+        </set>
+    </update>
+
+    <update id="batchUpdateControlLevelById">
+        update project_control_r set control_level = #{controlLevel} where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="updateBatchByPrjCdAndYear">
+        MERGE INTO project_control_r t
+        USING (
+            <foreach collection="prjList" item="item" separator="UNION ALL">
+                SELECT
+                    #{item.prjId} AS prj_id,
+                    #{item.prjCd} AS prj_cd,
+                    #{item.prjNm} AS prj_nm,
+                    #{item.parCd} AS par_cd,
+                    #{item.parNm} AS par_nm,
+                    #{item.leaf} AS leaf,
+                    #{year} AS year
+                FROM DUAL
+            </foreach>
+        ) s ON (t.prj_id = s.prj_id AND t.year = s.year)
+        WHEN MATCHED THEN
+            UPDATE SET
+                t.prj_cd = s.prj_cd,
+                t.prj_nm = s.prj_nm,
+                t.par_cd = s.par_cd,
+                t.par_nm = s.par_nm,
+                t.leaf = s.leaf
+    </update>
+
+
+</mapper>

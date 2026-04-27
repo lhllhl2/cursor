@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ja-fsms-fe
+  namespace: jasolar
+  labels:
+    app: ja-fsms-fe
+spec:
+  type: NodePort
+  ports:
+    - port: 4173
+      targetPort: 4173
+      nodePort: 30090
+  selector:
+    app: ja-fsms-fe

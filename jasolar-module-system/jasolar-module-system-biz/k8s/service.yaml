@@ -1,0 +1,21 @@
+# K8s 服务发现配置
+# 用于替代 Nacos 的服务注册和发现功能
+
+# 系统服务
+apiVersion: v1
+kind: Service
+metadata:
+  name: jasolar-system-service
+  namespace: jasolar
+  labels:
+    app: jasolar-system
+    service: system
+spec:
+  type: NodePort
+  selector:
+    app: jasolar-system
+  ports:
+    - port: 8081
+      targetPort: 8081
+      nodePort: 30085
+

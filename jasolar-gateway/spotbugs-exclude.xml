@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <!-- 排除生成的代码 -->
+    <Match>
+        <Package name="~.*\.generated.*" />
+    </Match>
+    
+    <!-- 排除实体类 -->
+    <Match>
+        <Package name="~.*\.entity" />
+        <Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2" />
+    </Match>
+    
+    <!-- 排除 DTO 类 -->
+    <Match>
+        <Package name="~.*\.dto" />
+        <Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2" />
+    </Match>
+    
+    <!-- 排除 model 类 -->
+    <Match>
+        <Package name="~.*\.model" />
+        <Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2" />
+    </Match>
+    
+    <!-- 排除配置类中的某些警告 -->
+    <Match>
+        <Package name="~.*\.config" />
+        <Bug pattern="SPRING_INJECTION" />
+    </Match>
+    
+    <!-- 排除测试类 -->
+    <Match>
+        <Class name="~.*Test" />
+    </Match>
+    
+    <!-- 排除一些常见的误报 -->
+    <Match>
+        <Bug pattern="DM_DEFAULT_ENCODING" /> <!-- 默认编码问题 -->
+    </Match>
+    <Match>
+        <Bug pattern="RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE" /> <!-- 自动生成的冗余空检查 -->
+    </Match>
+    <Match>
+        <Bug pattern="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" /> <!-- Spring 框架相关的类型转换 -->
+    </Match>
+</FindBugsFilter> 

@@ -1,0 +1,50 @@
+# K8s 服务发现配置 - 生产环境
+# 用于替代 Nacos 的服务注册和发现功能
+
+# 系统服务 - 生产环境（主服务）
+apiVersion: v1
+kind: Service
+metadata:
+  name: jasolar-system-service-prod
+  namespace: jasolar
+  labels:
+    app: jasolar-system-prod
+    service: system
+    env: production
+spec:
+  type: NodePort
+  selector:
+    app: jasolar-system-prod
+  ports:
+    - port: 8081
+      targetPort: 8081
+      nodePort: 30086  # 使用不同的端口避免与测试环境冲突
+      protocol: TCP
+      name: http
+  sessionAffinity: ClientIP  # 会话保持，确保同一客户端请求路由到同一个Pod
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800  # 3小时会话保持
+
+---
+# 系统服务 - Feign 客户端别名（用于 Gateway 的 Feign 客户端服务发现）
+# 这个 Service 与上面的服务指向同一个 Deployment，但使用 Feign 客户端期望的服务名
+apiVersion: v1
+kind: Service
+metadata:
+  name: jasolar-system-service
+  namespace: jasolar
+  labels:
+    app: jasolar-system-prod
+    service: system
+    env: production
+    alias: "true"  # 标记这是一个别名服务
+spec:
+  type: ClusterIP  # 使用 ClusterIP，不需要 NodePort
+  selector:
+    app: jasolar-system-prod  # 指向同一个 Deployment
+  ports:
+    - port: 8081
+      targetPort: 8081
+      protocol: TCP
+      name: http

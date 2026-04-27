@@ -1,0 +1,123 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ja-fsms-fe
+  namespace: jasolar
+  labels:
+    app: ja-fsms-fe
+    env: production
+spec:
+  # 双活：在 master-01 和 worker-01 上各跑一个实例
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ja-fsms-fe
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: ja-fsms-fe
+        env: production
+    spec:
+      imagePullSecrets:
+        - name: harbor-secret
+
+      # 只调度到 master-01 / worker-01，并且两个 Pod 不落在同一个节点上
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - "master-01"  # 10.2.8.160
+                      - "worker-01"  # 10.2.8.161
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - ja-fsms-fe
+              topologyKey: kubernetes.io/hostname
+
+      # master 节点上允许运行 Pod（如果 master 节点有污点）
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          effect: NoSchedule
+        - key: node-role.kubernetes.io/control-plane
+          effect: NoSchedule
+
+      containers:
+        - name: ja-fsms-fe
+          image: docker.jasolar.com/budget/ja-fsms-fe:1.0.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4173
+
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: PORT
+              value: "4173"
+            - name: VITE_GLOB_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: ja-fsms-fe-config
+                  key: VITE_GLOB_API_URL
+            - name: VITE_APP_TITLE
+              valueFrom:
+                configMapKeyRef:
+                  name: ja-fsms-fe-config
+                  key: VITE_APP_TITLE
+            - name: VITE_BASE
+              valueFrom:
+                configMapKeyRef:
+                  name: ja-fsms-fe-config
+                  key: VITE_BASE
+
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "200m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+
+          # 健康检查：容器内 vite preview 服务器在根路径提供服务
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 4173
+            initialDelaySeconds: 60
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 5
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 4173
+            initialDelaySeconds: 120
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+
+
+
+
+
+
+
+
+
+
+
+
+

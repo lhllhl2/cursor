@@ -1,0 +1,2 @@
+com.jasolar.mis.framework.job.config.JasolarXxlJobAutoConfiguration
+com.jasolar.mis.framework.job.config.JasolarAsyncAutoConfiguration

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.admin.usergroup.SystemUserGroupRMapper">
+
+
+
+    <update id="logicDelByGroupId">
+        update system_user_group_r r set r.deleted = 0 where r.group_id = #{id} and r.deleted = 1
+    </update>
+
+
+</mapper>

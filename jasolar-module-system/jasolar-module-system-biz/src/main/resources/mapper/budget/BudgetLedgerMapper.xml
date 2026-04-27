@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.budget.BudgetLedgerMapper">
+
+    <select id="selectByCompositeKeys"
+            parameterType="java.util.List"
+            resultType="com.jasolar.mis.module.system.domain.budget.BudgetLedger">
+        <if test="conditions == null or conditions.size == 0">
+            SELECT *
+            FROM budget_ledger
+            WHERE 1 = 0
+        </if>
+        <if test="conditions != null and conditions.size > 0">
+            SELECT *
+            FROM budget_ledger
+            WHERE deleted = 0
+              AND (biz_type,
+                   biz_code,
+                   biz_item_code) IN
+                  <foreach collection="conditions" item="item" separator="," open="(" close=")">
+                      (#{item.bizType},
+                       #{item.bizCode},
+                       #{item.bizItemCode})
+                  </foreach>
+        </if>
+    </select>
+
+    <select id="selectByExtDetails"
+            parameterType="java.util.List"
+            resultType="com.jasolar.mis.module.system.domain.budget.BudgetLedger">
+        <if test="details == null or details.size == 0">
+            SELECT *
+            FROM budget_ledger
+            WHERE 1 = 0
+        </if>
+        <if test="details != null and details.size > 0">
+            SELECT *
+            FROM budget_ledger
+            WHERE deleted = 0
+              AND biz_type = 'APPLY'
+              AND biz_code IN
+              <foreach collection="details" item="item" separator="," open="(" close=")">
+                  #{item.demandOrderNo}
+              </foreach>
+        </if>
+    </select>
+
+    <select id="selectByRenewExtDetails"
+            parameterType="java.util.List"
+            resultType="com.jasolar.mis.module.system.domain.budget.BudgetLedger">
+        <if test="details == null or details.size == 0">
+            SELECT *
+            FROM budget_ledger
+            WHERE 1 = 0
+        </if>
+        <if test="details != null and details.size > 0">
+            SELECT *
+            FROM budget_ledger
+            WHERE deleted = 0
+              AND biz_type = 'APPLY'
+              AND (biz_code, biz_item_code) IN
+              <foreach collection="details" item="item" separator="," open="(" close=")">
+                  (#{item.demandOrderNo}, #{item.demandDetailLineNo})
+              </foreach>
+        </if>
+    </select>
+
+    <select id="selectByContractExtDetails"
+            parameterType="java.util.List"
+            resultType="com.jasolar.mis.module.system.domain.budget.BudgetLedger">
+        <if test="details == null or details.size == 0">
+            SELECT *
+            FROM budget_ledger
+            WHERE 1 = 0
+        </if>
+        <if test="details != null and details.size > 0">
+            SELECT *
+            FROM budget_ledger
+            WHERE deleted = 0
+              AND biz_type = 'CONTRACT'
+              AND biz_code IN
+              <foreach collection="details" item="item" separator="," open="(" close=")">
+                  #{item.contractNo}
+              </foreach>
+        </if>
+    </select>
+
+    <select id="selectByClaimExtDetails"
+            parameterType="java.util.List"
+            resultType="com.jasolar.mis.module.system.domain.budget.BudgetLedger">
+        <if test="details == null or details.size == 0">
+            SELECT *
+            FROM budget_ledger
+            WHERE 1 = 0
+        </if>
+        <if test="details != null and details.size > 0">
+            SELECT *
+            FROM budget_ledger
+            WHERE deleted = 0
+              AND biz_type = 'CLAIM'
+              AND biz_code IN
+              <foreach collection="details" item="item" separator="," open="(" close=")">
+                  #{item.claimOrderNo}
+              </foreach>
+        </if>
+    </select>
+
+    <select id="selectByAdjustExtDetails"
+            parameterType="java.util.List"
+            resultType="com.jasolar.mis.module.system.domain.budget.BudgetLedger">
+        <if test="details == null or details.size == 0">
+            SELECT *
+            FROM budget_ledger
+            WHERE 1 = 0
+        </if>
+        <if test="details != null and details.size > 0">
+            SELECT *
+            FROM budget_ledger
+            WHERE deleted = 0
+              AND biz_type = 'ADJUST'
+              AND biz_code IN
+              <foreach collection="details" item="item" separator="," open="(" close=")">
+                  #{item.adjustOrderNo}
+              </foreach>
+        </if>
+    </select>
+
+    <update id="updateBatchById" parameterType="java.util.List">
+        <foreach collection="list" item="item" separator=";" open="BEGIN" close=";END;">
+            UPDATE budget_ledger
+            SET biz_type = #{item.bizType},
+                biz_code = #{item.bizCode},
+                biz_item_code = #{item.bizItemCode},
+                effect_type = #{item.effectType},
+                year = #{item.year},
+                month = #{item.month},
+                actual_year = #{item.actualYear},
+                actual_month = #{item.actualMonth},
+                morg_code = #{item.morgCode},
+                control_ehr_cd = #{item.controlEhrCd},
+                control_ehr_nm = #{item.controlEhrNm},
+                budget_org_cd = #{item.budgetOrgCd},
+                budget_org_nm = #{item.budgetOrgNm},
+                budget_subject_code = #{item.budgetSubjectCode},
+                master_project_code = #{item.masterProjectCode},
+                erp_asset_type = #{item.erpAssetType},
+                is_internal = #{item.isInternal},
+                currency = #{item.currency},
+                amount = #{item.amount},
+                amount_consumed_q_one = #{item.amountConsumedQOne},
+                amount_consumed_q_two = #{item.amountConsumedQTwo},
+                amount_consumed_q_three = #{item.amountConsumedQThree},
+                amount_consumed_q_four = #{item.amountConsumedQFour},
+                amount_available = #{item.amountAvailable},
+                pool_dimension_key = #{item.poolDimensionKey},
+                deduction_from_ledger_biz_key = #{item.deductionFromLedgerBizKey},
+                metadata = #{item.metadata},
+                version = #{item.version},
+                version_pre = #{item.versionPre},
+                operator = #{item.operator},
+                operator_no = #{item.operatorNo},
+                updater = #{item.updater},
+                update_time = SYSTIMESTAMP,
+                deleted = #{item.deleted}
+            WHERE id = #{item.id}
+        </foreach>
+    </update>
+
+    <select id="selectPageWithHead" resultType="com.jasolar.mis.module.system.domain.budget.BudgetLedgerWithNames">
+        SELECT bl.id,
+               bl.biz_type,
+               bl.biz_code,
+               bl.biz_item_code,
+               bl.effect_type,
+               bl.year,
+               bl.month,
+               bl.actual_year,
+               bl.actual_month,
+               bl.morg_code,
+               bl.control_ehr_cd,
+               bl.control_ehr_nm,
+               bl.budget_org_cd,
+               bl.budget_org_nm,
+               bl.budget_subject_code,
+               bl.master_project_code,
+               bl.erp_asset_type,
+               bl.is_internal,
+               bl.currency,
+               bl.amount,
+               bl.amount_consumed_q_one,
+               bl.amount_consumed_q_two,
+               bl.amount_consumed_q_three,
+               bl.amount_consumed_q_four,
+               bl.amount_available,
+               bl.version,
+               bl.version_pre,
+               bl.metadata,
+               bl.create_time,
+               bl.creator,
+               bl.updater,
+               bl.deleted,
+               blh.operator AS operator,
+               blh.operator_no AS operatorNo,
+               blh.update_time AS updateTime,
+               blh.data_source AS dataSource,
+               blh.process_name AS processName,
+               ehr.ehr_nm AS morgName,
+               si.erp_acct_nm AS budgetSubjectName,
+               pcr.prj_nm AS masterProjectName,
+               member_view.MEMBER_NM AS erpAssetTypeName
+        FROM budget_ledger bl
+        LEFT JOIN budget_ledger_head blh ON bl.biz_code = blh.biz_code 
+            AND bl.biz_type = blh.biz_type 
+            AND blh.deleted = 0
+            AND blh.id = (SELECT MAX(id) FROM budget_ledger_head 
+                         WHERE biz_code = bl.biz_code AND biz_type = bl.biz_type AND deleted = 0)
+        LEFT JOIN ehr_org_manage_r ehr ON bl.morg_code = ehr.ehr_cd 
+            AND ehr.deleted = 0
+            AND ehr.year = bl.year
+            AND ehr.id = (SELECT MAX(id) FROM ehr_org_manage_r 
+                         WHERE ehr_cd = bl.morg_code AND year = bl.year AND deleted = 0)
+        LEFT JOIN subject_info si ON bl.budget_subject_code = si.erp_acct_cd
+            AND si.deleted = 0
+            AND si.year = bl.year
+            AND si.id = (SELECT MAX(id) FROM subject_info 
+                        WHERE erp_acct_cd = bl.budget_subject_code AND year = bl.year AND deleted = 0)
+        LEFT JOIN project_control_r pcr ON bl.master_project_code = pcr.prj_cd 
+            AND pcr.deleted = 0
+            AND pcr.year = bl.year
+            AND pcr.id = (SELECT MAX(id) FROM project_control_r 
+                         WHERE prj_cd = bl.master_project_code AND year = bl.year AND deleted = 0)
+        LEFT JOIN (
+            SELECT MEMBER_CD2, MAX(MEMBER_NM) AS MEMBER_NM
+            FROM DATAINTEGRATION.VIEW_BUDGET_MEMBER_NAME_CODE
+            WHERE MEMBER_CD2 IS NOT NULL
+            GROUP BY MEMBER_CD2
+        ) member_view ON bl.erp_asset_type = member_view.MEMBER_CD2
+            AND bl.erp_asset_type != 'NAN'
+        <!-- 排除已关联需求单号的合同单（当 demandOrderNo='NAN' 时） -->
+        <if test="params.bizType == 'CONTRACT' and params.demandOrderNo != null and params.demandOrderNo == 'NAN'">
+            LEFT JOIN budget_ledger_self_r blsr_apply ON bl.id = blsr_apply.id 
+                AND blsr_apply.biz_type = 'APPLY' 
+                AND blsr_apply.deleted = 0
+        </if>
+        <!-- 排除已关联合同单号的付款单（当 contractNo='NAN' 时） -->
+        <if test="params.bizType == 'CLAIM' and params.contractNo != null and params.contractNo == 'NAN'">
+            LEFT JOIN budget_ledger_self_r blsr_contract ON bl.id = blsr_contract.id 
+                AND blsr_contract.biz_type = 'CONTRACT' 
+                AND blsr_contract.deleted = 0
+        </if>
+        <!-- 排除已关联需求单号的付款单（当 demandOrderNo='NAN' 时） -->
+        <if test="params.bizType == 'CLAIM' and params.demandOrderNo != null and params.demandOrderNo == 'NAN'">
+            LEFT JOIN budget_ledger_self_r blsr_apply_claim ON bl.id = blsr_apply_claim.id 
+                AND blsr_apply_claim.biz_type = 'APPLY' 
+                AND blsr_apply_claim.deleted = 0
+        </if>
+        WHERE bl.deleted = 0
+            AND bl.biz_type = #{params.bizType}
+        <if test="targetIds != null and targetIds.size() > 0">
+            AND bl.id IN
+            <foreach collection="targetIds" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+        <if test="params.bizCode != null and params.bizCode != ''">
+            <bind name="bizCodePattern" value="'%' + params.bizCode + '%'" />
+            AND bl.biz_code LIKE #{bizCodePattern}
+        </if>
+        <if test="params.status != null and params.status.size() > 0">
+            AND blh.status IN
+            <foreach collection="params.status" item="statusItem" open="(" separator="," close=")">
+                #{statusItem}
+            </foreach>
+        </if>
+        <if test="params.year != null and params.year.size() > 0">
+            AND bl.year IN
+            <foreach collection="params.year" item="yearItem" open="(" separator="," close=")">
+                #{yearItem}
+            </foreach>
+        </if>
+        <if test="params.month != null and params.month.size() > 0">
+            AND bl.month IN
+            <foreach collection="params.month" item="monthItem" open="(" separator="," close=")">
+                #{monthItem}
+            </foreach>
+        </if>
+        <if test="params.morgCode != null and params.morgCode != ''">
+            <bind name="morgCodePattern" value="'%' + params.morgCode + '%'" />
+            AND bl.morg_code LIKE #{morgCodePattern}
+        </if>
+        <!-- 权限过滤：EHR组织权限 OR 项目权限（取并集） -->
+        <!-- 注意：Oracle IN子句最多支持1000个表达式，所以需要将大集合拆分成多个批次 -->
+        <if test="(allowedEhrCdsBatches != null and allowedEhrCdsBatches.size() > 0) or (allowedProjectCodesBatches != null and allowedProjectCodesBatches.size() > 0)">
+            AND (
+            <if test="allowedEhrCdsBatches != null and allowedEhrCdsBatches.size() > 0">
+                <foreach collection="allowedEhrCdsBatches" item="ehrCdsBatch" separator=" OR ">
+                    <if test="ehrCdsBatch != null and ehrCdsBatch.size() > 0">
+                        bl.morg_code IN
+                        <foreach collection="ehrCdsBatch" item="ehrCd" open="(" separator="," close=")">
+                            #{ehrCd}
+                        </foreach>
+                    </if>
+                </foreach>
+            </if>
+            <if test="(allowedEhrCdsBatches != null and allowedEhrCdsBatches.size() > 0) and (allowedProjectCodesBatches != null and allowedProjectCodesBatches.size() > 0)">
+                OR
+            </if>
+            <if test="allowedProjectCodesBatches != null and allowedProjectCodesBatches.size() > 0">
+                <foreach collection="allowedProjectCodesBatches" item="projectCodesBatch" separator=" OR ">
+                    <if test="projectCodesBatch != null and projectCodesBatch.size() > 0">
+                        bl.master_project_code IN
+                        <foreach collection="projectCodesBatch" item="projectCode" open="(" separator="," close=")">
+                            #{projectCode}
+                        </foreach>
+                    </if>
+                </foreach>
+            </if>
+            )
+        </if>
+        <if test="params.budgetSubjectCode != null and params.budgetSubjectCode != ''">
+            <bind name="budgetSubjectCodePattern" value="'%' + params.budgetSubjectCode + '%'" />
+            AND bl.budget_subject_code LIKE #{budgetSubjectCodePattern}
+        </if>
+        <if test="params.erpAssetType != null and params.erpAssetType != ''">
+            <bind name="erpAssetTypePattern" value="'%' + params.erpAssetType + '%'" />
+            AND bl.erp_asset_type LIKE #{erpAssetTypePattern}
+        </if>
+        <if test="params.masterProjectCode != null and params.masterProjectCode != ''">
+            <bind name="masterProjectCodePattern" value="'%' + params.masterProjectCode + '%'" />
+            AND bl.master_project_code LIKE #{masterProjectCodePattern}
+        </if>
+        <if test="params.isInternal != null and params.isInternal.size() > 0">
+            AND bl.is_internal IN
+            <foreach collection="params.isInternal" item="isInternalItem" open="(" separator="," close=")">
+                #{isInternalItem}
+            </foreach>
+        </if>
+        <if test="params.effectType != null and params.effectType.size() > 0">
+            AND bl.effect_type IN
+            <foreach collection="params.effectType" item="effectTypeItem" open="(" separator="," close=")">
+                #{effectTypeItem}
+            </foreach>
+        </if>
+        <if test="params.morgName != null and params.morgName != ''">
+            <bind name="morgNamePattern" value="'%' + params.morgName + '%'" />
+            AND ehr.ehr_nm LIKE #{morgNamePattern}
+        </if>
+        <if test="params.controlEhrCd != null and params.controlEhrCd != ''">
+            <bind name="controlEhrCdPattern" value="'%' + params.controlEhrCd + '%'" />
+            AND bl.control_ehr_cd LIKE #{controlEhrCdPattern}
+        </if>
+        <if test="params.controlEhrNm != null and params.controlEhrNm != ''">
+            <bind name="controlEhrNmPattern" value="'%' + params.controlEhrNm + '%'" />
+            AND bl.control_ehr_nm LIKE #{controlEhrNmPattern}
+        </if>
+        <if test="params.budgetOrgCd != null and params.budgetOrgCd != ''">
+            <bind name="budgetOrgCdPattern" value="'%' + params.budgetOrgCd + '%'" />
+            AND bl.budget_org_cd LIKE #{budgetOrgCdPattern}
+        </if>
+        <if test="params.budgetOrgNm != null and params.budgetOrgNm != ''">
+            <bind name="budgetOrgNmPattern" value="'%' + params.budgetOrgNm + '%'" />
+            AND bl.budget_org_nm LIKE #{budgetOrgNmPattern}
+        </if>
+        <if test="params.budgetSubjectName != null and params.budgetSubjectName != ''">
+            <bind name="budgetSubjectNamePattern" value="'%' + params.budgetSubjectName + '%'" />
+            AND si.erp_acct_nm LIKE #{budgetSubjectNamePattern}
+        </if>
+        <if test="params.masterProjectName != null and params.masterProjectName != ''">
+            <bind name="masterProjectNamePattern" value="'%' + params.masterProjectName + '%'" />
+            AND pcr.prj_nm LIKE #{masterProjectNamePattern}
+        </if>
+        <if test="params.erpAssetTypeName != null and params.erpAssetTypeName != ''">
+            <bind name="erpAssetTypeNamePattern" value="'%' + params.erpAssetTypeName + '%'" />
+            AND member_view.MEMBER_NM LIKE #{erpAssetTypeNamePattern}
+        </if>
+        <if test="params.operator != null and params.operator != ''">
+            <bind name="operatorPattern" value="'%' + params.operator + '%'" />
+            AND (blh.operator LIKE #{operatorPattern} OR blh.operator_no LIKE #{operatorPattern})
+        </if>
+        <!-- 排除已关联需求单号的合同单（当 demandOrderNo='NAN' 时） -->
+        <if test="params.bizType == 'CONTRACT' and params.demandOrderNo != null and params.demandOrderNo == 'NAN'">
+            AND blsr_apply.id IS NULL
+        </if>
+        <!-- 排除已关联合同单号的付款单（当 contractNo='NAN' 时） -->
+        <if test="params.bizType == 'CLAIM' and params.contractNo != null and params.contractNo == 'NAN'">
+            AND blsr_contract.id IS NULL
+        </if>
+        <!-- 排除已关联需求单号的付款单（当 demandOrderNo='NAN' 时） -->
+        <if test="params.bizType == 'CLAIM' and params.demandOrderNo != null and params.demandOrderNo == 'NAN'">
+            AND blsr_apply_claim.id IS NULL
+        </if>
+        ORDER BY bl.create_time DESC
+    </select>
+
+</mapper>
+

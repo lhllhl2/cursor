@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jasolar-gateway
+  namespace: jasolar
+  labels:
+    app: jasolar-gateway
+spec:
+  type: NodePort   # 或 ClusterIP/LoadBalancer，按需选择
+  ports:
+    - port: 8089
+      targetPort: 8089
+      nodePort: 30089   # 网关对外端口，与前端配置一致
+  selector:
+    app: jasolar-gateway

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jasolar-system-config-prod
+  namespace: jasolar
+data:
+  application.properties: |
+    # 生产环境配置
+    spring.profiles.active=prod
+

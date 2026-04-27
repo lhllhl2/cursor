@@ -1,0 +1,124 @@
+# ============================================
+# .dockerignore - 优化 Docker 构建性能
+# 排除不必要的文件，减少构建上下文大小
+# ============================================
+
+# Git 相关文件
+.git
+.gitignore
+.gitattributes
+.gitconfig
+.gitpod.yml
+
+# 开发工具和 IDE 配置
+.vscode
+.idea
+*.code-workspace
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.history
+.DS_Store
+
+# 测试相关文件（构建不需要）
+**/__tests__/
+**/*.test.ts
+**/*.test.tsx
+**/*.test.js
+**/*.test.jsx
+**/*.spec.ts
+**/*.spec.tsx
+**/*.spec.js
+**/*.spec.jsx
+**/*.snap
+coverage/
+.nyc_output/
+vitest.config.ts
+vitest.config.js
+vitest.workspace.ts
+vitest.workspace.js
+
+# 文档文件（构建不需要）
+docs/
+*.md
+!README.md
+LICENSE
+
+# CI/CD 配置文件
+.github/
+.gitlab-ci.yml
+Jenkinsfile
+
+# 构建产物和缓存（会在 Docker 中重新生成）
+node_modules/
+dist/
+dist-ssr/
+dist.zip
+dist.tar
+dist.war
+*-dist.zip
+*-dist.tar
+*-dist.war
+.nitro
+.output
+.cache
+.turbo
+.temp
+dev-dist
+.stylelintcache
+**/.vitepress/cache
+
+# 日志文件
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# 环境变量文件（使用 Docker 环境变量或 ConfigMap）
+.env.local
+.env.*.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+
+# 其他应用（只构建 web-budget）
+apps/web/
+
+# 构建脚本（不需要在镜像中）
+scripts/build-pnpm-base-image.sh
+
+# K8s 配置文件（部署时单独处理）
+k8s/
+
+# 临时和本地文件
+*.local
+vite.config.mts.*
+vite.config.mjs.*
+vite.config.js.*
+vite.config.ts.*
+.eslintcache
+.VSCodeCounter
+**/backend-mock/data
+
+# 其他锁定文件（使用 pnpm）
+yarn.lock
+package-lock.json
+
+# ============================================
+# 保留的文件（构建必需）：
+# - package.json, pnpm-lock.yaml, pnpm-workspace.yaml
+# - turbo.json, .npmrc
+# - tsconfig.json, vite.config.*, eslint.config.*
+# - apps/web-budget/ (所有源代码)
+# - packages/ (所有 workspace 包)
+# - internal/ (内部工具)
+# - scripts/clean.mjs, scripts/turbo-run/, scripts/vsh/
+# - Dockerfile
+# ============================================
+

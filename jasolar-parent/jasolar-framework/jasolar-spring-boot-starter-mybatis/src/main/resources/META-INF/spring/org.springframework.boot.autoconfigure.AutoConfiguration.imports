@@ -1,0 +1,3 @@
+com.jasolar.mis.framework.datasource.config.JasolarDataSourceAutoConfiguration
+com.jasolar.mis.framework.mybatis.config.JasolarMybatisAutoConfiguration
+com.jasolar.mis.framework.translate.config.JasolarTranslateAutoConfiguration

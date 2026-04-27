@@ -1,0 +1,41 @@
+server:
+  port: ${SERVER_PORT:8081}
+  tomcat:
+    connection-timeout: ${SERVER_TOMCAT_CONNECTION_TIMEOUT:20000}
+spring:
+  application:
+    name: system-service
+  profiles:
+    active: ${ENV_CONFIG:k8sprod}
+  main:
+    allow-circular-references: true
+    allow-bean-definition-overriding: true
+  config:
+    import:
+      - classpath:application-${spring.profiles.active}.yaml
+  mvc:
+    async:
+      request-timeout: ${SPRING_MVC_ASYNC_REQUEST_TIMEOUT:1200000}
+jasolar:
+  info:
+    base-package: com.jasolar.mis.module.system
+  security:
+    permit-all-urls:
+      - /admin-api/**
+      - /system/datasync/fusion/report
+      - /client-api/**
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: 'health,info,metrics'
+  endpoint:
+    health:
+      enabled: true
+  health:
+    db:
+      enabled: true
+    datasource:
+      enabled: true
+

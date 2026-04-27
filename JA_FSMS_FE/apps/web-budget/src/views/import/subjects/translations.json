@@ -1,0 +1,41 @@
+{
+  "description": {
+    "id": 0,
+    "zh-CN": "年末需要完成下一年度的配置导入。导入时会校验：不能父级科目和子级科目同时勾选",
+    "en-US": "At the end of the year, the configuration for the next year needs to be imported. During the import, it will check that both parent and child accounts cannot be selected at the same time."
+  },
+  "erpAcct": {
+    "id": 1,
+    "zh-CN": "ERP科目",
+    "en-US": "ERP Account"
+  },
+  "cust1": {
+    "id": 2,
+    "zh-CN": "费用类型",
+    "en-US": "Expense Type"
+  },
+  "name": {
+    "id": 3,
+    "zh-CN": "科目",
+    "en-US": "Subject"
+  },
+  "controlAcctCd": {
+    "id": 5,
+    "zh-CN": "控制层级科目编码",
+    "en-US": "Control Subject Code"
+  },
+  "controlAcctNm": {
+    "id": 6,
+    "zh-CN": "控制层级科目名称",
+    "en-US": "Control Subject Name"
+  },
+  "title": {
+    "id": 4,
+    "zh-CN": "科目配置",
+    "en-US": "Subject Allocation"
+  },
+  "apiSync": {
+    "zh-CN": "接口数据更新",
+    "en-US": "Api Data Update"
+  }
+}

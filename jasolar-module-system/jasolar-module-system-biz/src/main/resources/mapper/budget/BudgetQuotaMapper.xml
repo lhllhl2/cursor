@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.budget.BudgetQuotaMapper">
+
+    <select id="selectByCompositeKeys"
+            parameterType="java.util.List"
+            resultType="com.jasolar.mis.module.system.domain.budget.BudgetQuota">
+        <if test="conditions == null or conditions.size == 0">
+            SELECT *
+            FROM budget_quota
+            WHERE 1 = 0
+        </if>
+        <if test="conditions != null and conditions.size > 0">
+            SELECT *
+            FROM budget_quota
+            WHERE deleted = 0
+              AND (morg_code,
+                   project_code,
+                   custom_code,
+                   account_subject_code,
+                   period_id,
+                   budget_type) IN
+              <foreach collection="conditions" item="item" separator="," open="(" close=")">
+                  (#{item.morgCode},
+                   #{item.projectCode},
+                   #{item.customCode},
+                   #{item.accountSubjectCode},
+                   #{item.periodId},
+                   #{item.budgetType})
+              </foreach>
+        </if>
+    </select>
+
+    <update id="updateBatchById" parameterType="java.util.List">
+        <foreach collection="list" item="item" separator=";" open="BEGIN" close=";END;">
+            UPDATE budget_quota
+            SET pool_id = #{item.poolId},
+                morg_code = #{item.morgCode,jdbcType=VARCHAR},
+                project_code = #{item.projectCode,jdbcType=VARCHAR},
+                custom_code = #{item.customCode,jdbcType=VARCHAR},
+                account_subject_code = #{item.accountSubjectCode,jdbcType=VARCHAR},
+                erp_asset_type = #{item.erpAssetType,jdbcType=VARCHAR},
+                is_internal = #{item.isInternal,jdbcType=VARCHAR},
+                year = #{item.year,jdbcType=VARCHAR},
+                quarter = #{item.quarter,jdbcType=VARCHAR},
+                budget_type = #{item.budgetType,jdbcType=VARCHAR},
+                currency = #{item.currency,jdbcType=VARCHAR},
+                version = #{item.version,jdbcType=VARCHAR},
+                amount_total = #{item.amountTotal},
+                amount_total_vchanged = #{item.amountTotalVchanged},
+                amount_adj = #{item.amountAdj},
+                amount_pay = #{item.amountPay},
+                amount_pay_vchanged = #{item.amountPayVchanged},
+                amount_available_adj = #{item.amountAvailableAdj},
+                amount_pay_adj = #{item.amountPayAdj},
+                updater = #{item.updater,jdbcType=VARCHAR},
+                update_time = SYSTIMESTAMP,
+                deleted = #{item.deleted}
+            WHERE id = #{item.id}
+        </foreach>
+    </update>
+
+</mapper>
+

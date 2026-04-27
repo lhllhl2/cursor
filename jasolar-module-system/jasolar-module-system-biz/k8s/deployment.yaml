@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jasolar-system
+  namespace: jasolar
+  labels:
+    app: jasolar-system
+    version: v1.0.0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jasolar-system
+  template:
+    metadata:
+      labels:
+        app: jasolar-system
+        version: v1.0.0
+    spec:
+      imagePullSecrets:
+        - name: harbor-secret
+      containers:
+      - name: jasolar-system
+        image: docker.jasolar.com/budget/jasolar-system:1.0.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8081
+          name: http
+        env:
+        # 应用配置
+        - name: SERVER_PORT
+          value: "8081"
+        - name: ENV_CONFIG
+          value: "k8s"
+        - name: SPRING_PROFILES_ACTIVE
+          value: "k8s"
+        - name: SPRING_CONFIG_LOCATION
+          value: "classpath:/application.yaml"
+        - name: LOG_FILE
+          value: "/app/logs/system-service/system-service.log"
+        
+        # 超时配置
+        - name: SPRING_MVC_ASYNC_REQUEST_TIMEOUT
+          value: "1200000"
+        - name: SERVER_TOMCAT_CONNECTION_TIMEOUT
+          value: "20000"
+        
+        # 功能开关
+        - name: SWAGGER_ENABLED
+          value: "true"
+        
+        # 敏感信息从 Secret 读取
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: oracle-secret
+              key: ORACLE_PASSWORD
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: redis-secret
+              key: redis-password
+        
+        # 挂载配置文件
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/resources
+        - name: logs-volume
+          mountPath: /app/logs
+        
+        resources:
+          requests:
+            memory: "2Gi"    # 提高内存请求到2Gi，与CPU请求保持合理比例
+            cpu: "1000m"     # 提高CPU请求到1核，确保有足够的资源保证
+          limits:
+            memory: "6Gi"    # 提高内存限制到6Gi，支持高并发压测
+            cpu: "4000m"    # 提高CPU限制到4核，支持100线程并发压测
+        
+        # 生命周期钩子
+        lifecycle:
+          preStop:
+            exec:
+              command: ["sh", "-c", "sleep 10"]
+        
+      volumes:
+      - name: config-volume
+        configMap:
+          name: jasolar-system-config
+      - name: logs-volume
+        emptyDir: {}
+      
+      # 重启策略
+      restartPolicy: Always
+

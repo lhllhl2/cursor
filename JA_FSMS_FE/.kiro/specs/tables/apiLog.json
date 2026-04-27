@@ -1,0 +1,34 @@
+{
+  "module": "report",
+  "name": "apiLog",
+  "title": "报文查询",
+  "api": {
+    "baseUrl": "/budget-api/api-request-log",
+    "list": "/page"
+  },
+  "columns": [
+    {
+      "field": "documentNo",
+      "title": "单据号",
+      "width": 200,
+      "align": "left",
+      "fixed": "left",
+      "filterable": true,
+      "filterType": "input"
+    },
+    {
+      "field": "responseBody",
+      "title": "响应报文",
+      "minWidth": 300,
+      "align": "left"
+    }
+  ],
+  "features": {
+    "create": false,
+    "update": false,
+    "delete": false,
+    "export": false,
+    "import": false,
+    "batchDelete": false
+  }
+}

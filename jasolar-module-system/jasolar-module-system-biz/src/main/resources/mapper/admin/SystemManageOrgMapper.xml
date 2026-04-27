@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.admin.org.SystemManageOrgMapper">
+
+    <resultMap id="ManageOrgExceptRespMap" type="com.jasolar.mis.module.system.resp.ManageOrgExceptResp">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="p_code" property="pCode"/>
+        <result column="p_name" property="pName"/>
+        <result column="is_last_lvl" property="isLastLvl"/>
+        <result column="to_add" property="toAdd"/>
+    </resultMap>
+
+    <select id="getExceptData" resultMap="ManageOrgExceptRespMap">
+        (
+            select vo.org_id as id, vo.org_nm as name, vo.org_cd as code, vo.par_cd as p_code, vo.par_nm as p_name, vo.is_leaf as is_last_lvl, '1' as to_add 
+            from dataintegration.view_hsp_entity vo
+            MINUS
+            select id, name, code, p_code, p_name, is_last_lvl, '1' as to_add 
+            from system_manage_org 
+            where  deleted = 0
+        )
+        union
+        (
+            select id, name, code, p_code, p_name, is_last_lvl, '2' as to_add 
+            from system_manage_org 
+            where deleted = 0
+            MINUS
+            select vo.org_id as id, vo.org_nm as name, vo.org_cd as code, vo.par_cd as p_code, vo.par_nm as p_name, vo.is_leaf as is_last_lvl, '2' as to_add 
+            from dataintegration.view_hsp_entity vo
+        )
+    </select>
+
+
+
+</mapper>

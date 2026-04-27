@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.budget.BudgetProjectQuarterlyAggregateMapper">
+
+    <!-- 结果映射 -->
+    <resultMap id="BaseResultMap" type="com.jasolar.mis.module.system.domain.budget.BudgetProjectQuarterlyAggregate">
+        <result column="YEAR" property="year"/>
+        <result column="EHR_PRJ_CD" property="ehrPrjCd"/>
+        <result column="MORG_CODE" property="morgCode"/>
+        <result column="MORG_NAME" property="morgName"/>
+        <result column="PRJ_CD" property="prjCd"/>
+        <result column="PRJ_NAME" property="prjName"/>
+        <!-- 投资额数据（Q1-Q4聚合） -->
+        <result column="INVESTMENT_LAST_YEAR_USED" property="investmentLastYearUsed"/>
+        <result column="INVESTMENT_AMOUNT_TOTAL" property="investmentAmountTotal"/>
+        <result column="INVESTMENT_AMOUNT_ADJ" property="investmentAmountAdj"/>
+        <result column="INVESTMENT_TOTAL_BUDGET" property="investmentTotalBudget"/>
+        <result column="INVESTMENT_AMOUNT_FROZEN" property="investmentAmountFrozen"/>
+        <result column="INVESTMENT_AMOUNT_OCCUPIED" property="investmentAmountOccupied"/>
+        <result column="INVESTMENT_AMOUNT_ACTUAL" property="investmentAmountActual"/>
+        <result column="INVESTMENT_AMOUNT_ACTUAL_APPROVED" property="investmentAmountActualApproved"/>
+        <result column="INVESTMENT_AMOUNT_AVAILABLE" property="investmentAmountAvailable"/>
+        <!-- 付款额 Q1季度数据 -->
+        <result column="PAYMENT_LAST_YEAR_USED" property="paymentLastYearUsed"/>
+        <result column="PAYMENT_Q1_AMOUNT_TOTAL" property="paymentQ1AmountTotal"/>
+        <result column="PAYMENT_Q1_AMOUNT_ADJ" property="paymentQ1AmountAdj"/>
+        <result column="PAYMENT_Q1_TOTAL_BUDGET" property="paymentQ1TotalBudget"/>
+        <result column="PAYMENT_Q1_AMOUNT_FROZEN" property="paymentQ1AmountFrozen"/>
+        <result column="PAYMENT_Q1_AMOUNT_OCCUPIED" property="paymentQ1AmountOccupied"/>
+        <result column="PAYMENT_Q1_AMOUNT_ACTUAL" property="paymentQ1AmountActual"/>
+        <result column="PAYMENT_Q1_AMOUNT_ACTUAL_APPROVED" property="paymentQ1AmountActualApproved"/>
+        <result column="PAYMENT_Q1_AMOUNT_AVAILABLE" property="paymentQ1AmountAvailable"/>
+        <!-- 付款额 Q2季度数据 -->
+        <result column="PAYMENT_Q2_AMOUNT_TOTAL" property="paymentQ2AmountTotal"/>
+        <result column="PAYMENT_Q2_AMOUNT_ADJ" property="paymentQ2AmountAdj"/>
+        <result column="PAYMENT_Q2_TOTAL_BUDGET" property="paymentQ2TotalBudget"/>
+        <result column="PAYMENT_Q2_AMOUNT_FROZEN" property="paymentQ2AmountFrozen"/>
+        <result column="PAYMENT_Q2_AMOUNT_OCCUPIED" property="paymentQ2AmountOccupied"/>
+        <result column="PAYMENT_Q2_AMOUNT_ACTUAL" property="paymentQ2AmountActual"/>
+        <result column="PAYMENT_Q2_AMOUNT_ACTUAL_APPROVED" property="paymentQ2AmountActualApproved"/>
+        <result column="PAYMENT_Q2_AMOUNT_AVAILABLE" property="paymentQ2AmountAvailable"/>
+        <!-- 付款额 Q3季度数据 -->
+        <result column="PAYMENT_Q3_AMOUNT_TOTAL" property="paymentQ3AmountTotal"/>
+        <result column="PAYMENT_Q3_AMOUNT_ADJ" property="paymentQ3AmountAdj"/>
+        <result column="PAYMENT_Q3_TOTAL_BUDGET" property="paymentQ3TotalBudget"/>
+        <result column="PAYMENT_Q3_AMOUNT_FROZEN" property="paymentQ3AmountFrozen"/>
+        <result column="PAYMENT_Q3_AMOUNT_OCCUPIED" property="paymentQ3AmountOccupied"/>
+        <result column="PAYMENT_Q3_AMOUNT_ACTUAL" property="paymentQ3AmountActual"/>
+        <result column="PAYMENT_Q3_AMOUNT_ACTUAL_APPROVED" property="paymentQ3AmountActualApproved"/>
+        <result column="PAYMENT_Q3_AMOUNT_AVAILABLE" property="paymentQ3AmountAvailable"/>
+        <!-- 付款额 Q4季度数据 -->
+        <result column="PAYMENT_Q4_AMOUNT_TOTAL" property="paymentQ4AmountTotal"/>
+        <result column="PAYMENT_Q4_AMOUNT_ADJ" property="paymentQ4AmountAdj"/>
+        <result column="PAYMENT_Q4_TOTAL_BUDGET" property="paymentQ4TotalBudget"/>
+        <result column="PAYMENT_Q4_AMOUNT_FROZEN" property="paymentQ4AmountFrozen"/>
+        <result column="PAYMENT_Q4_AMOUNT_OCCUPIED" property="paymentQ4AmountOccupied"/>
+        <result column="PAYMENT_Q4_AMOUNT_ACTUAL" property="paymentQ4AmountActual"/>
+        <result column="PAYMENT_Q4_AMOUNT_ACTUAL_APPROVED" property="paymentQ4AmountActualApproved"/>
+        <result column="PAYMENT_Q4_AMOUNT_AVAILABLE" property="paymentQ4AmountAvailable"/>
+    </resultMap>
+
+    <!-- 通用查询条件（支持 BudgetProjectBalanceQueryParams） -->
+    <sql id="whereClauseByParams">
+        <where>
+            <if test="params.year != null and params.year != ''">
+                AND YEAR = #{params.year}
+            </if>
+            <if test="params.ehrCode != null and params.ehrCode != ''">
+                AND MORG_CODE LIKE '%' || #{params.ehrCode} || '%'
+            </if>
+            <if test="params.ehrName != null and params.ehrName != ''">
+                AND MORG_NAME LIKE '%' || #{params.ehrName} || '%'
+            </if>
+            <if test="params.prjCode != null and params.prjCode != ''">
+                AND PRJ_CD LIKE '%' || #{params.prjCode} || '%'
+            </if>
+            <if test="params.prjName != null and params.prjName != ''">
+                AND PRJ_NAME LIKE '%' || #{params.prjName} || '%'
+            </if>
+            <if test="params.prjCdList != null and params.prjCdList.size() > 0">
+                AND PRJ_CD IN
+                <foreach collection="params.prjCdList" item="prjCd" open="(" separator="," close=")">
+                    #{prjCd}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 通用查询条件（支持简单参数） -->
+    <sql id="whereClause">
+        <where>
+            <if test="year != null and year != ''">
+                AND YEAR = #{year}
+            </if>
+            <if test="morgCode != null and morgCode != ''">
+                AND MORG_CODE = #{morgCode}
+            </if>
+            <if test="prjCd != null and prjCd != ''">
+                AND PRJ_CD = #{prjCd}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 分页查询（支持 BudgetProjectBalanceQueryParams） -->
+    <select id="selectPageByParams" resultMap="BaseResultMap">
+        SELECT 
+            YEAR,
+            EHR_PRJ_CD,
+            MORG_CODE,
+            MORG_NAME,
+            PRJ_CD,
+            PRJ_NAME,
+            INVESTMENT_LAST_YEAR_USED,
+            INVESTMENT_AMOUNT_TOTAL,
+            INVESTMENT_AMOUNT_ADJ,
+            INVESTMENT_TOTAL_BUDGET,
+            INVESTMENT_AMOUNT_FROZEN,
+            INVESTMENT_AMOUNT_OCCUPIED,
+            INVESTMENT_AMOUNT_ACTUAL,
+            INVESTMENT_AMOUNT_ACTUAL_APPROVED,
+            INVESTMENT_AMOUNT_AVAILABLE,
+            PAYMENT_LAST_YEAR_USED,
+            PAYMENT_Q1_AMOUNT_TOTAL,
+            PAYMENT_Q1_AMOUNT_ADJ,
+            PAYMENT_Q1_TOTAL_BUDGET,
+            PAYMENT_Q1_AMOUNT_FROZEN,
+            PAYMENT_Q1_AMOUNT_OCCUPIED,
+            PAYMENT_Q1_AMOUNT_ACTUAL,
+            PAYMENT_Q1_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q1_AMOUNT_AVAILABLE,
+            PAYMENT_Q2_AMOUNT_TOTAL,
+            PAYMENT_Q2_AMOUNT_ADJ,
+            PAYMENT_Q2_TOTAL_BUDGET,
+            PAYMENT_Q2_AMOUNT_FROZEN,
+            PAYMENT_Q2_AMOUNT_OCCUPIED,
+            PAYMENT_Q2_AMOUNT_ACTUAL,
+            PAYMENT_Q2_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q2_AMOUNT_AVAILABLE,
+            PAYMENT_Q3_AMOUNT_TOTAL,
+            PAYMENT_Q3_AMOUNT_ADJ,
+            PAYMENT_Q3_TOTAL_BUDGET,
+            PAYMENT_Q3_AMOUNT_FROZEN,
+            PAYMENT_Q3_AMOUNT_OCCUPIED,
+            PAYMENT_Q3_AMOUNT_ACTUAL,
+            PAYMENT_Q3_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q3_AMOUNT_AVAILABLE,
+            PAYMENT_Q4_AMOUNT_TOTAL,
+            PAYMENT_Q4_AMOUNT_ADJ,
+            PAYMENT_Q4_TOTAL_BUDGET,
+            PAYMENT_Q4_AMOUNT_FROZEN,
+            PAYMENT_Q4_AMOUNT_OCCUPIED,
+            PAYMENT_Q4_AMOUNT_ACTUAL,
+            PAYMENT_Q4_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q4_AMOUNT_AVAILABLE
+        FROM (
+            SELECT 
+                ROW_NUMBER() OVER (ORDER BY YEAR DESC, EHR_PRJ_CD) AS rn,
+                YEAR,
+                EHR_PRJ_CD,
+                MORG_CODE,
+                MORG_NAME,
+                PRJ_CD,
+                PRJ_NAME,
+                INVESTMENT_LAST_YEAR_USED,
+                INVESTMENT_AMOUNT_TOTAL,
+                INVESTMENT_AMOUNT_ADJ,
+                INVESTMENT_TOTAL_BUDGET,
+                INVESTMENT_AMOUNT_FROZEN,
+                INVESTMENT_AMOUNT_OCCUPIED,
+                INVESTMENT_AMOUNT_ACTUAL,
+                INVESTMENT_AMOUNT_ACTUAL_APPROVED,
+                INVESTMENT_AMOUNT_AVAILABLE,
+                PAYMENT_LAST_YEAR_USED,
+                PAYMENT_Q1_AMOUNT_TOTAL,
+                PAYMENT_Q1_AMOUNT_ADJ,
+                PAYMENT_Q1_TOTAL_BUDGET,
+                PAYMENT_Q1_AMOUNT_FROZEN,
+                PAYMENT_Q1_AMOUNT_OCCUPIED,
+                PAYMENT_Q1_AMOUNT_ACTUAL,
+                PAYMENT_Q1_AMOUNT_ACTUAL_APPROVED,
+                PAYMENT_Q1_AMOUNT_AVAILABLE,
+                PAYMENT_Q2_AMOUNT_TOTAL,
+                PAYMENT_Q2_AMOUNT_ADJ,
+                PAYMENT_Q2_TOTAL_BUDGET,
+                PAYMENT_Q2_AMOUNT_FROZEN,
+                PAYMENT_Q2_AMOUNT_OCCUPIED,
+                PAYMENT_Q2_AMOUNT_ACTUAL,
+                PAYMENT_Q2_AMOUNT_ACTUAL_APPROVED,
+                PAYMENT_Q2_AMOUNT_AVAILABLE,
+                PAYMENT_Q3_AMOUNT_TOTAL,
+                PAYMENT_Q3_AMOUNT_ADJ,
+                PAYMENT_Q3_TOTAL_BUDGET,
+                PAYMENT_Q3_AMOUNT_FROZEN,
+                PAYMENT_Q3_AMOUNT_OCCUPIED,
+                PAYMENT_Q3_AMOUNT_ACTUAL,
+                PAYMENT_Q3_AMOUNT_ACTUAL_APPROVED,
+                PAYMENT_Q3_AMOUNT_AVAILABLE,
+                PAYMENT_Q4_AMOUNT_TOTAL,
+                PAYMENT_Q4_AMOUNT_ADJ,
+                PAYMENT_Q4_TOTAL_BUDGET,
+                PAYMENT_Q4_AMOUNT_FROZEN,
+                PAYMENT_Q4_AMOUNT_OCCUPIED,
+                PAYMENT_Q4_AMOUNT_ACTUAL,
+                PAYMENT_Q4_AMOUNT_ACTUAL_APPROVED,
+                PAYMENT_Q4_AMOUNT_AVAILABLE
+            FROM V_BUDGET_PROJECT_QUARTERLY_AGGREGATE
+            <include refid="whereClauseByParams"/>
+        ) t
+        WHERE t.rn BETWEEN #{startRow} AND #{endRow}
+    </select>
+
+    <!-- 查询总数（支持 BudgetProjectBalanceQueryParams） -->
+    <select id="selectCountByParams" resultType="java.lang.Long">
+        SELECT COUNT(1)
+        FROM V_BUDGET_PROJECT_QUARTERLY_AGGREGATE
+        <include refid="whereClauseByParams"/>
+    </select>
+
+    <!-- 列表查询（支持简单参数） -->
+    <select id="selectList" resultMap="BaseResultMap">
+        SELECT 
+            YEAR,
+            EHR_PRJ_CD,
+            MORG_CODE,
+            MORG_NAME,
+            PRJ_CD,
+            PRJ_NAME,
+            INVESTMENT_LAST_YEAR_USED,
+            INVESTMENT_AMOUNT_TOTAL,
+            INVESTMENT_AMOUNT_ADJ,
+            INVESTMENT_TOTAL_BUDGET,
+            INVESTMENT_AMOUNT_FROZEN,
+            INVESTMENT_AMOUNT_OCCUPIED,
+            INVESTMENT_AMOUNT_ACTUAL,
+            INVESTMENT_AMOUNT_ACTUAL_APPROVED,
+            INVESTMENT_AMOUNT_AVAILABLE,
+            PAYMENT_LAST_YEAR_USED,
+            PAYMENT_Q1_AMOUNT_TOTAL,
+            PAYMENT_Q1_AMOUNT_ADJ,
+            PAYMENT_Q1_TOTAL_BUDGET,
+            PAYMENT_Q1_AMOUNT_FROZEN,
+            PAYMENT_Q1_AMOUNT_OCCUPIED,
+            PAYMENT_Q1_AMOUNT_ACTUAL,
+            PAYMENT_Q1_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q1_AMOUNT_AVAILABLE,
+            PAYMENT_Q2_AMOUNT_TOTAL,
+            PAYMENT_Q2_AMOUNT_ADJ,
+            PAYMENT_Q2_TOTAL_BUDGET,
+            PAYMENT_Q2_AMOUNT_FROZEN,
+            PAYMENT_Q2_AMOUNT_OCCUPIED,
+            PAYMENT_Q2_AMOUNT_ACTUAL,
+            PAYMENT_Q2_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q2_AMOUNT_AVAILABLE,
+            PAYMENT_Q3_AMOUNT_TOTAL,
+            PAYMENT_Q3_AMOUNT_ADJ,
+            PAYMENT_Q3_TOTAL_BUDGET,
+            PAYMENT_Q3_AMOUNT_FROZEN,
+            PAYMENT_Q3_AMOUNT_OCCUPIED,
+            PAYMENT_Q3_AMOUNT_ACTUAL,
+            PAYMENT_Q3_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q3_AMOUNT_AVAILABLE,
+            PAYMENT_Q4_AMOUNT_TOTAL,
+            PAYMENT_Q4_AMOUNT_ADJ,
+            PAYMENT_Q4_TOTAL_BUDGET,
+            PAYMENT_Q4_AMOUNT_FROZEN,
+            PAYMENT_Q4_AMOUNT_OCCUPIED,
+            PAYMENT_Q4_AMOUNT_ACTUAL,
+            PAYMENT_Q4_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q4_AMOUNT_AVAILABLE
+        FROM V_BUDGET_PROJECT_QUARTERLY_AGGREGATE
+        <include refid="whereClause"/>
+        ORDER BY YEAR DESC, EHR_PRJ_CD
+    </select>
+
+    <!-- 查询全量数据列表（支持 BudgetProjectBalanceQueryParams，不分页） -->
+    <select id="selectListByParams" resultMap="BaseResultMap">
+        SELECT 
+            YEAR,
+            EHR_PRJ_CD,
+            MORG_CODE,
+            MORG_NAME,
+            PRJ_CD,
+            PRJ_NAME,
+            INVESTMENT_LAST_YEAR_USED,
+            INVESTMENT_AMOUNT_TOTAL,
+            INVESTMENT_AMOUNT_ADJ,
+            INVESTMENT_TOTAL_BUDGET,
+            INVESTMENT_AMOUNT_FROZEN,
+            INVESTMENT_AMOUNT_OCCUPIED,
+            INVESTMENT_AMOUNT_ACTUAL,
+            INVESTMENT_AMOUNT_ACTUAL_APPROVED,
+            INVESTMENT_AMOUNT_AVAILABLE,
+            PAYMENT_LAST_YEAR_USED,
+            PAYMENT_Q1_AMOUNT_TOTAL,
+            PAYMENT_Q1_AMOUNT_ADJ,
+            PAYMENT_Q1_TOTAL_BUDGET,
+            PAYMENT_Q1_AMOUNT_FROZEN,
+            PAYMENT_Q1_AMOUNT_OCCUPIED,
+            PAYMENT_Q1_AMOUNT_ACTUAL,
+            PAYMENT_Q1_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q1_AMOUNT_AVAILABLE,
+            PAYMENT_Q2_AMOUNT_TOTAL,
+            PAYMENT_Q2_AMOUNT_ADJ,
+            PAYMENT_Q2_TOTAL_BUDGET,
+            PAYMENT_Q2_AMOUNT_FROZEN,
+            PAYMENT_Q2_AMOUNT_OCCUPIED,
+            PAYMENT_Q2_AMOUNT_ACTUAL,
+            PAYMENT_Q2_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q2_AMOUNT_AVAILABLE,
+            PAYMENT_Q3_AMOUNT_TOTAL,
+            PAYMENT_Q3_AMOUNT_ADJ,
+            PAYMENT_Q3_TOTAL_BUDGET,
+            PAYMENT_Q3_AMOUNT_FROZEN,
+            PAYMENT_Q3_AMOUNT_OCCUPIED,
+            PAYMENT_Q3_AMOUNT_ACTUAL,
+            PAYMENT_Q3_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q3_AMOUNT_AVAILABLE,
+            PAYMENT_Q4_AMOUNT_TOTAL,
+            PAYMENT_Q4_AMOUNT_ADJ,
+            PAYMENT_Q4_TOTAL_BUDGET,
+            PAYMENT_Q4_AMOUNT_FROZEN,
+            PAYMENT_Q4_AMOUNT_OCCUPIED,
+            PAYMENT_Q4_AMOUNT_ACTUAL,
+            PAYMENT_Q4_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q4_AMOUNT_AVAILABLE
+        FROM V_BUDGET_PROJECT_QUARTERLY_AGGREGATE
+        <include refid="whereClauseByParams"/>
+        ORDER BY YEAR DESC, EHR_PRJ_CD
+    </select>
+
+</mapper>
+

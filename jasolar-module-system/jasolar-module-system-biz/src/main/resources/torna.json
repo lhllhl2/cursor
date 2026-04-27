@@ -1,0 +1,10 @@
+{
+    "enable": true,
+    "basePackage": "com.jasolar.mis.module.system.controller.budget.commonapi",
+    "url": "https://apidoc.jasolar.com/api",
+    "token": "1a1279d5c7c34e5b9fc3551102339971",
+    "debugEnv": "test,http://172.28.49.18:30089",
+    "author": "LuoHuiNan",
+    "debug": true,
+    "isReplace": true
+}

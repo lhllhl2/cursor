@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.admin.permission.MenuMapper">
+
+    <select id="getSimpleByRoleIds"
+            resultType="com.jasolar.mis.module.system.domain.admin.permission.MenuDO">
+
+        select
+            m.id as id,
+            m.name as name,
+            m.path as path,
+            m.type as type,
+            m.pid as pid,
+            m.auth_code as authCode,
+            m.redirect as redirect,
+            m.component as component,
+            m.title as title,
+            m.icon as icon,
+            m.active_icon as activeIcon,
+            m.status as status,
+            m.menu_order as menuOrder,
+            m.active_path as activePath,
+            m.affix_tab as affixTab,
+            m.affix_tab_order as affixTabOrder,
+            m.badge as badge,
+            m.badge_type as badgeType,
+            m.badge_variants as badgeVariants,
+            m.hide_children_in_menu as hideChildrenInMenu,
+            m.hide_in_breadcrumb as hideInBreadcrumb,
+            m.hide_in_menu as hideInMenu,
+            m.hide_in_tab as hideInTab,
+            m.iframe_src as iframeSrc,
+            m.keep_alive as keepAlive,
+            m.link as link,
+            m.max_num_of_open_tab as maxNumOfOpenTab,
+            m.no_basic_layout as noBasicLayout,
+            m.open_in_new_window as openInNewWindow,
+            m.query_params as queryParams,
+            m.code as code
+        from system_menu m
+        inner join system_role_menu_r mr on mr.menu_id = m.id and mr.deleted = 0 and m.deleted = 0
+        where mr.role_id in
+        <foreach collection="roleIds" item="roleId" open="(" close=")" separator=",">
+            #{roleId, jdbcType=BIGINT}
+        </foreach>
+        order by m.menu_order asc
+
+
+    </select>
+
+    <select id="getAllMenu"
+            resultType="com.jasolar.mis.module.system.controller.admin.permission.resp.SimpleMenuResp">
+
+        select
+        m.id,
+        m.pid,
+        m.name,
+        m.type,
+        m.path,
+        m.component,
+        m.title,
+        m.icon,
+        m.menu_order meunOrder
+        from system_menu m
+        where m.deleted = 0
+
+    </select>
+</mapper>

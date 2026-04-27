@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.budget.SystemProjectBudgetMapper">
+
+    <!-- 删除指定年份的数据 -->
+    <delete id="deleteByYear" parameterType="java.lang.String">
+        DELETE FROM SYSTEM_PROJECT_BUDGET
+        WHERE "YEAR" = #{year}
+    </delete>
+
+
+    <!-- 场景1：(ACCOUNT_CD LIKE 'A01030301%' OR ACCOUNT_CD LIKE 'A01040102%') AND PROJECT_CD = 'P00' AND CUSTOM2_CD = 'CU200' -->
+    <!-- 按部门(ENTITY_CD)、科目(ACCOUNT_CD)、自定义1(CUSTOM1_CD)、年度汇总 Q1-Q4 与 YEARTOTAL -->
+    <select id="selectNewScenario1" parameterType="java.lang.String" resultType="com.jasolar.mis.module.system.domain.budget.SystemProjectBudget">
+        SELECT
+            CUSTOM1_CD AS custom1,
+            ENTITY_CD  AS custom2,
+            '20' || SUBSTR(YEARS_NM, 3) AS year,
+            ACCOUNT_CD AS account,
+            SUM(Q1)    AS q1,
+            SUM(Q2)    AS q2,
+            SUM(Q3)    AS q3,
+            SUM(Q4)    AS q4,
+            SUM(YEARTOTAL) AS yeartotal
+        FROM DATAINTEGRATION.VIEW_BUDGET_TO_CONTROL
+        WHERE (ACCOUNT_CD LIKE 'A01030301%' OR ACCOUNT_CD LIKE 'A01040102%')
+          AND PROJECT_CD = 'P00'
+          AND CUSTOM2_CD = 'CU200'
+          AND YEARS_NM IS NOT NULL
+          AND LENGTH(YEARS_NM) >= 4
+          AND SUBSTR(YEARS_NM, 1, 2) = 'FY'
+          AND '20' || SUBSTR(YEARS_NM, 3) = #{year}
+        GROUP BY
+          CUSTOM1_CD,
+          ENTITY_CD,
+          ACCOUNT_CD,
+          '20' || SUBSTR(YEARS_NM, 3)
+        ORDER BY
+          ENTITY_CD,
+          ACCOUNT_CD
+    </select>
+
+    <!-- 场景2：ACCOUNT_CD = 'A01030112' AND PROJECT_CD = 'P00' AND CUSTOM2_CD LIKE 'CU205%' -->
+    <!-- 按部门(ENTITY_CD)、资产类型(CUSTOM2_CD)、年度汇总 Q1-Q4 与 YEARTOTAL -->
+    <select id="selectNewScenario2" parameterType="java.lang.String" resultType="com.jasolar.mis.module.system.domain.budget.SystemProjectBudget">
+        SELECT
+            ENTITY_CD AS custom2,
+            CUSTOM2_CD AS custom3,
+            '20' || SUBSTR(YEARS_NM, 3) AS year,
+            ACCOUNT_CD AS account,
+            SUM(Q1)    AS q1,
+            SUM(Q2)    AS q2,
+            SUM(Q3)    AS q3,
+            SUM(Q4)    AS q4,
+            SUM(YEARTOTAL) AS yeartotal
+        FROM DATAINTEGRATION.VIEW_BUDGET_TO_CONTROL
+        WHERE ACCOUNT_CD = 'A01030112'
+          AND PROJECT_CD = 'P00'
+          AND CUSTOM2_CD LIKE 'CU205%'
+          AND YEARS_NM IS NOT NULL
+          AND LENGTH(YEARS_NM) >= 4
+          AND SUBSTR(YEARS_NM, 1, 2) = 'FY'
+          AND '20' || SUBSTR(YEARS_NM, 3) = #{year}
+        GROUP BY
+          ENTITY_CD,
+          CUSTOM2_CD,
+          ACCOUNT_CD,
+          '20' || SUBSTR(YEARS_NM, 3)
+        ORDER BY
+          ENTITY_CD,
+          CUSTOM2_CD
+    </select>
+
+    <!-- 场景3：ACCOUNT_CD = 'A010301150102' AND PROJECT_CD = 'P00' AND CUSTOM2_CD LIKE 'CU205%' -->
+    <!-- 按部门(ENTITY_CD)、资产类型(CUSTOM2_CD)、年度汇总 Q1-Q4 与 YEARTOTAL -->
+    <select id="selectNewScenario3" parameterType="java.lang.String" resultType="com.jasolar.mis.module.system.domain.budget.SystemProjectBudget">
+        SELECT
+            ENTITY_CD AS custom2,
+            CUSTOM2_CD AS custom3,
+            '20' || SUBSTR(YEARS_NM, 3) AS year,
+            ACCOUNT_CD AS account,
+            SUM(Q1)    AS q1,
+            SUM(Q2)    AS q2,
+            SUM(Q3)    AS q3,
+            SUM(Q4)    AS q4,
+            SUM(YEARTOTAL) AS yeartotal
+        FROM DATAINTEGRATION.VIEW_BUDGET_TO_CONTROL
+        WHERE ACCOUNT_CD = 'A010301150102'
+          AND PROJECT_CD = 'P00'
+          AND CUSTOM2_CD LIKE 'CU205%'
+          AND YEARS_NM IS NOT NULL
+          AND LENGTH(YEARS_NM) >= 4
+          AND SUBSTR(YEARS_NM, 1, 2) = 'FY'
+          AND '20' || SUBSTR(YEARS_NM, 3) = #{year}
+        GROUP BY
+          ENTITY_CD,
+          CUSTOM2_CD,
+          ACCOUNT_CD,
+          '20' || SUBSTR(YEARS_NM, 3)
+        ORDER BY
+          ENTITY_CD,
+          CUSTOM2_CD
+    </select>
+
+    <!-- 场景4：ACCOUNT_CD = 'A010301150102' AND PROJECT_CD != 'P00' -->
+    <!-- 按部门(ENTITY_CD)、项目(PROJECT_CD)、年度汇总 Q1-Q4 与 YEARTOTAL -->
+    <select id="selectNewScenario4" parameterType="java.lang.String" resultType="com.jasolar.mis.module.system.domain.budget.SystemProjectBudget">
+        SELECT
+            ENTITY_CD AS custom2,
+            PROJECT_CD AS project,
+            PROJECT_ID AS projectId,
+            '20' || SUBSTR(YEARS_NM, 3) AS year,
+            ACCOUNT_CD AS account,
+            SUM(Q1)    AS q1,
+            SUM(Q2)    AS q2,
+            SUM(Q3)    AS q3,
+            SUM(Q4)    AS q4,
+            SUM(YEARTOTAL) AS yeartotal
+        FROM DATAINTEGRATION.VIEW_BUDGET_TO_CONTROL
+        WHERE ACCOUNT_CD = 'A010301150102'
+          AND (PROJECT_CD IS NULL OR PROJECT_CD != 'P00')
+          AND YEARS_NM IS NOT NULL
+          AND LENGTH(YEARS_NM) >= 4
+          AND SUBSTR(YEARS_NM, 1, 2) = 'FY'
+          AND '20' || SUBSTR(YEARS_NM, 3) = #{year}
+        GROUP BY
+          ENTITY_CD,
+          PROJECT_CD,
+          PROJECT_ID,
+          ACCOUNT_CD,
+          '20' || SUBSTR(YEARS_NM, 3)
+        ORDER BY
+          ENTITY_CD,
+          PROJECT_CD
+    </select>
+
+    <!-- 场景5：ACCOUNT_CD = 'A01030115010102' -->
+    <!-- 注意：场景5从 VIEW_BUDGET_TO_CONTROL_TZE 视图查询 -->
+    <!-- BEGBALANCE 对应 YEARTOTAL，按部门(ENTITY_CD)、项目(PROJECT_CD)、年度汇总 BEGBALANCE -->
+    <select id="selectNewScenario5" parameterType="java.lang.String" resultType="com.jasolar.mis.module.system.domain.budget.SystemProjectBudget">
+        SELECT
+            ENTITY_CD AS custom2,
+            PROJECT_CD AS project,
+            PROJECT_ID AS projectId,
+            '20' || SUBSTR(YEARS_NM, 3) AS year,
+            ACCOUNT_CD AS account,
+            SUM(BEGBALANCE) AS yeartotal
+        FROM DATAINTEGRATION.VIEW_BUDGET_TO_CONTROL_TZE
+        WHERE ACCOUNT_CD = 'A01030115010102'
+          AND YEARS_NM IS NOT NULL
+          AND LENGTH(YEARS_NM) >= 4
+          AND SUBSTR(YEARS_NM, 1, 2) = 'FY'
+          AND '20' || SUBSTR(YEARS_NM, 3) = #{year}
+        GROUP BY
+          ENTITY_CD,
+          PROJECT_CD,
+          PROJECT_ID,
+          ACCOUNT_CD,
+          '20' || SUBSTR(YEARS_NM, 3)
+        ORDER BY
+          ENTITY_CD,
+          PROJECT_CD
+    </select>
+
+</mapper>
+

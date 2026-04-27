@@ -1,0 +1,5 @@
+com.jasolar.mis.framework.security.config.JasolarSecurityRpcAutoConfiguration
+com.jasolar.mis.framework.security.config.JasolarSecurityAutoConfiguration
+com.jasolar.mis.framework.security.config.JasolarWebSecurityConfigurerAdapter
+com.jasolar.mis.framework.operatelog.config.JasolarOperateLogConfiguration
+com.jasolar.mis.framework.operatelog.config.JasolarOperateLogRpcAutoConfiguration

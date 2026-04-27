@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.budget.BudgetLedgerSelfRMapper">
+
+    <resultMap id="BaseResultMap" type="com.jasolar.mis.module.system.domain.budget.BudgetLedgerSelfR">
+        <id column="id" property="id"/>
+        <result column="biz_type" property="bizType"/>
+        <result column="related_id" property="relatedId"/>
+        <result column="amount_consumed_q_one" property="amountConsumedQOne"/>
+        <result column="amount_consumed_q_two" property="amountConsumedQTwo"/>
+        <result column="amount_consumed_q_three" property="amountConsumedQThree"/>
+        <result column="amount_consumed_q_four" property="amountConsumedQFour"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="updater" property="updater"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+
+    <select id="selectByIdsAndBizType" resultMap="BaseResultMap">
+        SELECT
+            id,
+            biz_type,
+            related_id,
+            amount_consumed_q_one,
+            amount_consumed_q_two,
+            amount_consumed_q_three,
+            amount_consumed_q_four,
+            creator,
+            create_time,
+            updater,
+            update_time,
+            deleted
+        FROM budget_ledger_self_r
+        WHERE deleted = 0
+        <if test="bizType != null">
+            AND biz_type = #{bizType}
+        </if>
+        <if test="ids != null and ids.size() > 0">
+            AND id IN
+            <foreach collection="ids" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="selectByRelatedIdsAndBizType" resultMap="BaseResultMap">
+        SELECT
+            id,
+            biz_type,
+            related_id,
+            amount_consumed_q_one,
+            amount_consumed_q_two,
+            amount_consumed_q_three,
+            amount_consumed_q_four,
+            creator,
+            create_time,
+            updater,
+            update_time,
+            deleted
+        FROM budget_ledger_self_r
+        WHERE deleted = 0
+        <if test="bizType != null">
+            AND biz_type = #{bizType}
+        </if>
+        <if test="relatedIds != null and relatedIds.size() > 0">
+            AND related_id IN
+            <foreach collection="relatedIds" item="relatedId" open="(" separator="," close=")">
+                #{relatedId}
+            </foreach>
+        </if>
+    </select>
+
+    <delete id="deleteByIdsAndBizType">
+        DELETE FROM budget_ledger_self_r
+        WHERE 1 = 1
+        <if test="bizType != null">
+            AND biz_type = #{bizType}
+        </if>
+        <if test="ids != null and ids.size() > 0">
+            AND id IN
+            <foreach collection="ids" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+    </delete>
+
+    <insert id="insertBatch">
+        <if test="list != null and list.size() > 0">
+            INSERT ALL
+            <foreach collection="list" item="item">
+                INTO budget_ledger_self_r
+                (id, biz_type, related_id, amount_consumed_q_one, amount_consumed_q_two, amount_consumed_q_three, amount_consumed_q_four, creator, create_time, updater, update_time, deleted)
+                VALUES
+                (#{item.id}, #{item.bizType}, #{item.relatedId}, 
+                 #{item.amountConsumedQOne, jdbcType=DECIMAL}, #{item.amountConsumedQTwo, jdbcType=DECIMAL}, 
+                 #{item.amountConsumedQThree, jdbcType=DECIMAL}, #{item.amountConsumedQFour, jdbcType=DECIMAL},
+                 #{item.creator}, #{item.createTime},
+                 #{item.updater}, #{item.updateTime}, #{item.deleted})
+            </foreach>
+            SELECT 1 FROM DUAL
+        </if>
+    </insert>
+
+</mapper>
+

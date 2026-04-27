@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.budget.BudgetClaimMonthlyAggregateMapper">
+
+    <!-- 结果映射 -->
+    <resultMap id="BaseResultMap" type="com.jasolar.mis.module.system.domain.budget.BudgetClaimMonthlyAggregate">
+        <result column="YEAR" property="year"/>
+        <result column="MORG_CODE" property="morgCode"/>
+        <result column="BUDGET_SUBJECT_CODE" property="budgetSubjectCode"/>
+        <result column="MASTER_PROJECT_CODE" property="masterProjectCode"/>
+        <result column="ERP_ASSET_TYPE" property="erpAssetType"/>
+        <result column="IS_INTERNAL" property="isInternal"/>
+        <!-- 名称字段 -->
+        <result column="EHR_NAME" property="ehrName"/>
+        <result column="ERP_ACCT_NM" property="erpAcctNm"/>
+        <result column="PROJECT_NAME" property="projectName"/>
+        <!-- 1月付款额 -->
+        <result column="M1_AMOUNT_AVAILABLE" property="m1AmountAvailable"/>
+        <!-- 2月付款额 -->
+        <result column="M2_AMOUNT_AVAILABLE" property="m2AmountAvailable"/>
+        <!-- 3月付款额 -->
+        <result column="M3_AMOUNT_AVAILABLE" property="m3AmountAvailable"/>
+        <!-- 4月付款额 -->
+        <result column="M4_AMOUNT_AVAILABLE" property="m4AmountAvailable"/>
+        <!-- 5月付款额 -->
+        <result column="M5_AMOUNT_AVAILABLE" property="m5AmountAvailable"/>
+        <!-- 6月付款额 -->
+        <result column="M6_AMOUNT_AVAILABLE" property="m6AmountAvailable"/>
+        <!-- 7月付款额 -->
+        <result column="M7_AMOUNT_AVAILABLE" property="m7AmountAvailable"/>
+        <!-- 8月付款额 -->
+        <result column="M8_AMOUNT_AVAILABLE" property="m8AmountAvailable"/>
+        <!-- 9月付款额 -->
+        <result column="M9_AMOUNT_AVAILABLE" property="m9AmountAvailable"/>
+        <!-- 10月付款额 -->
+        <result column="M10_AMOUNT_AVAILABLE" property="m10AmountAvailable"/>
+        <!-- 11月付款额 -->
+        <result column="M11_AMOUNT_AVAILABLE" property="m11AmountAvailable"/>
+        <!-- 12月付款额 -->
+        <result column="M12_AMOUNT_AVAILABLE" property="m12AmountAvailable"/>
+    </resultMap>
+
+    <!-- 通用查询条件 -->
+    <sql id="whereClause">
+        <where>
+            <if test="year != null and year != ''">
+                AND YEAR = #{year}
+            </if>
+            <if test="morgCode != null and morgCode != ''">
+                AND MORG_CODE = #{morgCode}
+            </if>
+            <if test="budgetSubjectCode != null and budgetSubjectCode != ''">
+                AND BUDGET_SUBJECT_CODE = #{budgetSubjectCode}
+            </if>
+            <if test="masterProjectCode != null and masterProjectCode != ''">
+                AND MASTER_PROJECT_CODE = #{masterProjectCode}
+            </if>
+            <if test="erpAssetType != null and erpAssetType != ''">
+                AND ERP_ASSET_TYPE = #{erpAssetType}
+            </if>
+            <if test="isInternal != null and isInternal != ''">
+                AND IS_INTERNAL = #{isInternal}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 通用查询条件（支持 PaymentStatusQueryParams，包含名称字段和编码字段的单边模糊搜索） -->
+    <sql id="whereClauseByParams">
+        <where>
+            <if test="params.year != null and params.year != ''">
+                AND YEAR = #{params.year}
+            </if>
+            <if test="params.ehrCode != null and params.ehrCode != ''">
+                AND MORG_CODE LIKE '%' || #{params.ehrCode} || '%'
+            </if>
+            <if test="params.ehrName != null and params.ehrName != ''">
+                AND EHR_NAME LIKE '%' || #{params.ehrName} || '%'
+            </if>
+            <if test="params.projectCode != null and params.projectCode != ''">
+                AND MASTER_PROJECT_CODE LIKE '%' || #{params.projectCode} || '%'
+            </if>
+            <if test="params.projectName != null and params.projectName != ''">
+                AND PROJECT_NAME LIKE '%' || #{params.projectName} || '%'
+            </if>
+            <if test="params.erpAcctCd != null and params.erpAcctCd != ''">
+                AND BUDGET_SUBJECT_CODE LIKE '%' || #{params.erpAcctCd} || '%'
+            </if>
+            <if test="params.erpAcctNm != null and params.erpAcctNm != ''">
+                AND ERP_ACCT_NM LIKE '%' || #{params.erpAcctNm} || '%'
+            </if>
+            <if test="params.erpAssetType != null and params.erpAssetType != ''">
+                AND ERP_ASSET_TYPE LIKE '%' || #{params.erpAssetType} || '%'
+            </if>
+            <if test="params.isInternal != null and params.isInternal != ''">
+                AND IS_INTERNAL = #{params.isInternal}
+            </if>
+            <!-- 权限过滤：EHR组织权限 OR 项目权限（取并集） -->
+            <!-- 注意：Oracle IN子句最多支持1000个表达式，所以需要将大集合拆分成多个批次 -->
+            <if test="(params.ehrCdListBatches != null and params.ehrCdListBatches.size() > 0) or (params.prjCdListBatches != null and params.prjCdListBatches.size() > 0)">
+                AND (
+                <if test="params.ehrCdListBatches != null and params.ehrCdListBatches.size() > 0">
+                    <foreach collection="params.ehrCdListBatches" item="ehrCdsBatch" separator=" OR ">
+                        <if test="ehrCdsBatch != null and ehrCdsBatch.size() > 0">
+                            MORG_CODE IN
+                            <foreach collection="ehrCdsBatch" item="ehrCd" open="(" separator="," close=")">
+                                #{ehrCd}
+                            </foreach>
+                        </if>
+                    </foreach>
+                </if>
+                <if test="(params.ehrCdListBatches != null and params.ehrCdListBatches.size() > 0) and (params.prjCdListBatches != null and params.prjCdListBatches.size() > 0)">
+                    OR
+                </if>
+                <if test="params.prjCdListBatches != null and params.prjCdListBatches.size() > 0">
+                    <foreach collection="params.prjCdListBatches" item="prjCdsBatch" separator=" OR ">
+                        <if test="prjCdsBatch != null and prjCdsBatch.size() > 0">
+                            MASTER_PROJECT_CODE IN
+                            <foreach collection="prjCdsBatch" item="prjCd" open="(" separator="," close=")">
+                                #{prjCd}
+                            </foreach>
+                        </if>
+                    </foreach>
+                </if>
+                )
+            </if>
+        </where>
+    </sql>
+
+    <!-- 列表查询 -->
+    <select id="selectList" resultMap="BaseResultMap">
+        SELECT 
+            YEAR,
+            MORG_CODE,
+            BUDGET_SUBJECT_CODE,
+            MASTER_PROJECT_CODE,
+            ERP_ASSET_TYPE,
+            IS_INTERNAL,
+            EHR_NAME,
+            ERP_ACCT_NM,
+            PROJECT_NAME,
+            M1_AMOUNT_AVAILABLE,
+            M2_AMOUNT_AVAILABLE,
+            M3_AMOUNT_AVAILABLE,
+            M4_AMOUNT_AVAILABLE,
+            M5_AMOUNT_AVAILABLE,
+            M6_AMOUNT_AVAILABLE,
+            M7_AMOUNT_AVAILABLE,
+            M8_AMOUNT_AVAILABLE,
+            M9_AMOUNT_AVAILABLE,
+            M10_AMOUNT_AVAILABLE,
+            M11_AMOUNT_AVAILABLE,
+            M12_AMOUNT_AVAILABLE
+        FROM V_BUDGET_CLAIM_MONTHLY_AGGREGATE
+        <include refid="whereClause"/>
+        ORDER BY YEAR DESC, MORG_CODE, BUDGET_SUBJECT_CODE, MASTER_PROJECT_CODE
+    </select>
+
+    <!-- 分页查询（支持 PaymentStatusQueryParams，包含名称字段的单边模糊搜索） -->
+    <select id="selectPageByParams" resultMap="BaseResultMap">
+        SELECT 
+            YEAR,
+            MORG_CODE,
+            BUDGET_SUBJECT_CODE,
+            MASTER_PROJECT_CODE,
+            ERP_ASSET_TYPE,
+            IS_INTERNAL,
+            EHR_NAME,
+            ERP_ACCT_NM,
+            PROJECT_NAME,
+            M1_AMOUNT_AVAILABLE,
+            M2_AMOUNT_AVAILABLE,
+            M3_AMOUNT_AVAILABLE,
+            M4_AMOUNT_AVAILABLE,
+            M5_AMOUNT_AVAILABLE,
+            M6_AMOUNT_AVAILABLE,
+            M7_AMOUNT_AVAILABLE,
+            M8_AMOUNT_AVAILABLE,
+            M9_AMOUNT_AVAILABLE,
+            M10_AMOUNT_AVAILABLE,
+            M11_AMOUNT_AVAILABLE,
+            M12_AMOUNT_AVAILABLE
+        FROM (
+            SELECT 
+                ROW_NUMBER() OVER (ORDER BY YEAR DESC, MORG_CODE, BUDGET_SUBJECT_CODE, MASTER_PROJECT_CODE) AS rn,
+                YEAR,
+                MORG_CODE,
+                BUDGET_SUBJECT_CODE,
+                MASTER_PROJECT_CODE,
+                ERP_ASSET_TYPE,
+                IS_INTERNAL,
+                EHR_NAME,
+                ERP_ACCT_NM,
+                PROJECT_NAME,
+                M1_AMOUNT_AVAILABLE,
+                M2_AMOUNT_AVAILABLE,
+                M3_AMOUNT_AVAILABLE,
+                M4_AMOUNT_AVAILABLE,
+                M5_AMOUNT_AVAILABLE,
+                M6_AMOUNT_AVAILABLE,
+                M7_AMOUNT_AVAILABLE,
+                M8_AMOUNT_AVAILABLE,
+                M9_AMOUNT_AVAILABLE,
+                M10_AMOUNT_AVAILABLE,
+                M11_AMOUNT_AVAILABLE,
+                M12_AMOUNT_AVAILABLE
+            FROM V_BUDGET_CLAIM_MONTHLY_AGGREGATE
+            <include refid="whereClauseByParams"/>
+        ) t
+        WHERE t.rn BETWEEN #{startRow} AND #{endRow}
+    </select>
+
+    <!-- 查询总数（支持 PaymentStatusQueryParams） -->
+    <select id="selectCountByParams" resultType="java.lang.Long">
+        SELECT COUNT(1)
+        FROM V_BUDGET_CLAIM_MONTHLY_AGGREGATE
+        <include refid="whereClauseByParams"/>
+    </select>
+
+    <!-- 全量查询（支持 PaymentStatusQueryParams，包含名称字段的单边模糊搜索，不分页） -->
+    <select id="selectAllByParams" resultMap="BaseResultMap">
+        SELECT 
+            YEAR,
+            MORG_CODE,
+            BUDGET_SUBJECT_CODE,
+            MASTER_PROJECT_CODE,
+            ERP_ASSET_TYPE,
+            IS_INTERNAL,
+            EHR_NAME,
+            ERP_ACCT_NM,
+            PROJECT_NAME,
+            M1_AMOUNT_AVAILABLE,
+            M2_AMOUNT_AVAILABLE,
+            M3_AMOUNT_AVAILABLE,
+            M4_AMOUNT_AVAILABLE,
+            M5_AMOUNT_AVAILABLE,
+            M6_AMOUNT_AVAILABLE,
+            M7_AMOUNT_AVAILABLE,
+            M8_AMOUNT_AVAILABLE,
+            M9_AMOUNT_AVAILABLE,
+            M10_AMOUNT_AVAILABLE,
+            M11_AMOUNT_AVAILABLE,
+            M12_AMOUNT_AVAILABLE
+        FROM V_BUDGET_CLAIM_MONTHLY_AGGREGATE
+        <include refid="whereClauseByParams"/>
+        ORDER BY YEAR DESC, MORG_CODE, BUDGET_SUBJECT_CODE, MASTER_PROJECT_CODE
+    </select>
+
+</mapper>
+

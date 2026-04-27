@@ -1,0 +1,1 @@
+package com.jasolar.mis.framework.data.core;

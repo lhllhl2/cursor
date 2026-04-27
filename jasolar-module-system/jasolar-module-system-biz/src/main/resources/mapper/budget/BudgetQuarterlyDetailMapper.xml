@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.budget.BudgetQuarterlyDetailMapper">
+
+    <!-- 结果映射 -->
+    <resultMap id="BaseResultMap" type="com.jasolar.mis.module.system.domain.budget.BudgetQuarterlyDetail">
+        <result column="YEAR" property="year"/>
+        <result column="MORG_CODE" property="morgCode"/>
+        <result column="MORG_NAME" property="morgName"/>
+        <result column="CUST1_CD" property="cust1Cd"/>
+        <result column="CUST1_NAME" property="cust1Name"/>
+        <result column="ACCOUNT_SUBJECT_CODE" property="accountSubjectCode"/>
+        <result column="ACCOUNT_SUBJECT_NAME" property="accountSubjectName"/>
+        <!-- Q1季度数据 -->
+        <result column="Q1_AMOUNT_TOTAL" property="q1AmountTotal"/>
+        <result column="Q1_AMOUNT_ADJ" property="q1AmountAdj"/>
+        <result column="Q1_TOTAL_BUDGET" property="q1TotalBudget"/>
+        <result column="Q1_AMOUNT_FROZEN" property="q1AmountFrozen"/>
+        <result column="Q1_AMOUNT_OCCUPIED" property="q1AmountOccupied"/>
+        <result column="Q1_AMOUNT_ACTUAL" property="q1AmountActual"/>
+        <result column="Q1_AMOUNT_ACTUAL_APPROVED" property="q1AmountActualApproved"/>
+        <result column="Q1_AMOUNT_AVAILABLE" property="q1AmountAvailable"/>
+        <!-- Q2季度数据 -->
+        <result column="Q2_AMOUNT_TOTAL" property="q2AmountTotal"/>
+        <result column="Q2_AMOUNT_ADJ" property="q2AmountAdj"/>
+        <result column="Q2_TOTAL_BUDGET" property="q2TotalBudget"/>
+        <result column="Q2_AMOUNT_FROZEN" property="q2AmountFrozen"/>
+        <result column="Q2_AMOUNT_OCCUPIED" property="q2AmountOccupied"/>
+        <result column="Q2_AMOUNT_ACTUAL" property="q2AmountActual"/>
+        <result column="Q2_AMOUNT_ACTUAL_APPROVED" property="q2AmountActualApproved"/>
+        <result column="Q2_AMOUNT_AVAILABLE" property="q2AmountAvailable"/>
+        <!-- Q3季度数据 -->
+        <result column="Q3_AMOUNT_TOTAL" property="q3AmountTotal"/>
+        <result column="Q3_AMOUNT_ADJ" property="q3AmountAdj"/>
+        <result column="Q3_TOTAL_BUDGET" property="q3TotalBudget"/>
+        <result column="Q3_AMOUNT_FROZEN" property="q3AmountFrozen"/>
+        <result column="Q3_AMOUNT_OCCUPIED" property="q3AmountOccupied"/>
+        <result column="Q3_AMOUNT_ACTUAL" property="q3AmountActual"/>
+        <result column="Q3_AMOUNT_ACTUAL_APPROVED" property="q3AmountActualApproved"/>
+        <result column="Q3_AMOUNT_AVAILABLE" property="q3AmountAvailable"/>
+        <!-- Q4季度数据 -->
+        <result column="Q4_AMOUNT_TOTAL" property="q4AmountTotal"/>
+        <result column="Q4_AMOUNT_ADJ" property="q4AmountAdj"/>
+        <result column="Q4_TOTAL_BUDGET" property="q4TotalBudget"/>
+        <result column="Q4_AMOUNT_FROZEN" property="q4AmountFrozen"/>
+        <result column="Q4_AMOUNT_OCCUPIED" property="q4AmountOccupied"/>
+        <result column="Q4_AMOUNT_ACTUAL" property="q4AmountActual"/>
+        <result column="Q4_AMOUNT_ACTUAL_APPROVED" property="q4AmountActualApproved"/>
+        <result column="Q4_AMOUNT_AVAILABLE" property="q4AmountAvailable"/>
+    </resultMap>
+
+    <!-- 通用查询条件 -->
+    <sql id="whereClause">
+        <where>
+            <if test="year != null and year != ''">
+                AND "YEAR" = #{year}
+            </if>
+            <if test="morgCode != null and morgCode != ''">
+                AND "MORG_CODE" = #{morgCode}
+            </if>
+            <if test="cust1Cd != null and cust1Cd != ''">
+                AND "CUST1_CD" = #{cust1Cd}
+            </if>
+            <if test="accountSubjectCode != null and accountSubjectCode != ''">
+                AND "ACCOUNT_SUBJECT_CODE" = #{accountSubjectCode}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 分页查询 -->
+    <select id="selectPage" resultMap="BaseResultMap">
+        SELECT
+            "YEAR",
+            "MORG_CODE",
+            "MORG_NAME",
+            "CUST1_CD",
+            "CUST1_NAME",
+            "ACCOUNT_SUBJECT_CODE",
+            "ACCOUNT_SUBJECT_NAME",
+            "Q1_AMOUNT_TOTAL",
+            "Q1_AMOUNT_ADJ",
+            "Q1_TOTAL_BUDGET",
+            "Q1_AMOUNT_FROZEN",
+            "Q1_AMOUNT_OCCUPIED",
+            "Q1_AMOUNT_ACTUAL",
+            "Q1_AMOUNT_ACTUAL_APPROVED",
+            "Q1_AMOUNT_AVAILABLE",
+            "Q2_AMOUNT_TOTAL",
+            "Q2_AMOUNT_ADJ",
+            "Q2_TOTAL_BUDGET",
+            "Q2_AMOUNT_FROZEN",
+            "Q2_AMOUNT_OCCUPIED",
+            "Q2_AMOUNT_ACTUAL",
+            "Q2_AMOUNT_ACTUAL_APPROVED",
+            "Q2_AMOUNT_AVAILABLE",
+            "Q3_AMOUNT_TOTAL",
+            "Q3_AMOUNT_ADJ",
+            "Q3_TOTAL_BUDGET",
+            "Q3_AMOUNT_FROZEN",
+            "Q3_AMOUNT_OCCUPIED",
+            "Q3_AMOUNT_ACTUAL",
+            "Q3_AMOUNT_ACTUAL_APPROVED",
+            "Q3_AMOUNT_AVAILABLE",
+            "Q4_AMOUNT_TOTAL",
+            "Q4_AMOUNT_ADJ",
+            "Q4_TOTAL_BUDGET",
+            "Q4_AMOUNT_FROZEN",
+            "Q4_AMOUNT_OCCUPIED",
+            "Q4_AMOUNT_ACTUAL",
+            "Q4_AMOUNT_ACTUAL_APPROVED",
+            "Q4_AMOUNT_AVAILABLE"
+        FROM "V_BUDGET_QUARTERLY_DETAIL"
+        <include refid="whereClause"/>
+        ORDER BY "YEAR" DESC, "MORG_CODE", "CUST1_CD", "ACCOUNT_SUBJECT_CODE"
+    </select>
+
+    <!-- 列表查询 -->
+    <select id="selectList" resultMap="BaseResultMap">
+        SELECT
+            "YEAR",
+            "MORG_CODE",
+            "MORG_NAME",
+            "CUST1_CD",
+            "CUST1_NAME",
+            "ACCOUNT_SUBJECT_CODE",
+            "ACCOUNT_SUBJECT_NAME",
+            "Q1_AMOUNT_TOTAL",
+            "Q1_AMOUNT_ADJ",
+            "Q1_TOTAL_BUDGET",
+            "Q1_AMOUNT_FROZEN",
+            "Q1_AMOUNT_OCCUPIED",
+            "Q1_AMOUNT_ACTUAL",
+            "Q1_AMOUNT_ACTUAL_APPROVED",
+            "Q1_AMOUNT_AVAILABLE",
+            "Q2_AMOUNT_TOTAL",
+            "Q2_AMOUNT_ADJ",
+            "Q2_TOTAL_BUDGET",
+            "Q2_AMOUNT_FROZEN",
+            "Q2_AMOUNT_OCCUPIED",
+            "Q2_AMOUNT_ACTUAL",
+            "Q2_AMOUNT_ACTUAL_APPROVED",
+            "Q2_AMOUNT_AVAILABLE",
+            "Q3_AMOUNT_TOTAL",
+            "Q3_AMOUNT_ADJ",
+            "Q3_TOTAL_BUDGET",
+            "Q3_AMOUNT_FROZEN",
+            "Q3_AMOUNT_OCCUPIED",
+            "Q3_AMOUNT_ACTUAL",
+            "Q3_AMOUNT_ACTUAL_APPROVED",
+            "Q3_AMOUNT_AVAILABLE",
+            "Q4_AMOUNT_TOTAL",
+            "Q4_AMOUNT_ADJ",
+            "Q4_TOTAL_BUDGET",
+            "Q4_AMOUNT_FROZEN",
+            "Q4_AMOUNT_OCCUPIED",
+            "Q4_AMOUNT_ACTUAL",
+            "Q4_AMOUNT_ACTUAL_APPROVED",
+            "Q4_AMOUNT_AVAILABLE"
+        FROM "V_BUDGET_QUARTERLY_DETAIL"
+        <include refid="whereClause"/>
+        ORDER BY "YEAR" DESC, "MORG_CODE", "CUST1_CD", "ACCOUNT_SUBJECT_CODE"
+    </select>
+
+    <!-- 通用查询条件（支持 BudgetBalanceQueryParams） -->
+    <sql id="whereClauseByParams">
+        <where>
+            <if test="params.ehrCode != null and params.ehrCode != ''">
+                AND MORG_CODE LIKE '%' || #{params.ehrCode} || '%'
+            </if>
+            <if test="params.ehrName != null and params.ehrName != ''">
+                AND MORG_NAME LIKE '%' || #{params.ehrName} || '%'
+            </if>
+            <if test="params.customCode != null and params.customCode != ''">
+                AND CUST1_CD LIKE '%' || #{params.customCode} || '%'
+            </if>
+            <if test="params.customName != null and params.customName != ''">
+                AND CUST1_NAME LIKE '%' || #{params.customName} || '%'
+            </if>
+            <if test="params.accountSubjectCode != null and params.accountSubjectCode != ''">
+                AND ACCOUNT_SUBJECT_CODE LIKE '%' || #{params.accountSubjectCode} || '%'
+            </if>
+            <if test="params.accountSubjectName != null and params.accountSubjectName != ''">
+                AND ACCOUNT_SUBJECT_NAME LIKE '%' || #{params.accountSubjectName} || '%'
+            </if>
+            <if test="params.controlCust1Cd != null and params.controlCust1Cd != ''">
+                AND CUST1_CD LIKE '%' || #{params.controlCust1Cd} || '%'
+            </if>
+            <if test="params.controlCust1Name != null and params.controlCust1Name != ''">
+                AND CUST1_NAME LIKE '%' || #{params.controlCust1Name} || '%'
+            </if>
+            <if test="params.ehrCdList != null and params.ehrCdList.size() > 0">
+                AND MORG_CODE IN
+                <foreach collection="params.ehrCdList" item="ehrCd" open="(" separator="," close=")">
+                    #{ehrCd}
+                </foreach>
+            </if>
+            <!-- 
+            注意：V_BUDGET_QUARTERLY_DETAIL 视图没有 PRJ_CD 字段，因此无法直接使用 PRJ_CD IN 查询。
+            如果需要按项目编码过滤，可能需要通过其他方式实现（如关联其他视图）。
+            目前先保留此条件，如果视图结构有变化可以启用。
+            -->
+            <!--
+            <if test="params.prjCdList != null and params.prjCdList.size() > 0">
+                AND PRJ_CD IN
+                <foreach collection="params.prjCdList" item="prjCd" open="(" separator="," close=")">
+                    #{prjCd}
+                </foreach>
+            </if>
+            -->
+        </where>
+    </sql>
+
+    <!-- 分页查询（支持 BudgetBalanceQueryParams） -->
+    <select id="selectPageByParams" resultMap="BaseResultMap">
+        SELECT 
+            YEAR,
+            MORG_CODE,
+            MORG_NAME,
+            CUST1_CD,
+            CUST1_NAME,
+            ACCOUNT_SUBJECT_CODE,
+            ACCOUNT_SUBJECT_NAME,
+            Q1_AMOUNT_TOTAL,
+            Q1_AMOUNT_ADJ,
+            Q1_TOTAL_BUDGET,
+            Q1_AMOUNT_FROZEN,
+            Q1_AMOUNT_OCCUPIED,
+            Q1_AMOUNT_ACTUAL,
+            Q1_AMOUNT_ACTUAL_APPROVED,
+            Q1_AMOUNT_AVAILABLE,
+            Q2_AMOUNT_TOTAL,
+            Q2_AMOUNT_ADJ,
+            Q2_TOTAL_BUDGET,
+            Q2_AMOUNT_FROZEN,
+            Q2_AMOUNT_OCCUPIED,
+            Q2_AMOUNT_ACTUAL,
+            Q2_AMOUNT_ACTUAL_APPROVED,
+            Q2_AMOUNT_AVAILABLE,
+            Q3_AMOUNT_TOTAL,
+            Q3_AMOUNT_ADJ,
+            Q3_TOTAL_BUDGET,
+            Q3_AMOUNT_FROZEN,
+            Q3_AMOUNT_OCCUPIED,
+            Q3_AMOUNT_ACTUAL,
+            Q3_AMOUNT_ACTUAL_APPROVED,
+            Q3_AMOUNT_AVAILABLE,
+            Q4_AMOUNT_TOTAL,
+            Q4_AMOUNT_ADJ,
+            Q4_TOTAL_BUDGET,
+            Q4_AMOUNT_FROZEN,
+            Q4_AMOUNT_OCCUPIED,
+            Q4_AMOUNT_ACTUAL,
+            Q4_AMOUNT_ACTUAL_APPROVED,
+            Q4_AMOUNT_AVAILABLE
+        FROM (
+            SELECT 
+                ROW_NUMBER() OVER (ORDER BY YEAR DESC, MORG_CODE, CUST1_CD, ACCOUNT_SUBJECT_CODE) AS rn,
+                YEAR,
+                MORG_CODE,
+                MORG_NAME,
+                CUST1_CD,
+                CUST1_NAME,
+                ACCOUNT_SUBJECT_CODE,
+                ACCOUNT_SUBJECT_NAME,
+                Q1_AMOUNT_TOTAL,
+                Q1_AMOUNT_ADJ,
+                Q1_TOTAL_BUDGET,
+                Q1_AMOUNT_FROZEN,
+                Q1_AMOUNT_OCCUPIED,
+                Q1_AMOUNT_ACTUAL,
+                Q1_AMOUNT_ACTUAL_APPROVED,
+                Q1_AMOUNT_AVAILABLE,
+                Q2_AMOUNT_TOTAL,
+                Q2_AMOUNT_ADJ,
+                Q2_TOTAL_BUDGET,
+                Q2_AMOUNT_FROZEN,
+                Q2_AMOUNT_OCCUPIED,
+                Q2_AMOUNT_ACTUAL,
+                Q2_AMOUNT_ACTUAL_APPROVED,
+                Q2_AMOUNT_AVAILABLE,
+                Q3_AMOUNT_TOTAL,
+                Q3_AMOUNT_ADJ,
+                Q3_TOTAL_BUDGET,
+                Q3_AMOUNT_FROZEN,
+                Q3_AMOUNT_OCCUPIED,
+                Q3_AMOUNT_ACTUAL,
+                Q3_AMOUNT_ACTUAL_APPROVED,
+                Q3_AMOUNT_AVAILABLE,
+                Q4_AMOUNT_TOTAL,
+                Q4_AMOUNT_ADJ,
+                Q4_TOTAL_BUDGET,
+                Q4_AMOUNT_FROZEN,
+                Q4_AMOUNT_OCCUPIED,
+                Q4_AMOUNT_ACTUAL,
+                Q4_AMOUNT_ACTUAL_APPROVED,
+                Q4_AMOUNT_AVAILABLE
+            FROM V_BUDGET_QUARTERLY_DETAIL
+            <include refid="whereClauseByParams"/>
+        ) t
+        WHERE t.rn BETWEEN #{startRow} AND #{endRow}
+    </select>
+
+    <!-- 查询总数（支持 BudgetBalanceQueryParams） -->
+    <select id="selectCountByParams" resultType="java.lang.Long">
+        SELECT COUNT(1)
+        FROM V_BUDGET_QUARTERLY_DETAIL
+        <include refid="whereClauseByParams"/>
+    </select>
+
+    <!-- 查询全量数据列表（支持 BudgetBalanceQueryParams，不分页） -->
+    <select id="selectListByParams" resultMap="BaseResultMap">
+        SELECT 
+            YEAR,
+            MORG_CODE,
+            MORG_NAME,
+            CUST1_CD,
+            CUST1_NAME,
+            ACCOUNT_SUBJECT_CODE,
+            ACCOUNT_SUBJECT_NAME,
+            Q1_AMOUNT_TOTAL,
+            Q1_AMOUNT_ADJ,
+            Q1_TOTAL_BUDGET,
+            Q1_AMOUNT_FROZEN,
+            Q1_AMOUNT_OCCUPIED,
+            Q1_AMOUNT_ACTUAL,
+            Q1_AMOUNT_ACTUAL_APPROVED,
+            Q1_AMOUNT_AVAILABLE,
+            Q2_AMOUNT_TOTAL,
+            Q2_AMOUNT_ADJ,
+            Q2_TOTAL_BUDGET,
+            Q2_AMOUNT_FROZEN,
+            Q2_AMOUNT_OCCUPIED,
+            Q2_AMOUNT_ACTUAL,
+            Q2_AMOUNT_ACTUAL_APPROVED,
+            Q2_AMOUNT_AVAILABLE,
+            Q3_AMOUNT_TOTAL,
+            Q3_AMOUNT_ADJ,
+            Q3_TOTAL_BUDGET,
+            Q3_AMOUNT_FROZEN,
+            Q3_AMOUNT_OCCUPIED,
+            Q3_AMOUNT_ACTUAL,
+            Q3_AMOUNT_ACTUAL_APPROVED,
+            Q3_AMOUNT_AVAILABLE,
+            Q4_AMOUNT_TOTAL,
+            Q4_AMOUNT_ADJ,
+            Q4_TOTAL_BUDGET,
+            Q4_AMOUNT_FROZEN,
+            Q4_AMOUNT_OCCUPIED,
+            Q4_AMOUNT_ACTUAL,
+            Q4_AMOUNT_ACTUAL_APPROVED,
+            Q4_AMOUNT_AVAILABLE
+        FROM V_BUDGET_QUARTERLY_DETAIL
+        <include refid="whereClauseByParams"/>
+        ORDER BY YEAR DESC, MORG_CODE, CUST1_CD, ACCOUNT_SUBJECT_CODE
+    </select>
+
+    <!-- 根据年度和组织编码列表查询 -->
+    <select id="selectListByYearAndMorgCodes" resultMap="BaseResultMap">
+        SELECT 
+            YEAR,
+            MORG_CODE,
+            MORG_NAME,
+            CUST1_CD,
+            CUST1_NAME,
+            ACCOUNT_SUBJECT_CODE,
+            ACCOUNT_SUBJECT_NAME,
+            Q1_AMOUNT_TOTAL,
+            Q1_AMOUNT_ADJ,
+            Q1_TOTAL_BUDGET,
+            Q1_AMOUNT_FROZEN,
+            Q1_AMOUNT_OCCUPIED,
+            Q1_AMOUNT_ACTUAL,
+            Q1_AMOUNT_ACTUAL_APPROVED,
+            Q1_AMOUNT_AVAILABLE,
+            Q2_AMOUNT_TOTAL,
+            Q2_AMOUNT_ADJ,
+            Q2_TOTAL_BUDGET,
+            Q2_AMOUNT_FROZEN,
+            Q2_AMOUNT_OCCUPIED,
+            Q2_AMOUNT_ACTUAL,
+            Q2_AMOUNT_ACTUAL_APPROVED,
+            Q2_AMOUNT_AVAILABLE,
+            Q3_AMOUNT_TOTAL,
+            Q3_AMOUNT_ADJ,
+            Q3_TOTAL_BUDGET,
+            Q3_AMOUNT_FROZEN,
+            Q3_AMOUNT_OCCUPIED,
+            Q3_AMOUNT_ACTUAL,
+            Q3_AMOUNT_ACTUAL_APPROVED,
+            Q3_AMOUNT_AVAILABLE,
+            Q4_AMOUNT_TOTAL,
+            Q4_AMOUNT_ADJ,
+            Q4_TOTAL_BUDGET,
+            Q4_AMOUNT_FROZEN,
+            Q4_AMOUNT_OCCUPIED,
+            Q4_AMOUNT_ACTUAL,
+            Q4_AMOUNT_ACTUAL_APPROVED,
+            Q4_AMOUNT_AVAILABLE
+        FROM V_BUDGET_QUARTERLY_DETAIL
+        WHERE "YEAR" = #{year}
+        <if test="morgCodeList != null and morgCodeList.size() > 0">
+            AND "MORG_CODE" IN
+            <foreach collection="morgCodeList" item="morgCode" open="(" separator="," close=")">
+                #{morgCode}
+            </foreach>
+        </if>
+        ORDER BY "MORG_CODE", "CUST1_CD", "ACCOUNT_SUBJECT_CODE"
+    </select>
+
+</mapper>

@@ -1,0 +1,55 @@
+package com.jasolar.mis.framework.datasource.config;
+
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import com.alibaba.druid.spring.boot3.autoconfigure.properties.DruidStatProperties;
+import com.jasolar.mis.framework.datasource.core.filter.DruidAdRemoveFilter;
+
+/**
+ * 数据库配置类
+ *
+ * @author zhaohuang
+ */
+@AutoConfiguration
+@EnableTransactionManagement(proxyTargetClass = true) // 启动事务管理
+@EnableConfigurationProperties(DruidStatProperties.class)
+public class JasolarDataSourceAutoConfiguration {
+
+    /**
+     * 创建 DruidAdRemoveFilter 过滤器，过滤 common.js 的广告
+     */
+    @Bean
+    @ConditionalOnProperty(name = "spring.datasource.druid.stat-view-servlet.enabled", havingValue = "true")
+    public FilterRegistrationBean<DruidAdRemoveFilter> druidAdRemoveFilterFilter(DruidStatProperties properties) {
+        // 获取 druid web 监控页面的参数
+        DruidStatProperties.StatViewServlet config = properties.getStatViewServlet();
+        // 提取 common.js 的配置路径
+        String pattern = config.getUrlPattern() != null ? config.getUrlPattern() : "/druid/*";
+        String commonJsPattern = pattern.replaceAll("\\*", "js/common.js");
+        // 创建 DruidAdRemoveFilter Bean
+        FilterRegistrationBean<DruidAdRemoveFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new DruidAdRemoveFilter());
+        registrationBean.addUrlPatterns(commonJsPattern);
+        return registrationBean;
+    }
+
+    /**
+     * 开启自动事务配置.
+     *
+     * @author galuo
+     * @date 2022/03/10
+     */
+    @ConditionalOnProperty(prefix = "spring.jpa.transactional", name = "auto", matchIfMissing = true)
+    @Configuration(proxyBeanMethods = false)
+    @ImportResource({ "classpath*:spring-service-tx.xml" })
+    protected static class TransactionConfiguration {
+
+    }
+}

@@ -1,0 +1,60 @@
+{
+  "title": {
+    "id": 0,
+    "zh-CN": "资产配置",
+    "en-US": ""
+  },
+  "list": {
+    "id": 1,
+    "zh-CN": "资产列表",
+    "en-US": ""
+  },
+  "description": {
+    "zh-CN": "年末需要完成下一年度的资产配置导入。从预算系统视图同步后，可手工维护资产大类、资产类型的映射关系。",
+    "en-US": "At the end of the year, the asset configuration import for the next year needs to be completed. After syncing from the budget system view, you can manually maintain the mapping of asset major categories and asset types."
+  },
+  "budgetAssetTypeCode": {
+    "zh-CN": "预算资产类型编码",
+    "en-US": "Budget Asset Type Code"
+  },
+  "budgetAssetTypeName": {
+    "zh-CN": "预算资产类型名称",
+    "en-US": "Budget Asset Type Name"
+  },
+  "assetMajorCategoryCode": {
+    "zh-CN": "资产大类编码",
+    "en-US": "Asset Major Category Code"
+  },
+  "assetMajorCategoryName": {
+    "zh-CN": "资产大类名称",
+    "en-US": "Asset Major Category Name"
+  },
+  "erpAssetType": {
+    "zh-CN": "资产类型编码",
+    "en-US": "Asset Type Code"
+  },
+  "assetTypeName": {
+    "zh-CN": "资产类型名称",
+    "en-US": "Asset Type Name"
+  },
+  "year": {
+    "zh-CN": "年份",
+    "en-US": "Year"
+  },
+  "changeStatus": {
+    "zh-CN": "是否变更",
+    "en-US": "Is Changed"
+  },
+  "unchanged": {
+    "zh-CN": "不变",
+    "en-US": "Unchanged"
+  },
+  "new": {
+    "zh-CN": "新增",
+    "en-US": "New"
+  },
+  "modify": {
+    "zh-CN": "修改",
+    "en-US": "Modify"
+  }
+}

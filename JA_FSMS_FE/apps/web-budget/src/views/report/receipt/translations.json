@@ -1,0 +1,247 @@
+{
+  "adjust": {
+    "id": 0,
+    "zh-CN": "预算调整单",
+    "en-US": "Adjust"
+  },
+  "internal": {
+    "id": 1,
+    "zh-CN": "集团内/集团外",
+    "en-US": "Within the group / Outside the group"
+  },
+  "ehrName": {
+    "id": 2,
+    "zh-CN": "EHR名称",
+    "en-US": "EHR Name"
+  },
+  "title": {
+    "id": 3,
+    "zh-CN": "单据明细",
+    "en-US": "Document Details"
+  },
+  "description": {
+    "id": 4,
+    "zh-CN": "单据明细",
+    "en-US": "Receipt Details"
+  },
+  "demand": {
+    "id": 5,
+    "zh-CN": "需求单",
+    "en-US": "Demand"
+  },
+  "contract": {
+    "id": 6,
+    "zh-CN": "合同单",
+    "en-US": "Contract"
+  },
+  "payment": {
+    "id": 7,
+    "zh-CN": "付款/报销单",
+    "en-US": "Payment/Reimbursement"
+  },
+  "status": {
+    "id": 8,
+    "zh-CN": "单据状态",
+    "en-US": "Status"
+  },
+  "ehrCode": {
+    "id": 9,
+    "zh-CN": "EHR编码",
+    "en-US": "EHR Code"
+  },
+  "ehrOrgName": {
+    "id": 10,
+    "zh-CN": "EHR组织名称",
+    "en-US": "EHR Organization Name"
+  },
+  "expenseCode": {
+    "id": 11,
+    "zh-CN": "费用科目编码",
+    "en-US": "Expense Code"
+  },
+  "expenseName": {
+    "id": 12,
+    "zh-CN": "费用科目名称",
+    "en-US": "Expense Name"
+  },
+  "assetTypeCode": {
+    "id": 13,
+    "zh-CN": "资产类型编码",
+    "en-US": "Asset Type Code"
+  },
+  "assetTypeName": {
+    "id": 14,
+    "zh-CN": "资产类型名称",
+    "en-US": "Asset Type Name"
+  },
+  "projectCode": {
+    "id": 15,
+    "zh-CN": "项目编码",
+    "en-US": "Project Code"
+  },
+  "projectName": {
+    "id": 16,
+    "zh-CN": "项目名称",
+    "en-US": "Project Name"
+  },
+  "demandNo": {
+    "id": 17,
+    "zh-CN": "需求单号",
+    "en-US": "Demand No."
+  },
+  "demandYear": {
+    "id": 18,
+    "zh-CN": "需求年度",
+    "en-US": "Demand Year"
+  },
+  "demandQuarter": {
+    "id": 19,
+    "zh-CN": "需求季度",
+    "en-US": "Demand Quarter"
+  },
+  "demandMonth": {
+    "id": 20,
+    "zh-CN": "需求月度",
+    "en-US": "Demand Month"
+  },
+  "demandAmount": {
+    "id": 21,
+    "zh-CN": "需求金额",
+    "en-US": "Demand Amount"
+  },
+  "availableAmount": {
+    "id": 22,
+    "zh-CN": "可用需求金额",
+    "en-US": "Available Amount"
+  },
+  "contractNo": {
+    "id": 23,
+    "zh-CN": "合同单号",
+    "en-US": "Contract No."
+  },
+  "contractYear": {
+    "id": 24,
+    "zh-CN": "合同年度",
+    "en-US": "Contract Year"
+  },
+  "contractQuarter": {
+    "id": 25,
+    "zh-CN": "合同季度",
+    "en-US": "Contract Quarter"
+  },
+  "contractMonth": {
+    "id": 26,
+    "zh-CN": "合同月度",
+    "en-US": "Contract Month"
+  },
+  "contractAmount": {
+    "id": 27,
+    "zh-CN": "合同金额",
+    "en-US": "Contract Amount"
+  },
+  "unpaidAmount": {
+    "id": 28,
+    "zh-CN": "合同未付款金额",
+    "en-US": "Unpaid Amount"
+  },
+  "paymentNo": {
+    "id": 29,
+    "zh-CN": "报销/付款单号",
+    "en-US": "Payment/Reimbursement No."
+  },
+  "actualYear": {
+    "id": 30,
+    "zh-CN": "实际发生年度",
+    "en-US": "Actual Year"
+  },
+  "actualQuarter": {
+    "id": 31,
+    "zh-CN": "实际发生季度",
+    "en-US": "Actual Quarter"
+  },
+  "actualMonth": {
+    "id": 32,
+    "zh-CN": "实际发生月度",
+    "en-US": "Actual Month"
+  },
+  "paymentAmount": {
+    "id": 33,
+    "zh-CN": "报销金额/付款金额",
+    "en-US": "Payment/Reimbursement Amount"
+  },
+  "operator": {
+    "id": 34,
+    "zh-CN": "操作人",
+    "en-US": "Operator"
+  },
+  "updateTime": {
+    "id": 35,
+    "zh-CN": "操作时间",
+    "en-US": "Update Time"
+  },
+  "dataSource": {
+    "id": 36,
+    "zh-CN": "来源系统",
+    "en-US": "Data Source"
+  },
+  "processName": {
+    "id": 44,
+    "zh-CN": "流程名称",
+    "en-US": "Process Name"
+  },
+  "adjustNo": {
+    "id": 37,
+    "zh-CN": "预算调整单号",
+    "en-US": "Adjust No."
+  },
+  "adjustType": {
+    "id": 38,
+    "zh-CN": "预算调整类型",
+    "en-US": "Adjust Type"
+  },
+  "quarterOne": {
+    "id": 39,
+    "zh-CN": "第一季度",
+    "en-US": "Q1"
+  },
+  "quarterTwo": {
+    "id": 40,
+    "zh-CN": "第二季度",
+    "en-US": "Q2"
+  },
+  "quarterThree": {
+    "id": 41,
+    "zh-CN": "第三季度",
+    "en-US": "Q3"
+  },
+  "quarterFour": {
+    "id": 42,
+    "zh-CN": "第四季度",
+    "en-US": "Q4"
+  },
+  "adjustAmount": {
+    "id": 43,
+    "zh-CN": "投资调整额",
+    "en-US": "Adjust Amount"
+  },
+  "controlEhrOrgCode": {
+    "id": 45,
+    "zh-CN": "控制层级EHR组织代码",
+    "en-US": "Control Level EHR Org Code"
+  },
+  "controlEhrOrgName": {
+    "id": 46,
+    "zh-CN": "控制层级EHR组织名称",
+    "en-US": "Control Level EHR Org Name"
+  },
+  "budgetOrgCode": {
+    "id": 47,
+    "zh-CN": "预算组织编码",
+    "en-US": "Budget Org Code"
+  },
+  "budgetOrgName": {
+    "id": 48,
+    "zh-CN": "预算组织名称",
+    "en-US": "Budget Org Name"
+  }
+}

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.admin.user.SystemUserMapper">
+
+
+    <select id="userPage"  resultType="com.jasolar.mis.module.system.controller.admin.user.vo.user.UserPageVo">
+        select
+            su.id id,
+            su.user_name userName,
+            su.display_name displayName,
+            su.email email,
+            su.phone_number phoneNumber,
+            su.leave_status leaveStatus,
+            su.office_location officeLocation,
+            su.post post,
+            su.birthday birthday,
+            su.induction_date inductionDate,
+            su.leave_date leaveDate,
+            su.gender gender,
+            su.direct_manager_code directManagerCode,
+            su.organization_code organizationCode
+        from system_user su
+        <where>
+            su.deleted = 0
+            <if test="search.userName != null and search.userName != '' ">
+               and su.user_name like '%' || #{search.userName} || '%' ESCAPE '/'
+            </if>
+
+            <if test="search.displayName != null and search.displayName != '' ">
+                and su.display_name like '%' || #{search.displayName} || '%' ESCAPE '/'
+            </if>
+        </where>
+
+    </select>
+    
+    <!-- 批量查询用户的用户组ID -->
+    <select id="getUserGroupIds" resultType="java.lang.Long">
+        select group_id
+        from system_user_group_r
+        where user_id = #{userId}
+          and deleted = 0
+        order by group_id
+    </select>
+    
+    <!-- 批量查询多个用户的用户组ID -->
+    <select id="getBatchUserGroupIds" resultType="com.jasolar.mis.module.system.controller.admin.user.vo.user.UserGroupIdVo">
+        select
+        r.user_id as userId,
+        r.group_id as groupId,
+        g.name as groupName
+        from system_user_group_r r
+        left join system_user_group g
+        on g.id = r.group_id
+        <where>
+            r.deleted = 0
+            and g.deleted = 0
+            <if test="userIds != null and userIds.size() > 0">
+                and r.user_id in
+                <foreach collection="userIds" item="userId" open="(" separator="," close=")">
+                    #{userId}
+                </foreach>
+            </if>
+        </where>
+        order by r.user_id, r.group_id
+    </select>
+
+    <select id="userForGroup"
+            parameterType="com.jasolar.mis.module.system.controller.admin.user.vo.user.UserForGroupVo"
+            resultType="com.jasolar.mis.module.system.controller.admin.usergroup.resp.GroupUserResp">
+        select
+            u.id,
+            u.user_name userName,
+            u.display_name displayName,
+            u.email email,
+            u.office_location officeLocation,
+            u.post post
+        from system_user u
+        <where>
+            deleted = 0
+            <if test="keyword != null and keyword != '' ">
+              and ( u.user_name like '%' || #{keyword} || '%' ESCAPE '/') or (u.display_name like '%' || #{keyword} || '%' ESCAPE '/')
+            </if>
+        </where>
+
+
+    </select>
+
+    <select id="getAllActiveUserInfo" resultType="java.lang.String">
+        select user_name || '_' || display_name
+        from system_user
+        where deleted = 0
+    </select>
+
+
+</mapper>

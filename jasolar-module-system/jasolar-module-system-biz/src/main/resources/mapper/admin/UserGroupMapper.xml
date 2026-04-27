@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.admin.usergroup.UserGroupMapper">
+
+
+
+    <select id="searchRoleByUserGroup"
+            resultType="com.jasolar.mis.module.system.controller.admin.usergroup.resp.UserGroupRoleResp">
+
+        select
+            ro.id id,
+            ro.role_name roleName
+        from system_role ro
+        inner join system_user_group_role_r r on r.role_id = ro.id and ro.deleted = #{del}
+        and r.user_group_id = #{id} and r.type = #{type} and r.deleted = #{del}
+
+
+
+    </select>
+
+    <select id="getListPage"
+            resultType="com.jasolar.mis.module.system.controller.admin.usergroup.resp.SearchListResp">
+        select
+            g.id id,
+            g.code code,
+            g.name name,
+            g.type type,
+            g.remark remark,
+            u.display_name creator,
+            g.create_time createTime,
+            ur.display_name updater,
+            g.update_time updateTime,
+            (select count(r.id) from system_user_group_r r where r.group_id = g.id and r.type = g.type and r.deleted = 0) as userCount
+        from system_user_group g
+        left join system_user u on g.creator = u.user_name and u.deleted = 0
+        left join system_user ur on g.updater = ur.user_name and ur.deleted = 0
+        <where>
+            g.deleted = 0
+            <if test="searchVo.types != null and !searchVo.types.isEmpty()">
+                and g.type in
+                <foreach collection="searchVo.types" item="type" open="(" separator="," close=")">
+                    #{type}
+                </foreach>
+            </if>
+
+            <if test="searchVo.userGroupName != null and searchVo.userGroupName != '' ">
+                 and g.name like '%' || #{searchVo.userGroupName} || '%' ESCAPE '/'
+            </if>
+
+        </where>
+        order by g.create_time desc
+    </select>
+
+    <select id="searchGroupUser"
+            resultType="com.jasolar.mis.module.system.controller.admin.usergroup.resp.GroupUserResp">
+
+        select
+        u.id ,
+        u.user_name userName,
+        u.display_name displayName,
+        u.email ,
+        u.office_location officeLocation,
+        u.post
+        from system_user u
+        inner join system_user_group_r r on r.user_id = u.id and r.group_id = #{id} and r.deleted = 0
+    </select>
+
+    <select id="getSimpleList"
+            resultType="com.jasolar.mis.module.system.controller.admin.usergroup.resp.SearchSimpleListResp">
+        select
+            g.id,
+            g.code,
+            g.name,
+            g.type
+        from system_user_group g
+        where g.deleted = 0
+    <if test="types != null and types.size() > 0">
+        and g.type in
+        <foreach collection="types" item="tp" open="(" close=")" separator=",">
+            #{tp}
+        </foreach>
+    </if>
+
+
+    </select>
+
+    <select id="searchUserGroupByRole"
+            resultType="com.jasolar.mis.module.system.controller.admin.usergroup.resp.GroupUserByRoleResp">
+
+        select
+            g.id,
+            g.code,
+            g.name,
+            g.type
+        from system_user_group g
+        inner join system_user_group_role_r r on r.group_id = g.id and g.type = #{menuType}
+        and r.role_id = #{roleId} and r.deleted = 0 and g.deleted = 0
+    </select>
+
+
+    <select id="searchGroupUserList"
+            resultType="com.jasolar.mis.module.system.controller.admin.usergroup.resp.GroupUserResp">
+        select
+        u.id ,
+        u.user_name userName,
+        u.display_name displayName,
+        u.email ,
+        u.office_location officeLocation,
+        u.post
+        from system_user u
+        inner join system_user_group_r r on r.user_id = u.id and r.group_id = #{id} and r.deleted = 0 and u.deleted = 0
+    </select>
+
+    <select id="currentUserGroupByUserId"
+            resultType="com.jasolar.mis.module.system.controller.admin.usergroup.resp.CurrentUserGroupResp">
+        select
+            g.id,
+            g.code,
+            g.name,
+            g.type
+        from system_user_group g
+        inner join system_user_group_r r on r.group_id = g.id
+        and r.user_id = #{userId} and r.type = #{type}
+        and g.deleted = 0 and r.deleted = 0
+    </select>
+
+    <select id="getByReportId"
+            resultType="com.jasolar.mis.module.system.controller.admin.usergroup.resp.SearchSimpleListResp">
+        select
+            g.id,
+            g.code,
+            g.name,
+            g.type
+        from system_user_group g
+        inner join fr_report_user_group_r r on r.group_id = g.id
+        and r.fr_report_id = #{reportId}
+        and g.deleted = 0 and r.deleted = 0
+    </select>
+
+</mapper>

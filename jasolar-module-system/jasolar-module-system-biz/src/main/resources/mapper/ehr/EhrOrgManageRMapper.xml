@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.ehr.EhrOrgManageRMapper">
+
+
+    <select id="queryAllDetail"
+            resultType="com.jasolar.mis.module.system.controller.budget.vo.EhrDetailResultVo">
+        select
+            EHR_CD as ehrOrgCode,
+            ERP_DEPART as erpDeptCode,
+            EHR_CD as planOrgCode,
+            ORG_CD as morgCode,
+            ORG_NM as morgName,
+            PAR_CD as parentMorgCode,
+            create_time as createTime,
+            update_time as updateTime
+        from ehr_org_manage_r
+    </select>
+
+    <select id="getParentAndChildByEhrCd" resultType="com.jasolar.mis.module.system.resp.EhrOrgManageRExtend">
+        SELECT DISTINCT
+            t.EHR_CD,
+            t.EHR_NM,
+            t.EHR_PAR_CD,
+            t.EHR_PAR_NM,
+            t.ORG_CD,
+            t.CONTROL_LEVEL,
+            t.BZ_LEVEL,
+            '1' as NODE_LEVEL
+        FROM
+        ehr_org_manage_r t
+        where t.EHR_CD != #{ehrCd} and year = #{year} and deleted = 0
+            START WITH
+            t.EHR_CD = #{ehrCd} and year = #{year} and deleted = 0
+            CONNECT BY
+            PRIOR t.EHR_PAR_CD = t.EHR_CD and year = #{year} and deleted = 0
+        UNION ALL
+        SELECT DISTINCT
+            t.EHR_CD,
+            t.EHR_NM,
+            t.EHR_PAR_CD,
+            t.EHR_PAR_NM,
+            t.ORG_CD,
+            t.CONTROL_LEVEL,
+            t.BZ_LEVEL,
+            '-1' as NODE_LEVEL
+        FROM
+            ehr_org_manage_r t
+        where t.EHR_CD != #{ehrCd} and year = #{year} and deleted = 0
+            START WITH
+            t.EHR_CD = #{ehrCd} and year = #{year} and deleted = 0
+            CONNECT BY
+            PRIOR t.EHR_CD = t.EHR_PAR_CD and year = #{year} and deleted = 0
+
+    </select>
+    
+    <update id="updateWithNullFields">
+        UPDATE ehr_org_manage_r
+        <set>
+            org_cd = #{ehrOrgManageR.orgCd},
+            org_nm = #{ehrOrgManageR.orgNm},
+            ehr_cd = #{ehrOrgManageR.ehrCd},
+            ehr_nm = #{ehrOrgManageR.ehrNm},
+            ehr_par_cd = #{ehrOrgManageR.ehrParCd},
+            ehr_par_nm = #{ehrOrgManageR.ehrParNm},
+            control_level = #{ehrOrgManageR.controlLevel},
+            bz_level = #{ehrOrgManageR.bzLevel},
+            erp_depart = #{ehrOrgManageR.erpDepart},
+            year = #{ehrOrgManageR.year},
+            updater = #{ehrOrgManageR.updater},
+            update_time = SYSTIMESTAMP
+        </set>
+        WHERE id = #{ehrOrgManageR.id}
+    </update>
+    
+    <update id="batchUpdateOrgCdByIds">
+        UPDATE ehr_org_manage_r
+        SET org_cd = #{orgCd},
+            updater = #{updater},
+            update_time = SYSTIMESTAMP
+        WHERE id IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    
+    <update id="batchUpdateControlLevelByIds">
+        UPDATE ehr_org_manage_r
+        SET control_level = #{controlLevel},
+            updater = #{updater},
+            update_time = SYSTIMESTAMP
+        WHERE id IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    
+    <update id="batchUpdateBzLevelByIds">
+        UPDATE ehr_org_manage_r
+        SET bz_level = #{bzLevel},
+            updater = #{updater},
+            update_time = SYSTIMESTAMP
+        WHERE id IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="updateErpDepartById">
+        UPDATE ehr_org_manage_r
+        SET erp_depart = #{erpDepart},
+            updater = #{updater},
+            update_time = SYSTIMESTAMP
+        WHERE id = #{id}
+    </update>
+
+    <select id="getBudgetOrg" resultType="com.jasolar.mis.module.system.resp.BudgetOrgResp">
+        select
+            org_cd as orgCd,
+            org_nm as orgNm,
+            par_cd as parCd,
+            par_nm as parNm
+        from ${dataIntegration}.VIEW_HSP_ENTITY
+    </select>
+
+    <select id="getParentByEhrCd" resultType="com.jasolar.mis.module.system.resp.EhrOrgManageRExtend">
+
+        SELECT DISTINCT
+            t.EHR_CD,
+            t.EHR_NM,
+            t.EHR_PAR_CD,
+            t.EHR_PAR_NM,
+            t.ORG_CD,
+            t.CONTROL_LEVEL,
+            t.BZ_LEVEL,
+            '1' as NODE_LEVEL
+        FROM
+        ehr_org_manage_r t
+        START WITH
+        t.EHR_CD = #{ehrCd} and year = #{year} and deleted = 0
+        CONNECT BY
+        PRIOR t.EHR_PAR_CD = t.EHR_CD and year = #{year} and deleted = 0
+
+    </select>
+
+    <select id="getChildByEhrCd" resultType="com.jasolar.mis.module.system.resp.EhrOrgManageRExtend">
+        SELECT DISTINCT
+        t.EHR_CD,
+        t.EHR_NM,
+        t.EHR_PAR_CD,
+        t.EHR_PAR_NM,
+        t.ORG_CD,
+        t.CONTROL_LEVEL,
+        t.BZ_LEVEL,
+        '-1' as NODE_LEVEL
+        FROM
+        ehr_org_manage_r t
+        where t.EHR_CD != #{ehrCd} and year = #{year} and deleted = 0
+        START WITH
+        t.EHR_CD = #{ehrCd} and year = #{year} and deleted = 0
+        CONNECT BY
+        PRIOR t.EHR_CD = t.EHR_PAR_CD and year = #{year} and deleted = 0
+    </select>
+
+    <select id="getExceptData" resultType="com.jasolar.mis.module.system.resp.EhrOrgManageRExceptResp">
+        (
+            select o.id as ehr_cd,o.org_name as ehr_nm,o.parent_id as ehr_par_cd,po.org_name ehr_par_nm,'1' as to_add from system_org o
+            left join  system_org po on o.parent_id  = po.id and  o.deleted = 0 and po.deleted = 0
+            MINUS
+            select ehr_cd,ehr_nm,ehr_par_cd,ehr_par_nm,'1' as to_add from ehr_org_manage_r where year = #{year} and deleted = 0
+        )
+        union
+        (
+            select ehr_cd,ehr_nm,ehr_par_cd,ehr_par_nm,'2' as to_add from ehr_org_manage_r where year = #{year} and deleted = 0
+            MINUS
+            select o.id as ehr_cd,o.org_name as ehr_nm,o.parent_id as ehr_par_cd,po.org_name ehr_par_nm,'2' as to_add from system_org o
+            left join  system_org po on o.parent_id  = po.id and  o.deleted = 0 and po.deleted = 0
+        )
+    </select>
+
+    <delete id="deleteByEhrCds">
+        delete from ehr_org_manage_r where ehr_cd in
+        <foreach item="ehrCd" collection="ehrCds" open="(" separator="," close=")">
+            #{ehrCd}
+        </foreach>
+    </delete>
+
+    <!-- 优化的分页查询：使用ROW_NUMBER分页，充分利用索引 -->
+    <!-- 优化策略：
+         1. 使用索引提示，强制Oracle先使用索引过滤year和deleted
+         2. 使用 ORDER BY id DESC 充分利用 IDX_EHR_ORG_YEAR_DELETED_ID 索引
+         3. LIKE 查询在索引过滤后的较小结果集上应用，而不是全表扫描
+    -->
+    <select id="selectPageOptimized" resultType="com.jasolar.mis.module.system.domain.ehr.EhrOrgManageR">
+        SELECT * FROM (
+            SELECT 
+                ROW_NUMBER() OVER (ORDER BY id DESC) AS rn,
+                id,
+                org_cd,
+                org_nm,
+                ehr_cd,
+                ehr_nm,
+                ehr_par_cd,
+                ehr_par_nm,
+                control_level,
+                bz_level,
+                erp_depart,
+                year,
+                leaf,
+                create_time,
+                update_time,
+                creator,
+                updater,
+                deleted
+            FROM ehr_org_manage_r
+            <where>
+                <!-- 优先使用索引字段：deleted 和 year（充分利用 IDX_EHR_ORG_YEAR_DELETED_ID） -->
+                <!-- 使用索引提示强制Oracle先使用索引过滤，然后再应用LIKE条件 -->
+                deleted = 0
+                <if test="searchVo.year != null and searchVo.year != ''">
+                    AND year = #{searchVo.year}
+                </if>
+                <!-- LIKE 查询：在索引过滤后的较小结果集上应用，而不是全表扫描 -->
+                <if test="searchVo.ehrOrgKey != null and searchVo.ehrOrgKey != ''">
+                    AND ehr_cd LIKE '%' || #{searchVo.ehrOrgKey} || '%'
+                </if>
+                <if test="searchVo.manageOrgKey != null and searchVo.manageOrgKey != ''">
+                    AND (org_cd LIKE '%' || #{searchVo.manageOrgKey} || '%' 
+                         OR org_nm LIKE '%' || #{searchVo.manageOrgKey} || '%')
+                </if>
+                <if test="searchVo.erpDepart != null and searchVo.erpDepart != ''">
+                    AND erp_depart LIKE '%' || #{searchVo.erpDepart} || '%'
+                </if>
+            </where>
+            ORDER BY id DESC
+        ) t
+        WHERE t.rn BETWEEN #{startRow} AND #{endRow}
+    </select>
+
+    <!-- 优化的COUNT查询：充分利用索引 -->
+    <!-- 优化策略：
+         1. 使用索引提示，强制Oracle先使用索引过滤year和deleted
+         2. 然后在较小的结果集上应用LIKE条件，而不是全表扫描
+         3. 这样可以大幅减少需要扫描的数据量
+    -->
+    <select id="selectCountOptimized" resultType="java.lang.Long">
+        SELECT /*+ INDEX(ehr_org_manage_r IDX_EHR_ORG_YEAR_DELETED) */ COUNT(1)
+        FROM ehr_org_manage_r
+        <where>
+            <!-- 优先使用索引字段：deleted 和 year（充分利用 IDX_EHR_ORG_YEAR_DELETED） -->
+            <!-- 使用索引提示强制Oracle先使用索引过滤，然后再应用LIKE条件 -->
+            deleted = 0
+            <if test="searchVo.year != null and searchVo.year != ''">
+                AND year = #{searchVo.year}
+            </if>
+            <!-- LIKE 查询：在索引过滤后的较小结果集上应用，而不是全表扫描 -->
+            <if test="searchVo.ehrOrgKey != null and searchVo.ehrOrgKey != ''">
+                AND ehr_cd LIKE '%' || #{searchVo.ehrOrgKey} || '%'
+            </if>
+            <if test="searchVo.manageOrgKey != null and searchVo.manageOrgKey != ''">
+                AND (org_cd LIKE '%' || #{searchVo.manageOrgKey} || '%' 
+                     OR org_nm LIKE '%' || #{searchVo.manageOrgKey} || '%')
+            </if>
+            <if test="searchVo.erpDepart != null and searchVo.erpDepart != ''">
+                AND erp_depart LIKE '%' || #{searchVo.erpDepart} || '%'
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,34 @@
+{
+  "title": {
+    "zh-CN": "报文查询",
+    "en-US": "API Log Query"
+  },
+  "list": {
+    "zh-CN": "报文列表",
+    "en-US": "API Log List"
+  },
+  "docNo": {
+    "zh-CN": "单据号",
+    "en-US": "Document No"
+  },
+  "userIp": {
+    "zh-CN": "用户IP",
+    "en-US": "User IP"
+  },
+  "interfaceName": {
+    "zh-CN": "请求接口",
+    "en-US": "Interface Name"
+  },
+  "requestUrl": {
+    "zh-CN": "接口地址",
+    "en-US": "Request URL"
+  },
+  "status": {
+    "zh-CN": "状态",
+    "en-US": "Status"
+  },
+  "responseResult": {
+    "zh-CN": "响应报文",
+    "en-US": "Response Result"
+  }
+}

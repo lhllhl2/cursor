@@ -1,0 +1,141 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  annotations: {}
+  labels: {}
+  name: gateway-config
+  namespace: jasolar
+data:
+  application.yaml: |
+    server:
+      port: 8089
+    
+    logging:
+      file:
+        name: /logs/gateway-service/gateway-service.log
+      level:
+        default: INFO
+        com.jasolar.mis: DEBUG
+        com.jasolar.mis.module.log.api: INFO
+        com.jasolar.mis.gateway.filter.logging.AccessLogFilter: INFO
+    
+    spring:
+      application:
+        name: gateway-service
+      profiles:
+        active: k8s
+      main:
+        allow-circular-references: true # 允许循环依赖，因为项目是三层架构，无法避免这个情况。
+        allow-bean-definition-overriding: true # 允许 Bean 覆盖，例如说 Feign 等会存在重复定义的服务
+    
+      # Spring Boot Actuator 配置 - K8s 原生支持
+      management:
+        endpoints:
+          web:
+            exposure:
+              include: health,info,metrics,prometheus
+            base-path: /actuator
+        endpoint:
+          health:
+            show-details: always
+            show-components: always
+          info:
+            enabled: true
+        health:
+          kubernetes:
+            enabled: true
+            liveness-state:
+              enabled: true
+            readiness-state:
+              enabled: true
+      cache:
+        type: REDIS
+        redis:
+          time-to-live: 1h
+      data:
+        redis:
+          repositories:
+            enabled: false
+          host: redis-service   # 这里是 K8s Service 名
+          port: 6379
+          database: 1
+          password: ${SPRING_DATA_REDIS_PASSWORD:}     # 这里要和 redis-secret 里一致，明文或用 Secret 注入
+    
+      # Gateway 路由配置
+      cloud:
+        gateway:
+          # ✅ 添加网关超时配置
+          httpclient:
+            connect-timeout: 30000        # 连接超时30秒
+            response-timeout: 300s        # 响应超时5分钟
+            pool:
+              type: fixed                  # 使用固定大小的连接池，性能更好
+              max-connections: 500         # 最大连接数，支持300-500线程并发
+              acquire-timeout: 45000      # 获取连接的超时时间（45秒）
+              max-idle-time: 30s          # 连接最大空闲时间
+              max-life-time: 60s          # 连接最大生存时间，防止连接老化
+              eviction-interval: 10s       # 连接池清理间隔，定期清理空闲连接
+          default-filters:
+            - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+          globalcors:
+            add-to-simple-url-handler-mapping: true
+            cors-configurations:
+              '[/**]':
+                allowedOriginPatterns: "*"
+                allowedHeaders: "*"
+                allowedMethods: "*"
+                allowCredentials: true
+                maxAge: 36000
+                exposedHeaders: "Content-Disposition,Content-Type,Content-Length,Content-Encoding,Cache-Control"
+          routes:
+            - id: system-service
+              uri: lb://jasolar-system-service:8081
+              predicates:
+                - Path=/admin-api/**,/oauth-api/sso/**,/api/**,/oauth-api/local/**,/budget-api/**,/api/admin-api/**
+              filters:
+                - RewritePath=/api/(?<segment>.*), /$\{segment}
+        kubernetes:
+          discovery:
+            enabled: true
+            namespaces:
+              - jasolar
+            client:
+              namespace: jasolar
+          loadbalancer:
+            mode: SERVICE
+    feign:
+      client:
+        config:
+          default:
+            connectTimeout: 30000        # 连接超时30秒
+            readTimeout: 300000          # 读取超时5分钟
+    
+    
+    permission:
+      ignoreUrls:
+        - /admin-api/system/i18n-menu/getLangs
+        - /oauth-api/sso/oauth2/callback
+        - /oauth-api/sso/getSsoLoginRedirectUrl
+        - /oauth-api/local/login
+        - /oauth-api/local/logout
+      openUrls:
+        - /budget-api/budget/**
+        - /api/admin-api/user/update
+        - /api/admin-api/user/add
+        - /api/admin-api/user/delete
+        - /api/admin-api/organization/update
+        - /api/admin-api/organization/add
+        - /api/admin-api/organization/delete
+      outerUrls: []
+    
+    
+    jasolar:
+      info:
+        base-package: com.jasolar.mis.gateway  # 每个服务必须指定自己的base-package
+      # 测试环境服务名就是 jasolar-system-service，与服务发现匹配，无需配置 feign.uris
+    logging.level.default: TRACE
+    management:
+      metrics:
+        binders:
+          processor:
+            enabled: false

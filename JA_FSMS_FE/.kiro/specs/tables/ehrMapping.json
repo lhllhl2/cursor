@@ -1,0 +1,34 @@
+{
+  "module": "report",
+  "name": "ehrMapping",
+  "title": "组织映射",
+  "api": {
+    "baseUrl": "/budget-api/query",
+    "list": "/queryEhrControlLevel"
+  },
+  "columns": [
+    {
+      "field": "ehrCd",
+      "title": "EHR末级组织",
+      "filterable": true,
+      "filterType": "input"
+    },
+    {
+      "field": "budgetOrgCd",
+      "title": "预算组织",
+      "filterable": true,
+      "filterType": "input"
+    },
+    {
+      "field": "budgetEhrCd",
+      "title": "预算层级EHR组织",
+      "filterType": "input"
+    },
+    {
+      "field": "controlEhrCd",
+      "title": "控制层级EHR组织",
+      "filterable": true,
+      "filterType": "input"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "title": {
+    "zh-CN": "组织映射",
+    "en-US": ""
+  },
+  "list": {
+    "zh-CN": "映射列表",
+    "en-US": ""
+  },
+  "ehrCd": {
+    "en-US": "EHR Leaf Organization Code",
+    "zh-CN": "EHR末级组织编码"
+  },
+  "erpDepart": {
+    "en-US": "ERP Department Code",
+    "zh-CN": "ERP部门编码"
+  },
+  "ehrNm": {
+    "en-US": "EHR Leaf Organization Name",
+    "zh-CN": "EHR末级组织名称"
+  },
+  "budgetOrgCd": {
+    "en-US": "Budget Organization Code",
+    "zh-CN": "预算组织编码"
+  },
+  "budgetOrgNm": {
+    "en-US": "Budget Organization Name",
+    "zh-CN": "预算组织名称"
+  },
+  "budgetEhrCd": {
+    "en-US": "Budget Level EHR Organization Code",
+    "zh-CN": "预算层级EHR组织编码"
+  },
+  "budgetEhrNm": {
+    "en-US": "Budget Level EHR Organization Name",
+    "zh-CN": "预算层级EHR组织名称"
+  },
+  "controlEhrCd": {
+    "en-US": "Control Level EHR Organization Code",
+    "zh-CN": "控制层级EHR组织编码"
+  },
+  "controlEhrNm": {
+    "en-US": "Control Level EHR Organization Name",
+    "zh-CN": "控制层级EHR组织名称"
+  }
+}

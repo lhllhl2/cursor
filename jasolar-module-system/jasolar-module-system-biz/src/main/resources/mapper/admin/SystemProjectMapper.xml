@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.admin.project.SystemProjectMapper">
+
+
+
+    <select id="selectExceptData" resultType="com.jasolar.mis.module.system.resp.ProjectExceptResp">
+        (
+            select
+                pv.prj_id as id,
+                pv.prj_cd as prjCd,
+                pv.prj_nm as prjNm,
+                pv.par_cd as parCd,
+                pv.par_nm as parNm,
+                pv.is_leaf as leaf,
+                '1' as toAdd
+            from dataintegration.view_hsp_project pv
+            MINUS
+            select
+                pr.id,
+                pr.project_code as prjCd,
+                pr.project_name as prjNm,
+                pr.parent_project_code as parCd,
+                pr.parent_project_name as parNm,
+                pr.is_leaf as leaf,
+                '1' as toAdd
+            from system_project pr
+        )
+        UNION
+        (
+            select
+                pr.id,
+                pr.project_code as prjCd,
+                pr.project_name as prjNm,
+                pr.parent_project_code as parCd,
+                pr.parent_project_name as parNm,
+                pr.is_leaf as leaf,
+                '2' as toAdd
+            from system_project pr
+            MINUS
+                select
+                pv.prj_id as id,
+                pv.prj_cd as prjCd,
+                pv.prj_nm as prjNm,
+                pv.par_cd as parCd,
+                pv.par_nm as parNm,
+                pv.is_leaf as leaf,
+                '2' as toAdd
+             from dataintegration.view_hsp_project pv
+        )
+
+    </select>
+</mapper>

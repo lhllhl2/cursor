@@ -1,0 +1,8 @@
+com.jasolar.mis.framework.apilog.config.JasolarApiLogAutoConfiguration
+com.jasolar.mis.framework.jackson.config.JasolarJacksonAutoConfiguration
+com.jasolar.mis.framework.swagger.config.JasolarSwaggerAutoConfiguration
+com.jasolar.mis.framework.web.config.JasolarWebAutoConfiguration
+com.jasolar.mis.framework.apilog.config.JasolarApiLogRpcAutoConfiguration
+com.jasolar.mis.framework.banner.config.JasolarBannerAutoConfiguration
+com.jasolar.mis.framework.data.config.DataAutoConfiguration
+com.jasolar.mis.framework.api.config.ApiScannerAutoConfiguration

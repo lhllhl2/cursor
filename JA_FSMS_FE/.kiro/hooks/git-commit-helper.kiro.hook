@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Git Commit 助手",
+  "description": "分析当前 git 仓库的改动（git status 和 git diff），生成符合 commitlint 规范的中文 commit message。如果改动涉及多个功能模块，会建议分开提交。格式：feat/fix/chore(scope): 简短描述",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "请分析当前 git 仓库的改动：\n\n1. 首先运行 `git status` 查看改动的文件列表\n2. 然后运行 `git diff` 查看具体的代码改动\n3. 基于改动内容，生成符合 commitlint 规范的 commit message\n\n要求：\n- 使用中文描述\n- 格式：type(scope): subject\n  - type: feat（新功能）、fix（修复）、chore（杂项）、docs（文档）、style（格式）、refactor（重构）、perf（性能）、test（测试）\n  - scope: 改动涉及的模块或功能域\n  - subject: 简短描述（不超过 50 字）\n- 如果改动较多，提供详细的多行说明（body 部分）\n- 如果改动涉及多个不相关的功能模块，明确建议分开提交，并为每个模块生成独立的 commit message\n\n示例格式：\n```\nfeat(report): 添加组织名称字段\n\n- 添加 ehrNm、budgetOrgNm 等字段\n- 更新中英文翻译\n- 调整表格列宽度\n```\n\n如果需要分开提交：\n```\n建议分为 2 个提交：\n\n提交 1:\nfeat(report): 添加组织名称字段\n- 添加 ehrNm、budgetOrgNm 等字段\n- 更新中英文翻译\n\n提交 2:\nchore(config): 更新 ESLint 配置\n- 添加新的规则\n- 修复配置错误\n```"
+  }
+}

@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.budget.BudgetQuarterlyAggregateByMorgMapper">
+
+    <!-- 结果映射 -->
+    <resultMap id="BaseResultMap" type="com.jasolar.mis.module.system.domain.budget.BudgetQuarterlyAggregateByMorg">
+        <result column="YEAR" property="year"/>
+        <result column="MORG_CODE" property="morgCode"/>
+        <result column="MORG_NAME" property="morgName"/>
+        <result column="ERP_ASSET_TYPE" property="erpAssetType"/>
+        <result column="ERP_ASSET_TYPE_NAME" property="erpAssetTypeName"/>
+        <!-- 采购额 Q1季度数据 -->
+        <result column="PURCHASE_Q1_AMOUNT_TOTAL" property="purchaseQ1AmountTotal"/>
+        <result column="PURCHASE_Q1_AMOUNT_ADJ" property="purchaseQ1AmountAdj"/>
+        <result column="PURCHASE_Q1_TOTAL_BUDGET" property="purchaseQ1TotalBudget"/>
+        <result column="PURCHASE_Q1_AMOUNT_FROZEN" property="purchaseQ1AmountFrozen"/>
+        <result column="PURCHASE_Q1_AMOUNT_OCCUPIED" property="purchaseQ1AmountOccupied"/>
+        <result column="PURCHASE_Q1_AMOUNT_ACTUAL" property="purchaseQ1AmountActual"/>
+        <result column="PURCHASE_Q1_AMOUNT_ACTUAL_APPROVED" property="purchaseQ1AmountActualApproved"/>
+        <result column="PURCHASE_Q1_AMOUNT_AVAILABLE" property="purchaseQ1AmountAvailable"/>
+        <!-- 采购额 Q2季度数据 -->
+        <result column="PURCHASE_Q2_AMOUNT_TOTAL" property="purchaseQ2AmountTotal"/>
+        <result column="PURCHASE_Q2_AMOUNT_ADJ" property="purchaseQ2AmountAdj"/>
+        <result column="PURCHASE_Q2_TOTAL_BUDGET" property="purchaseQ2TotalBudget"/>
+        <result column="PURCHASE_Q2_AMOUNT_FROZEN" property="purchaseQ2AmountFrozen"/>
+        <result column="PURCHASE_Q2_AMOUNT_OCCUPIED" property="purchaseQ2AmountOccupied"/>
+        <result column="PURCHASE_Q2_AMOUNT_ACTUAL" property="purchaseQ2AmountActual"/>
+        <result column="PURCHASE_Q2_AMOUNT_ACTUAL_APPROVED" property="purchaseQ2AmountActualApproved"/>
+        <result column="PURCHASE_Q2_AMOUNT_AVAILABLE" property="purchaseQ2AmountAvailable"/>
+        <!-- 采购额 Q3季度数据 -->
+        <result column="PURCHASE_Q3_AMOUNT_TOTAL" property="purchaseQ3AmountTotal"/>
+        <result column="PURCHASE_Q3_AMOUNT_ADJ" property="purchaseQ3AmountAdj"/>
+        <result column="PURCHASE_Q3_TOTAL_BUDGET" property="purchaseQ3TotalBudget"/>
+        <result column="PURCHASE_Q3_AMOUNT_FROZEN" property="purchaseQ3AmountFrozen"/>
+        <result column="PURCHASE_Q3_AMOUNT_OCCUPIED" property="purchaseQ3AmountOccupied"/>
+        <result column="PURCHASE_Q3_AMOUNT_ACTUAL" property="purchaseQ3AmountActual"/>
+        <result column="PURCHASE_Q3_AMOUNT_ACTUAL_APPROVED" property="purchaseQ3AmountActualApproved"/>
+        <result column="PURCHASE_Q3_AMOUNT_AVAILABLE" property="purchaseQ3AmountAvailable"/>
+        <!-- 采购额 Q4季度数据 -->
+        <result column="PURCHASE_Q4_AMOUNT_TOTAL" property="purchaseQ4AmountTotal"/>
+        <result column="PURCHASE_Q4_AMOUNT_ADJ" property="purchaseQ4AmountAdj"/>
+        <result column="PURCHASE_Q4_TOTAL_BUDGET" property="purchaseQ4TotalBudget"/>
+        <result column="PURCHASE_Q4_AMOUNT_FROZEN" property="purchaseQ4AmountFrozen"/>
+        <result column="PURCHASE_Q4_AMOUNT_OCCUPIED" property="purchaseQ4AmountOccupied"/>
+        <result column="PURCHASE_Q4_AMOUNT_ACTUAL" property="purchaseQ4AmountActual"/>
+        <result column="PURCHASE_Q4_AMOUNT_ACTUAL_APPROVED" property="purchaseQ4AmountActualApproved"/>
+        <result column="PURCHASE_Q4_AMOUNT_AVAILABLE" property="purchaseQ4AmountAvailable"/>
+        <!-- 付款额 Q1季度数据 -->
+        <result column="PAYMENT_Q1_AMOUNT_TOTAL" property="paymentQ1AmountTotal"/>
+        <result column="PAYMENT_Q1_AMOUNT_ADJ" property="paymentQ1AmountAdj"/>
+        <result column="PAYMENT_Q1_TOTAL_BUDGET" property="paymentQ1TotalBudget"/>
+        <result column="PAYMENT_Q1_AMOUNT_FROZEN" property="paymentQ1AmountFrozen"/>
+        <result column="PAYMENT_Q1_AMOUNT_OCCUPIED" property="paymentQ1AmountOccupied"/>
+        <result column="PAYMENT_Q1_AMOUNT_ACTUAL" property="paymentQ1AmountActual"/>
+        <result column="PAYMENT_Q1_AMOUNT_ACTUAL_APPROVED" property="paymentQ1AmountActualApproved"/>
+        <result column="PAYMENT_Q1_AMOUNT_AVAILABLE" property="paymentQ1AmountAvailable"/>
+        <!-- 付款额 Q2季度数据 -->
+        <result column="PAYMENT_Q2_AMOUNT_TOTAL" property="paymentQ2AmountTotal"/>
+        <result column="PAYMENT_Q2_AMOUNT_ADJ" property="paymentQ2AmountAdj"/>
+        <result column="PAYMENT_Q2_TOTAL_BUDGET" property="paymentQ2TotalBudget"/>
+        <result column="PAYMENT_Q2_AMOUNT_FROZEN" property="paymentQ2AmountFrozen"/>
+        <result column="PAYMENT_Q2_AMOUNT_OCCUPIED" property="paymentQ2AmountOccupied"/>
+        <result column="PAYMENT_Q2_AMOUNT_ACTUAL" property="paymentQ2AmountActual"/>
+        <result column="PAYMENT_Q2_AMOUNT_ACTUAL_APPROVED" property="paymentQ2AmountActualApproved"/>
+        <result column="PAYMENT_Q2_AMOUNT_AVAILABLE" property="paymentQ2AmountAvailable"/>
+        <!-- 付款额 Q3季度数据 -->
+        <result column="PAYMENT_Q3_AMOUNT_TOTAL" property="paymentQ3AmountTotal"/>
+        <result column="PAYMENT_Q3_AMOUNT_ADJ" property="paymentQ3AmountAdj"/>
+        <result column="PAYMENT_Q3_TOTAL_BUDGET" property="paymentQ3TotalBudget"/>
+        <result column="PAYMENT_Q3_AMOUNT_FROZEN" property="paymentQ3AmountFrozen"/>
+        <result column="PAYMENT_Q3_AMOUNT_OCCUPIED" property="paymentQ3AmountOccupied"/>
+        <result column="PAYMENT_Q3_AMOUNT_ACTUAL" property="paymentQ3AmountActual"/>
+        <result column="PAYMENT_Q3_AMOUNT_ACTUAL_APPROVED" property="paymentQ3AmountActualApproved"/>
+        <result column="PAYMENT_Q3_AMOUNT_AVAILABLE" property="paymentQ3AmountAvailable"/>
+        <!-- 付款额 Q4季度数据 -->
+        <result column="PAYMENT_Q4_AMOUNT_TOTAL" property="paymentQ4AmountTotal"/>
+        <result column="PAYMENT_Q4_AMOUNT_ADJ" property="paymentQ4AmountAdj"/>
+        <result column="PAYMENT_Q4_TOTAL_BUDGET" property="paymentQ4TotalBudget"/>
+        <result column="PAYMENT_Q4_AMOUNT_FROZEN" property="paymentQ4AmountFrozen"/>
+        <result column="PAYMENT_Q4_AMOUNT_OCCUPIED" property="paymentQ4AmountOccupied"/>
+        <result column="PAYMENT_Q4_AMOUNT_ACTUAL" property="paymentQ4AmountActual"/>
+        <result column="PAYMENT_Q4_AMOUNT_ACTUAL_APPROVED" property="paymentQ4AmountActualApproved"/>
+        <result column="PAYMENT_Q4_AMOUNT_AVAILABLE" property="paymentQ4AmountAvailable"/>
+    </resultMap>
+
+    <!-- 通用查询条件（支持 BudgetAssetBalanceQueryParams） -->
+    <sql id="whereClauseByParams">
+        <where>
+            <if test="params.year != null and params.year != ''">
+                AND YEAR = #{params.year}
+            </if>
+            <!-- 支持通过ehrCode查询MORG_CODE（兼容现有查询参数） -->
+            <if test="params.ehrCode != null and params.ehrCode != ''">
+                AND MORG_CODE LIKE '%' || #{params.ehrCode} || '%'
+            </if>
+            <!-- 支持通过ehrName查询MORG_NAME（兼容现有查询参数） -->
+            <if test="params.ehrName != null and params.ehrName != ''">
+                AND MORG_NAME LIKE '%' || #{params.ehrName} || '%'
+            </if>
+            <if test="params.erpAssetType != null and params.erpAssetType != ''">
+                AND ERP_ASSET_TYPE LIKE '%' || #{params.erpAssetType} || '%'
+            </if>
+            <if test="params.erpAssetTypeName != null and params.erpAssetTypeName != ''">
+                AND ERP_ASSET_TYPE_NAME LIKE '%' || #{params.erpAssetTypeName} || '%'
+            </if>
+            <!-- 支持通过ehrCdList查询MORG_CODE（兼容现有查询参数） -->
+            <if test="params.ehrCdList != null and params.ehrCdList.size() > 0">
+                AND MORG_CODE IN
+                <foreach collection="params.ehrCdList" item="ehrCd" open="(" separator="," close=")">
+                    #{ehrCd}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 通用查询条件（支持简单参数） -->
+    <sql id="whereClause">
+        <where>
+            <if test="year != null and year != ''">
+                AND YEAR = #{year}
+            </if>
+            <if test="morgCode != null and morgCode != ''">
+                AND MORG_CODE = #{morgCode}
+            </if>
+            <if test="erpAssetType != null and erpAssetType != ''">
+                AND ERP_ASSET_TYPE = #{erpAssetType}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 分页查询（支持 BudgetAssetBalanceQueryParams） -->
+    <select id="selectPageByParams" resultMap="BaseResultMap">
+        SELECT 
+            YEAR,
+            MORG_CODE,
+            MORG_NAME,
+            ERP_ASSET_TYPE,
+            ERP_ASSET_TYPE_NAME,
+            PURCHASE_Q1_AMOUNT_TOTAL,
+            PURCHASE_Q1_AMOUNT_ADJ,
+            PURCHASE_Q1_TOTAL_BUDGET,
+            PURCHASE_Q1_AMOUNT_FROZEN,
+            PURCHASE_Q1_AMOUNT_OCCUPIED,
+            PURCHASE_Q1_AMOUNT_ACTUAL,
+            PURCHASE_Q1_AMOUNT_ACTUAL_APPROVED,
+            PURCHASE_Q1_AMOUNT_AVAILABLE,
+            PURCHASE_Q2_AMOUNT_TOTAL,
+            PURCHASE_Q2_AMOUNT_ADJ,
+            PURCHASE_Q2_TOTAL_BUDGET,
+            PURCHASE_Q2_AMOUNT_FROZEN,
+            PURCHASE_Q2_AMOUNT_OCCUPIED,
+            PURCHASE_Q2_AMOUNT_ACTUAL,
+            PURCHASE_Q2_AMOUNT_ACTUAL_APPROVED,
+            PURCHASE_Q2_AMOUNT_AVAILABLE,
+            PURCHASE_Q3_AMOUNT_TOTAL,
+            PURCHASE_Q3_AMOUNT_ADJ,
+            PURCHASE_Q3_TOTAL_BUDGET,
+            PURCHASE_Q3_AMOUNT_FROZEN,
+            PURCHASE_Q3_AMOUNT_OCCUPIED,
+            PURCHASE_Q3_AMOUNT_ACTUAL,
+            PURCHASE_Q3_AMOUNT_ACTUAL_APPROVED,
+            PURCHASE_Q3_AMOUNT_AVAILABLE,
+            PURCHASE_Q4_AMOUNT_TOTAL,
+            PURCHASE_Q4_AMOUNT_ADJ,
+            PURCHASE_Q4_TOTAL_BUDGET,
+            PURCHASE_Q4_AMOUNT_FROZEN,
+            PURCHASE_Q4_AMOUNT_OCCUPIED,
+            PURCHASE_Q4_AMOUNT_ACTUAL,
+            PURCHASE_Q4_AMOUNT_ACTUAL_APPROVED,
+            PURCHASE_Q4_AMOUNT_AVAILABLE,
+            PAYMENT_Q1_AMOUNT_TOTAL,
+            PAYMENT_Q1_AMOUNT_ADJ,
+            PAYMENT_Q1_TOTAL_BUDGET,
+            PAYMENT_Q1_AMOUNT_FROZEN,
+            PAYMENT_Q1_AMOUNT_OCCUPIED,
+            PAYMENT_Q1_AMOUNT_ACTUAL,
+            PAYMENT_Q1_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q1_AMOUNT_AVAILABLE,
+            PAYMENT_Q2_AMOUNT_TOTAL,
+            PAYMENT_Q2_AMOUNT_ADJ,
+            PAYMENT_Q2_TOTAL_BUDGET,
+            PAYMENT_Q2_AMOUNT_FROZEN,
+            PAYMENT_Q2_AMOUNT_OCCUPIED,
+            PAYMENT_Q2_AMOUNT_ACTUAL,
+            PAYMENT_Q2_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q2_AMOUNT_AVAILABLE,
+            PAYMENT_Q3_AMOUNT_TOTAL,
+            PAYMENT_Q3_AMOUNT_ADJ,
+            PAYMENT_Q3_TOTAL_BUDGET,
+            PAYMENT_Q3_AMOUNT_FROZEN,
+            PAYMENT_Q3_AMOUNT_OCCUPIED,
+            PAYMENT_Q3_AMOUNT_ACTUAL,
+            PAYMENT_Q3_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q3_AMOUNT_AVAILABLE,
+            PAYMENT_Q4_AMOUNT_TOTAL,
+            PAYMENT_Q4_AMOUNT_ADJ,
+            PAYMENT_Q4_TOTAL_BUDGET,
+            PAYMENT_Q4_AMOUNT_FROZEN,
+            PAYMENT_Q4_AMOUNT_OCCUPIED,
+            PAYMENT_Q4_AMOUNT_ACTUAL,
+            PAYMENT_Q4_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q4_AMOUNT_AVAILABLE
+        FROM (
+            SELECT 
+                ROW_NUMBER() OVER (ORDER BY YEAR DESC, MORG_CODE, ERP_ASSET_TYPE) AS rn,
+                YEAR,
+                MORG_CODE,
+                MORG_NAME,
+                ERP_ASSET_TYPE,
+                ERP_ASSET_TYPE_NAME,
+                PURCHASE_Q1_AMOUNT_TOTAL,
+                PURCHASE_Q1_AMOUNT_ADJ,
+                PURCHASE_Q1_TOTAL_BUDGET,
+                PURCHASE_Q1_AMOUNT_FROZEN,
+                PURCHASE_Q1_AMOUNT_OCCUPIED,
+                PURCHASE_Q1_AMOUNT_ACTUAL,
+                PURCHASE_Q1_AMOUNT_ACTUAL_APPROVED,
+                PURCHASE_Q1_AMOUNT_AVAILABLE,
+                PURCHASE_Q2_AMOUNT_TOTAL,
+                PURCHASE_Q2_AMOUNT_ADJ,
+                PURCHASE_Q2_TOTAL_BUDGET,
+                PURCHASE_Q2_AMOUNT_FROZEN,
+                PURCHASE_Q2_AMOUNT_OCCUPIED,
+                PURCHASE_Q2_AMOUNT_ACTUAL,
+                PURCHASE_Q2_AMOUNT_ACTUAL_APPROVED,
+                PURCHASE_Q2_AMOUNT_AVAILABLE,
+                PURCHASE_Q3_AMOUNT_TOTAL,
+                PURCHASE_Q3_AMOUNT_ADJ,
+                PURCHASE_Q3_TOTAL_BUDGET,
+                PURCHASE_Q3_AMOUNT_FROZEN,
+                PURCHASE_Q3_AMOUNT_OCCUPIED,
+                PURCHASE_Q3_AMOUNT_ACTUAL,
+                PURCHASE_Q3_AMOUNT_ACTUAL_APPROVED,
+                PURCHASE_Q3_AMOUNT_AVAILABLE,
+                PURCHASE_Q4_AMOUNT_TOTAL,
+                PURCHASE_Q4_AMOUNT_ADJ,
+                PURCHASE_Q4_TOTAL_BUDGET,
+                PURCHASE_Q4_AMOUNT_FROZEN,
+                PURCHASE_Q4_AMOUNT_OCCUPIED,
+                PURCHASE_Q4_AMOUNT_ACTUAL,
+                PURCHASE_Q4_AMOUNT_ACTUAL_APPROVED,
+                PURCHASE_Q4_AMOUNT_AVAILABLE,
+                PAYMENT_Q1_AMOUNT_TOTAL,
+                PAYMENT_Q1_AMOUNT_ADJ,
+                PAYMENT_Q1_TOTAL_BUDGET,
+                PAYMENT_Q1_AMOUNT_FROZEN,
+                PAYMENT_Q1_AMOUNT_OCCUPIED,
+                PAYMENT_Q1_AMOUNT_ACTUAL,
+                PAYMENT_Q1_AMOUNT_ACTUAL_APPROVED,
+                PAYMENT_Q1_AMOUNT_AVAILABLE,
+                PAYMENT_Q2_AMOUNT_TOTAL,
+                PAYMENT_Q2_AMOUNT_ADJ,
+                PAYMENT_Q2_TOTAL_BUDGET,
+                PAYMENT_Q2_AMOUNT_FROZEN,
+                PAYMENT_Q2_AMOUNT_OCCUPIED,
+                PAYMENT_Q2_AMOUNT_ACTUAL,
+                PAYMENT_Q2_AMOUNT_ACTUAL_APPROVED,
+                PAYMENT_Q2_AMOUNT_AVAILABLE,
+                PAYMENT_Q3_AMOUNT_TOTAL,
+                PAYMENT_Q3_AMOUNT_ADJ,
+                PAYMENT_Q3_TOTAL_BUDGET,
+                PAYMENT_Q3_AMOUNT_FROZEN,
+                PAYMENT_Q3_AMOUNT_OCCUPIED,
+                PAYMENT_Q3_AMOUNT_ACTUAL,
+                PAYMENT_Q3_AMOUNT_ACTUAL_APPROVED,
+                PAYMENT_Q3_AMOUNT_AVAILABLE,
+                PAYMENT_Q4_AMOUNT_TOTAL,
+                PAYMENT_Q4_AMOUNT_ADJ,
+                PAYMENT_Q4_TOTAL_BUDGET,
+                PAYMENT_Q4_AMOUNT_FROZEN,
+                PAYMENT_Q4_AMOUNT_OCCUPIED,
+                PAYMENT_Q4_AMOUNT_ACTUAL,
+                PAYMENT_Q4_AMOUNT_ACTUAL_APPROVED,
+                PAYMENT_Q4_AMOUNT_AVAILABLE
+            FROM V_BUDGET_QUARTERLY_AGGREGATE_BY_MORG
+            <include refid="whereClauseByParams"/>
+        ) t
+        WHERE t.rn BETWEEN #{startRow} AND #{endRow}
+    </select>
+
+    <!-- 查询总数（支持 BudgetAssetBalanceQueryParams） -->
+    <select id="selectCountByParams" resultType="java.lang.Long">
+        SELECT COUNT(1)
+        FROM V_BUDGET_QUARTERLY_AGGREGATE_BY_MORG
+        <include refid="whereClauseByParams"/>
+    </select>
+
+    <!-- 列表查询（支持简单参数） -->
+    <select id="selectList" resultMap="BaseResultMap">
+        SELECT 
+            YEAR,
+            MORG_CODE,
+            MORG_NAME,
+            ERP_ASSET_TYPE,
+            ERP_ASSET_TYPE_NAME,
+            PURCHASE_Q1_AMOUNT_TOTAL,
+            PURCHASE_Q1_AMOUNT_ADJ,
+            PURCHASE_Q1_TOTAL_BUDGET,
+            PURCHASE_Q1_AMOUNT_FROZEN,
+            PURCHASE_Q1_AMOUNT_OCCUPIED,
+            PURCHASE_Q1_AMOUNT_ACTUAL,
+            PURCHASE_Q1_AMOUNT_ACTUAL_APPROVED,
+            PURCHASE_Q1_AMOUNT_AVAILABLE,
+            PURCHASE_Q2_AMOUNT_TOTAL,
+            PURCHASE_Q2_AMOUNT_ADJ,
+            PURCHASE_Q2_TOTAL_BUDGET,
+            PURCHASE_Q2_AMOUNT_FROZEN,
+            PURCHASE_Q2_AMOUNT_OCCUPIED,
+            PURCHASE_Q2_AMOUNT_ACTUAL,
+            PURCHASE_Q2_AMOUNT_ACTUAL_APPROVED,
+            PURCHASE_Q2_AMOUNT_AVAILABLE,
+            PURCHASE_Q3_AMOUNT_TOTAL,
+            PURCHASE_Q3_AMOUNT_ADJ,
+            PURCHASE_Q3_TOTAL_BUDGET,
+            PURCHASE_Q3_AMOUNT_FROZEN,
+            PURCHASE_Q3_AMOUNT_OCCUPIED,
+            PURCHASE_Q3_AMOUNT_ACTUAL,
+            PURCHASE_Q3_AMOUNT_ACTUAL_APPROVED,
+            PURCHASE_Q3_AMOUNT_AVAILABLE,
+            PURCHASE_Q4_AMOUNT_TOTAL,
+            PURCHASE_Q4_AMOUNT_ADJ,
+            PURCHASE_Q4_TOTAL_BUDGET,
+            PURCHASE_Q4_AMOUNT_FROZEN,
+            PURCHASE_Q4_AMOUNT_OCCUPIED,
+            PURCHASE_Q4_AMOUNT_ACTUAL,
+            PURCHASE_Q4_AMOUNT_ACTUAL_APPROVED,
+            PURCHASE_Q4_AMOUNT_AVAILABLE,
+            PAYMENT_Q1_AMOUNT_TOTAL,
+            PAYMENT_Q1_AMOUNT_ADJ,
+            PAYMENT_Q1_TOTAL_BUDGET,
+            PAYMENT_Q1_AMOUNT_FROZEN,
+            PAYMENT_Q1_AMOUNT_OCCUPIED,
+            PAYMENT_Q1_AMOUNT_ACTUAL,
+            PAYMENT_Q1_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q1_AMOUNT_AVAILABLE,
+            PAYMENT_Q2_AMOUNT_TOTAL,
+            PAYMENT_Q2_AMOUNT_ADJ,
+            PAYMENT_Q2_TOTAL_BUDGET,
+            PAYMENT_Q2_AMOUNT_FROZEN,
+            PAYMENT_Q2_AMOUNT_OCCUPIED,
+            PAYMENT_Q2_AMOUNT_ACTUAL,
+            PAYMENT_Q2_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q2_AMOUNT_AVAILABLE,
+            PAYMENT_Q3_AMOUNT_TOTAL,
+            PAYMENT_Q3_AMOUNT_ADJ,
+            PAYMENT_Q3_TOTAL_BUDGET,
+            PAYMENT_Q3_AMOUNT_FROZEN,
+            PAYMENT_Q3_AMOUNT_OCCUPIED,
+            PAYMENT_Q3_AMOUNT_ACTUAL,
+            PAYMENT_Q3_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q3_AMOUNT_AVAILABLE,
+            PAYMENT_Q4_AMOUNT_TOTAL,
+            PAYMENT_Q4_AMOUNT_ADJ,
+            PAYMENT_Q4_TOTAL_BUDGET,
+            PAYMENT_Q4_AMOUNT_FROZEN,
+            PAYMENT_Q4_AMOUNT_OCCUPIED,
+            PAYMENT_Q4_AMOUNT_ACTUAL,
+            PAYMENT_Q4_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q4_AMOUNT_AVAILABLE
+        FROM V_BUDGET_QUARTERLY_AGGREGATE_BY_MORG
+        <include refid="whereClause"/>
+        ORDER BY YEAR DESC, MORG_CODE, ERP_ASSET_TYPE
+    </select>
+
+    <!-- 查询全量数据列表（支持 BudgetAssetBalanceQueryParams，不分页） -->
+    <select id="selectListByParams" resultMap="BaseResultMap">
+        SELECT 
+            YEAR,
+            MORG_CODE,
+            MORG_NAME,
+            ERP_ASSET_TYPE,
+            ERP_ASSET_TYPE_NAME,
+            PURCHASE_Q1_AMOUNT_TOTAL,
+            PURCHASE_Q1_AMOUNT_ADJ,
+            PURCHASE_Q1_TOTAL_BUDGET,
+            PURCHASE_Q1_AMOUNT_FROZEN,
+            PURCHASE_Q1_AMOUNT_OCCUPIED,
+            PURCHASE_Q1_AMOUNT_ACTUAL,
+            PURCHASE_Q1_AMOUNT_ACTUAL_APPROVED,
+            PURCHASE_Q1_AMOUNT_AVAILABLE,
+            PURCHASE_Q2_AMOUNT_TOTAL,
+            PURCHASE_Q2_AMOUNT_ADJ,
+            PURCHASE_Q2_TOTAL_BUDGET,
+            PURCHASE_Q2_AMOUNT_FROZEN,
+            PURCHASE_Q2_AMOUNT_OCCUPIED,
+            PURCHASE_Q2_AMOUNT_ACTUAL,
+            PURCHASE_Q2_AMOUNT_ACTUAL_APPROVED,
+            PURCHASE_Q2_AMOUNT_AVAILABLE,
+            PURCHASE_Q3_AMOUNT_TOTAL,
+            PURCHASE_Q3_AMOUNT_ADJ,
+            PURCHASE_Q3_TOTAL_BUDGET,
+            PURCHASE_Q3_AMOUNT_FROZEN,
+            PURCHASE_Q3_AMOUNT_OCCUPIED,
+            PURCHASE_Q3_AMOUNT_ACTUAL,
+            PURCHASE_Q3_AMOUNT_ACTUAL_APPROVED,
+            PURCHASE_Q3_AMOUNT_AVAILABLE,
+            PURCHASE_Q4_AMOUNT_TOTAL,
+            PURCHASE_Q4_AMOUNT_ADJ,
+            PURCHASE_Q4_TOTAL_BUDGET,
+            PURCHASE_Q4_AMOUNT_FROZEN,
+            PURCHASE_Q4_AMOUNT_OCCUPIED,
+            PURCHASE_Q4_AMOUNT_ACTUAL,
+            PURCHASE_Q4_AMOUNT_ACTUAL_APPROVED,
+            PURCHASE_Q4_AMOUNT_AVAILABLE,
+            PAYMENT_Q1_AMOUNT_TOTAL,
+            PAYMENT_Q1_AMOUNT_ADJ,
+            PAYMENT_Q1_TOTAL_BUDGET,
+            PAYMENT_Q1_AMOUNT_FROZEN,
+            PAYMENT_Q1_AMOUNT_OCCUPIED,
+            PAYMENT_Q1_AMOUNT_ACTUAL,
+            PAYMENT_Q1_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q1_AMOUNT_AVAILABLE,
+            PAYMENT_Q2_AMOUNT_TOTAL,
+            PAYMENT_Q2_AMOUNT_ADJ,
+            PAYMENT_Q2_TOTAL_BUDGET,
+            PAYMENT_Q2_AMOUNT_FROZEN,
+            PAYMENT_Q2_AMOUNT_OCCUPIED,
+            PAYMENT_Q2_AMOUNT_ACTUAL,
+            PAYMENT_Q2_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q2_AMOUNT_AVAILABLE,
+            PAYMENT_Q3_AMOUNT_TOTAL,
+            PAYMENT_Q3_AMOUNT_ADJ,
+            PAYMENT_Q3_TOTAL_BUDGET,
+            PAYMENT_Q3_AMOUNT_FROZEN,
+            PAYMENT_Q3_AMOUNT_OCCUPIED,
+            PAYMENT_Q3_AMOUNT_ACTUAL,
+            PAYMENT_Q3_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q3_AMOUNT_AVAILABLE,
+            PAYMENT_Q4_AMOUNT_TOTAL,
+            PAYMENT_Q4_AMOUNT_ADJ,
+            PAYMENT_Q4_TOTAL_BUDGET,
+            PAYMENT_Q4_AMOUNT_FROZEN,
+            PAYMENT_Q4_AMOUNT_OCCUPIED,
+            PAYMENT_Q4_AMOUNT_ACTUAL,
+            PAYMENT_Q4_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q4_AMOUNT_AVAILABLE
+        FROM V_BUDGET_QUARTERLY_AGGREGATE_BY_MORG
+        <include refid="whereClauseByParams"/>
+        ORDER BY YEAR DESC, MORG_CODE, ERP_ASSET_TYPE
+    </select>
+
+    <!-- 根据年度和组织编码列表查询 -->
+    <select id="selectListByYearAndMorgCodes" resultMap="BaseResultMap">
+        SELECT 
+            YEAR,
+            MORG_CODE,
+            MORG_NAME,
+            ERP_ASSET_TYPE,
+            ERP_ASSET_TYPE_NAME,
+            PURCHASE_Q1_AMOUNT_TOTAL,
+            PURCHASE_Q1_AMOUNT_ADJ,
+            PURCHASE_Q1_TOTAL_BUDGET,
+            PURCHASE_Q1_AMOUNT_FROZEN,
+            PURCHASE_Q1_AMOUNT_OCCUPIED,
+            PURCHASE_Q1_AMOUNT_ACTUAL,
+            PURCHASE_Q1_AMOUNT_ACTUAL_APPROVED,
+            PURCHASE_Q1_AMOUNT_AVAILABLE,
+            PURCHASE_Q2_AMOUNT_TOTAL,
+            PURCHASE_Q2_AMOUNT_ADJ,
+            PURCHASE_Q2_TOTAL_BUDGET,
+            PURCHASE_Q2_AMOUNT_FROZEN,
+            PURCHASE_Q2_AMOUNT_OCCUPIED,
+            PURCHASE_Q2_AMOUNT_ACTUAL,
+            PURCHASE_Q2_AMOUNT_ACTUAL_APPROVED,
+            PURCHASE_Q2_AMOUNT_AVAILABLE,
+            PURCHASE_Q3_AMOUNT_TOTAL,
+            PURCHASE_Q3_AMOUNT_ADJ,
+            PURCHASE_Q3_TOTAL_BUDGET,
+            PURCHASE_Q3_AMOUNT_FROZEN,
+            PURCHASE_Q3_AMOUNT_OCCUPIED,
+            PURCHASE_Q3_AMOUNT_ACTUAL,
+            PURCHASE_Q3_AMOUNT_ACTUAL_APPROVED,
+            PURCHASE_Q3_AMOUNT_AVAILABLE,
+            PURCHASE_Q4_AMOUNT_TOTAL,
+            PURCHASE_Q4_AMOUNT_ADJ,
+            PURCHASE_Q4_TOTAL_BUDGET,
+            PURCHASE_Q4_AMOUNT_FROZEN,
+            PURCHASE_Q4_AMOUNT_OCCUPIED,
+            PURCHASE_Q4_AMOUNT_ACTUAL,
+            PURCHASE_Q4_AMOUNT_ACTUAL_APPROVED,
+            PURCHASE_Q4_AMOUNT_AVAILABLE,
+            PAYMENT_Q1_AMOUNT_TOTAL,
+            PAYMENT_Q1_AMOUNT_ADJ,
+            PAYMENT_Q1_TOTAL_BUDGET,
+            PAYMENT_Q1_AMOUNT_FROZEN,
+            PAYMENT_Q1_AMOUNT_OCCUPIED,
+            PAYMENT_Q1_AMOUNT_ACTUAL,
+            PAYMENT_Q1_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q1_AMOUNT_AVAILABLE,
+            PAYMENT_Q2_AMOUNT_TOTAL,
+            PAYMENT_Q2_AMOUNT_ADJ,
+            PAYMENT_Q2_TOTAL_BUDGET,
+            PAYMENT_Q2_AMOUNT_FROZEN,
+            PAYMENT_Q2_AMOUNT_OCCUPIED,
+            PAYMENT_Q2_AMOUNT_ACTUAL,
+            PAYMENT_Q2_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q2_AMOUNT_AVAILABLE,
+            PAYMENT_Q3_AMOUNT_TOTAL,
+            PAYMENT_Q3_AMOUNT_ADJ,
+            PAYMENT_Q3_TOTAL_BUDGET,
+            PAYMENT_Q3_AMOUNT_FROZEN,
+            PAYMENT_Q3_AMOUNT_OCCUPIED,
+            PAYMENT_Q3_AMOUNT_ACTUAL,
+            PAYMENT_Q3_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q3_AMOUNT_AVAILABLE,
+            PAYMENT_Q4_AMOUNT_TOTAL,
+            PAYMENT_Q4_AMOUNT_ADJ,
+            PAYMENT_Q4_TOTAL_BUDGET,
+            PAYMENT_Q4_AMOUNT_FROZEN,
+            PAYMENT_Q4_AMOUNT_OCCUPIED,
+            PAYMENT_Q4_AMOUNT_ACTUAL,
+            PAYMENT_Q4_AMOUNT_ACTUAL_APPROVED,
+            PAYMENT_Q4_AMOUNT_AVAILABLE
+        FROM V_BUDGET_QUARTERLY_AGGREGATE_BY_MORG
+        <where>
+            <if test="year != null and year != ''">
+                AND YEAR = #{year}
+            </if>
+            <if test="morgCodeList != null and morgCodeList.size() > 0">
+                AND MORG_CODE IN
+                <foreach collection="morgCodeList" item="morgCode" open="(" separator="," close=")">
+                    #{morgCode}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY YEAR DESC, MORG_CODE, ERP_ASSET_TYPE
+    </select>
+
+</mapper>

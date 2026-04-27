@@ -1,0 +1,21 @@
+{
+  "description": {
+    "id": 0,
+    "zh-CN": "年末需要完成下一年度的配置导入。导入时会校验：不能父级项目和子级项目同时勾选",
+    "en-US": "By the end of the year, the configuration import for the next year needs to be completed. During the import, it will validate that a parent project and its subproject cannot be selected at the same time."
+  },
+  "name": {
+    "id": 1,
+    "zh-CN": "项目",
+    "en-US": "Project"
+  },
+  "title": {
+    "id": 2,
+    "zh-CN": "项目配置",
+    "en-US": "Project Configuration"
+  },
+  "apiSync": {
+    "zh-CN": "接口数据更新",
+    "en-US": "Api Data Update"
+  }
+}

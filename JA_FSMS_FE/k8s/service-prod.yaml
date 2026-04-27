@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ja-fsms-fe
+  namespace: jasolar
+  labels:
+    app: ja-fsms-fe
+    env: production
+spec:
+  # 使用 NodePort，通过外部 Nginx 暴露服务（外部 Nginx 已配置 30090 端口）
+  type: NodePort
+  ports:
+    - port: 4173
+      targetPort: 4173
+      nodePort: 30090
+      protocol: TCP
+  selector:
+    app: ja-fsms-fe
+
+

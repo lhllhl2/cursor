@@ -1,0 +1,4 @@
+com.jasolar.mis.framework.idempotent.config.JasolarIdempotentConfiguration
+com.jasolar.mis.framework.lock4j.config.JasolarLock4jConfiguration
+com.jasolar.mis.framework.ratelimiter.config.JasolarRateLimiterConfiguration
+com.jasolar.mis.framework.signature.config.JasolarApiSignatureAutoConfiguration

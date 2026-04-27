@@ -1,0 +1,107 @@
+{
+  "ehrCode": {
+    "id": 0,
+    "zh-CN": "所属预算组织编码",
+    "en-US": ""
+  },
+  "ehrName": {
+    "id": 1,
+    "zh-CN": "所属预算组织名称",
+    "en-US": ""
+  },
+  "title": {
+    "id": 2,
+    "zh-CN": "项目",
+    "en-US": "Project"
+  },
+  "investment": {
+    "id": 3,
+    "zh-CN": "投资额",
+    "en-US": "Investment Amount"
+  },
+  "payment": {
+    "id": 4,
+    "zh-CN": "付款额",
+    "en-US": "Payment Amount"
+  },
+  "projectCode": {
+    "id": 5,
+    "zh-CN": "项目编号",
+    "en-US": "Project Code"
+  },
+  "projectName": {
+    "id": 6,
+    "zh-CN": "项目名称",
+    "en-US": "Project Name"
+  },
+  "amountYearTotal": {
+    "id": 7,
+    "zh-CN": "年度预算数",
+    "en-US": "Annual Budget Amount"
+  },
+  "amountAdj": {
+    "id": 8,
+    "zh-CN": "预算调整数",
+    "en-US": "Budget Adjustment Amount"
+  },
+  "amountTotal": {
+    "id": 9,
+    "zh-CN": "总预算数",
+    "en-US": "Total Budget Amount"
+  },
+  "amountFrozen": {
+    "id": 10,
+    "zh-CN": "冻结数",
+    "en-US": "Frozen Amount"
+  },
+  "amountOccupied": {
+    "id": 11,
+    "zh-CN": "占用数",
+    "en-US": "Occupied Amount"
+  },
+  "amountActual": {
+    "id": 12,
+    "zh-CN": "发生数",
+    "en-US": "Occurred Amount"
+  },
+  "amountAvailable": {
+    "id": 13,
+    "zh-CN": "可用预算数",
+    "en-US": "Available Budget Amount"
+  },
+  "paymentAmount": {
+    "id": 14,
+    "zh-CN": "付款额",
+    "en-US": "Payment Amount"
+  },
+  "q1": {
+    "id": 15,
+    "zh-CN": "第一季度",
+    "en-US": "Q1"
+  },
+  "q2": {
+    "id": 16,
+    "zh-CN": "第二季度",
+    "en-US": "Q2"
+  },
+  "q3": {
+    "id": 17,
+    "zh-CN": "第三季度",
+    "en-US": "Q3"
+  },
+  "q4": {
+    "id": 18,
+    "zh-CN": "第四季度",
+    "en-US": "Q4"
+  },
+  "lastYearUsedBudget": {
+    "id": 17,
+    "en-US": "Amount Used in Previous Years",
+    "zh-CN": "以前年度已使用金额"
+  },
+  "currentYearUsage": {
+    "id": 18,
+    "en-US": "Current Year Usage",
+    "zh-CN": "当年使用情况"
+  },
+}

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.jasolar.mis</groupId>
+        <artifactId>jasolar-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <packaging>pom</packaging>
+    <modules>
+        <module>jasolar-biz-api</module>
+        <module>jasolar-common</module>
+        <module>jasolar-spring-boot-starter-redis</module>
+        <module>jasolar-spring-boot-starter-web</module>
+        <module>jasolar-spring-boot-starter-security</module>
+        <module>jasolar-spring-boot-starter-websocket</module>
+        <module>jasolar-spring-boot-starter-monitor</module>
+        <module>jasolar-spring-boot-starter-protection</module>
+        <module>jasolar-spring-boot-starter-job</module>
+        <module>jasolar-spring-boot-starter-mq</module>
+        <module>jasolar-spring-boot-starter-rpc</module>
+        <module>jasolar-spring-boot-starter-excel</module>
+        <module>jasolar-spring-boot-starter-test</module>
+        <module>jasolar-spring-boot-starter-mybatis</module>
+        <module>jasolar-spring-boot-starter-biz-tenant</module>
+        <!-- <module>jasolar-spring-boot-starter-biz-data-permission</module> -->
+        <module>jasolar-spring-boot-starter-biz-ip</module>
+        <module>jasolar-spring-boot-starter-biz-ids</module>
+        <module>jasolar-spring-boot-starter-biz-bpm</module>
+        <module>jasolar-spring-boot-starter-i18n</module>
+        <module>jasolar-spring-boot-starter-env</module>
+        <module>jasolar-spring-boot-starter-gateway</module>
+        <module>jasolar-spring-boot-start-req-filter</module>
+    </modules>
+    <artifactId>jasolar-framework</artifactId>
+    <description>
+        该包是技术组件，每个子包，代表一个组件。每个组件包括两部分：
+        1. core 包：是该组件的核心封装
+        2. config 包：是该组件基于 Spring 的配置
+        技术组件，也分成两类：
+        1. 框架组件：和我们熟悉的 MyBatis、Redis 等等的拓展
+        2. 业务组件：和业务相关的组件的封装，例如说数据字典、操作日志等等。
+        如果是业务组件，Maven 名字会包含 biz
+    </description>
+</project>

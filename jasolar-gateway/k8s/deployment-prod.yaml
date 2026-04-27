@@ -1,0 +1,120 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jasolar-gateway
+  namespace: jasolar
+  labels:
+    app: jasolar-gateway
+spec:
+  replicas: 2  # run one pod per target node
+  selector:
+    matchLabels:
+      app: jasolar-gateway
+  template:
+    metadata:
+      annotations: {}
+      labels:
+        app: jasolar-gateway
+    spec:
+      serviceAccountName: jasolar-gateway-sa  # 使用自定义的 ServiceAccount
+      imagePullSecrets:  #添加这个配置
+        -  name:  harbor-secret
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - "master-01"
+                      - "worker-01"
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    app: jasolar-gateway
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          effect: NoSchedule
+        - key: node-role.kubernetes.io/control-plane
+          effect: NoSchedule
+      containers:
+        - name: jasolar-gateway
+          image: docker.jasolar.com/budget/jasolar-gateway:1.0.5
+          ports:
+            - containerPort: 8089
+          volumeMounts:
+            - name: config
+              mountPath: /config
+          env:
+            - name: SPRING_DATA_REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-prod-secret
+                  key: redis-password
+            # 超时配置
+            - name: GATEWAY_RESPONSE_TIMEOUT
+              value: "6m"
+            - name: RIBBON_READ_TIMEOUT
+              value: "360000"
+            - name: FEIGN_READ_TIMEOUT
+              value: "360000"
+            - name: SERVER_TOMCAT_CONNECTION_TIMEOUT
+              value: "380000"
+            - name: SERVER_TOMCAT_KEEP_ALIVE_TIMEOUT
+              value: "380000"
+            # 禁用 Micrometer CPU 采集，避免 cgroup v1 读取异常
+            - name: MANAGEMENT_METRICS_BINDERS_PROCESSOR_ENABLED
+              value: "false"
+            # 直接排除系统指标自动配置，彻底绕过 ProcessorMetrics
+            - name: SPRING_AUTOCONFIGURE_EXCLUDE
+              value: "org.springframework.boot.actuate.autoconfigure.metrics.SystemMetricsAutoConfiguration"
+            # JVM优化参数
+            - name: JAVA_OPTS
+              value: "-Xms512m -Xmx1024m -XX:+UseG1GC -Dspring.profiles.active=k8s -Djava.security.egd=file:/dev/./urandom"
+          args:
+            - --spring.config.additional-location=file:/config/
+          # 资源限制
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "200m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          # K8s 健康检查配置 - 使用 Spring Boot Actuator
+          # 启动探针：等待服务完全启动
+          startupProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8089
+            initialDelaySeconds: 60    # JVM+Spring 启动预热
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 60       # 最多等待 ~10 分钟启动
+          # 存活探针：检查服务是否还在运行
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8089
+            initialDelaySeconds: 180  # 3分钟后开始检查
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          # 就绪探针：检查服务是否准备好接收流量
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8089
+            initialDelaySeconds: 120  # 2分钟后开始检查
+            periodSeconds: 15
+            timeoutSeconds: 10
+            failureThreshold: 5
+      volumes:
+        - name: config
+          configMap:
+            name: gateway-config-prod

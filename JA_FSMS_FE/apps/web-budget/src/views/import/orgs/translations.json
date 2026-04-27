@@ -1,0 +1,38 @@
+{
+  "description": {
+    "zh-CN": "年末需要完成下一年度的配置导入。导入时会校验：① 不能父级组织和子级组织同时勾选 ② 同一个管理组织需保持勾选结果一致",
+    "en-US": "At the end of the year, the configuration import for the next year needs to be completed. During the import, the following checks will be performed: ① The parent organization and its subordinate organizations cannot be selected at the same time. ② The same management organization must have consistent selection results."
+  },
+  "list": {
+    "zh-CN": "组织列表",
+    "en-US": "Organization List"
+  },
+  "manageOrg": {
+    "zh-CN": "管理组织",
+    "en-US": "Management Organization"
+  },
+  "ehrOrg": {
+    "zh-CN": "EHR组织",
+    "en-US": "EHR Organization"
+  },
+  "controlLevel": {
+    "zh-CN": "控制层级",
+    "en-US": "Control hierarchy"
+  },
+  "bzLevel": {
+    "zh-CN": "编制层级",
+    "en-US": "Organizational Hierarchy"
+  },
+  "erpDepart": {
+    "zh-CN": "ERP部门",
+    "en-US": "ERP Department"
+  },
+  "title": {
+    "zh-CN": "组织配置",
+    "en-US": "Organizational Configuration"
+  },
+  "apiSync": {
+    "zh-CN": "接口数据更新",
+    "en-US": "Api Data Update"
+  }
+}

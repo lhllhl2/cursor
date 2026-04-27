@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.admin.project.SystemUserGroupProjectRMapper">
+
+
+    <select id="getRelationPage" resultType="com.jasolar.mis.module.system.resp.ProjectUserGroupResp">
+        select
+            p.project_code prjCd,
+            p.project_name prjNm,
+            g.name userGroupName
+        from system_user_group_project_r r
+        left join system_user_group g on g.id = r.user_group_id
+        left join system_project p on p.id = r.project_id
+        where r.deleted = 0
+    </select>
+
+    <insert id="insertBatchExsit">
+        INSERT ALL
+        <foreach collection="rs" item="r">
+            WHEN NOT EXISTS (
+                SELECT 1
+                FROM system_user_group_project_r t
+                WHERE t.user_group_id = #{r.userGroupId}
+                AND t.project_id = #{r.projectId}
+                AND t.deleted = 0
+            ) THEN
+            INTO system_user_group_project_r (
+                id, user_group_id, project_id, create_time, creator, update_time, updater, deleted
+                ) VALUES (
+                #{r.id}, #{r.userGroupId}, #{r.projectId}, #{r.createTime}, #{r.creator},
+                #{r.updateTime}, #{r.updater}, #{r.deleted}
+            )
+        </foreach>
+        SELECT 1 FROM DUAL
+
+
+    </insert>
+</mapper>
+

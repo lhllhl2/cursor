@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.admin.dict.SystemDictLabelMapper">
+
+    <select id="searchByDictIds"
+            resultType="com.jasolar.mis.module.system.controller.admin.dict.vo.DictLabelVo">
+        SELECT
+        id,
+        dict_id AS dictId,
+        field_key AS fieldKey,
+        field_label AS fieldLabel
+        FROM system_dict_label
+        WHERE dict_id IN
+        <foreach collection="dictIds" item="dictId" open="(" close=")" separator=",">
+            #{dictId, jdbcType=BIGINT}
+        </foreach>
+        AND deleted = 0
+    </select>
+
+
+</mapper>

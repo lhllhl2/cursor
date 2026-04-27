@@ -1,0 +1,122 @@
+{
+  "title": {
+    "id": 0,
+    "en-US": "Payment Situation",
+    "zh-CN": "付款情况"
+  },
+  "projectCode": {
+    "id": 1,
+    "en-US": "Project Code",
+    "zh-CN": "项目编号"
+  },
+  "projectName": {
+    "id": 2,
+    "en-US": "Project Name",
+    "zh-CN": "项目名称"
+  },
+  "ehrCode": {
+    "id": 3,
+    "en-US": "EHR Organization Code",
+    "zh-CN": "EHR组织编码"
+  },
+  "ehrName": {
+    "id": 4,
+    "en-US": "EHR Organization Name",
+    "zh-CN": "EHR组织名称"
+  },
+  "expenseSubjectCode": {
+    "id": 5,
+    "en-US": "Expense Subject Code",
+    "zh-CN": "费用科目编码"
+  },
+  "expenseSubjectName": {
+    "id": 6,
+    "en-US": "Expense Subject Name",
+    "zh-CN": "费用科目名称"
+  },
+  "assetTypeCode": {
+    "id": 7,
+    "en-US": "Asset Type Code",
+    "zh-CN": "资产类型编码"
+  },
+  "assetType": {
+    "id": 8,
+    "en-US": "Asset Type",
+    "zh-CN": "资产类型"
+  },
+  "isInternal": {
+    "id": 9,
+    "en-US": "Internal/External to Group",
+    "zh-CN": "集团内外"
+  },
+  "paymentAmount": {
+    "id": 10,
+    "en-US": "Payment Amount",
+    "zh-CN": "付款额"
+  },
+  "month1": {
+    "id": 11,
+    "en-US": "January",
+    "zh-CN": "1月"
+  },
+  "month2": {
+    "id": 12,
+    "en-US": "February",
+    "zh-CN": "2月"
+  },
+  "month3": {
+    "id": 13,
+    "en-US": "March",
+    "zh-CN": "3月"
+  },
+  "month4": {
+    "id": 14,
+    "en-US": "April",
+    "zh-CN": "4月"
+  },
+  "month5": {
+    "id": 15,
+    "en-US": "May",
+    "zh-CN": "5月"
+  },
+  "month6": {
+    "id": 16,
+    "en-US": "June",
+    "zh-CN": "6月"
+  },
+  "month7": {
+    "id": 17,
+    "en-US": "July",
+    "zh-CN": "7月"
+  },
+  "month8": {
+    "id": 18,
+    "en-US": "August",
+    "zh-CN": "8月"
+  },
+  "month9": {
+    "id": 19,
+    "en-US": "September",
+    "zh-CN": "9月"
+  },
+  "month10": {
+    "id": 20,
+    "en-US": "October",
+    "zh-CN": "10月"
+  },
+  "month11": {
+    "id": 21,
+    "en-US": "November",
+    "zh-CN": "11月"
+  },
+  "month12": {
+    "id": 22,
+    "en-US": "December",
+    "zh-CN": "12月"
+  },
+  "totalAmount": {
+    "id": 22,
+    "en-US": "Total Amount",
+    "zh-CN": "全年合计"
+  }
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.budget.BudgetLedgerSelfRForOperateMapper">
+
+    <resultMap id="BaseResultMap" type="com.jasolar.mis.module.system.domain.budget.BudgetLedgerSelfRForOperate">
+        <id column="id" property="id"/>
+        <result column="biz_type" property="bizType"/>
+        <result column="related_id" property="relatedId"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="updater" property="updater"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+
+    <select id="selectByIdsAndBizType" resultMap="BaseResultMap">
+        SELECT id, biz_type, related_id, creator, create_time, updater, update_time, deleted
+        FROM budget_ledger_self_r_for_operate
+        WHERE deleted = 0
+        <if test="bizType != null">
+            AND biz_type = #{bizType}
+        </if>
+        <if test="ids != null and ids.size() > 0">
+            AND id IN
+            <foreach collection="ids" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+    </select>
+</mapper>

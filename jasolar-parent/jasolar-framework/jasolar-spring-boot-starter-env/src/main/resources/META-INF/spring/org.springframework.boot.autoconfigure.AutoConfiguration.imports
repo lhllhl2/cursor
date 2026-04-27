@@ -1,0 +1,2 @@
+com.jasolar.mis.framework.env.config.JasolarEnvWebAutoConfiguration
+com.jasolar.mis.framework.env.config.JasolarEnvRpcAutoConfiguration

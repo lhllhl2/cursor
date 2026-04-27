@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.budget.BudgetBalanceMapper">
+
+    <update id="updateBatchById" parameterType="java.util.List">
+        <foreach collection="list" item="item" separator=";" open="BEGIN" close=";END;">
+            UPDATE budget_balance
+            SET pool_id = #{item.poolId},
+                quota_id = #{item.quotaId},
+                morg_code = #{item.morgCode},
+                project_code = #{item.projectCode},
+                custom_code = #{item.customCode},
+                account_subject_code = #{item.accountSubjectCode},
+                erp_asset_type = #{item.erpAssetType},
+                is_internal = #{item.isInternal},
+                year = #{item.year},
+                quarter = #{item.quarter},
+                currency = #{item.currency},
+                version = #{item.version},
+                amount_frozen = #{item.amountFrozen},
+                amount_frozen_vchanged = #{item.amountFrozenVchanged},
+                amount_occupied = #{item.amountOccupied},
+                amount_occupied_vchanged = #{item.amountOccupiedVchanged},
+                amount_actual = #{item.amountActual},
+                amount_actual_vchanged = #{item.amountActualVchanged},
+                amount_available = #{item.amountAvailable},
+                amount_available_vchanged = #{item.amountAvailableVchanged},
+                amount_pay_available = #{item.amountPayAvailable},
+                amount_pay_available_vchanged = #{item.amountPayAvailableVchanged},
+                updater = #{item.updater},
+                update_time = SYSTIMESTAMP,
+                deleted = #{item.deleted}
+            WHERE id = #{item.id}
+        </foreach>
+    </update>
+
+</mapper>
+

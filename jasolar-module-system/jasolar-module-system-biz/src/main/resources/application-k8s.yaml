@@ -1,0 +1,289 @@
+server:
+  # Gzip压缩配置 - 减少大数据传输时间（2MB压缩后约200-400KB）
+  compression:
+    enabled: true                       # 启用响应压缩
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain,application/javascript,text/css
+    min-response-size: 1024             # 最小压缩大小1KB
+
+spring:
+  # 文件上传配置
+  servlet:
+    multipart:
+      max-file-size: 50MB        # 单个文件最大大小，默认1MB，调整为50MB
+      max-request-size: 50MB     # 整个请求最大大小，默认10MB，调整为50MB
+      file-size-threshold: 2KB   # 文件写入磁盘的阈值，默认0
+      location: /tmp             # 临时文件存储位置
+      enabled: true              # 启用multipart支持
+      resolve-lazily: false     # 是否延迟解析multipart请求
+  
+  # Tomcat 线程池配置 - 优化支持300-500线程并发
+  tomcat:
+    threads:
+      max: 500          # 最大线程数，支持300-500线程并发压测
+      min-spare: 50     # 最小空闲线程数，减少线程创建开销
+    max-connections: 8192  # 最大连接数
+    accept-count: 1000  # 等待队列长度，增加到1000，避免连接被拒绝
+    connection-timeout: 20000  # 连接超时时间(毫秒)
+    # 性能优化配置
+    processor-cache: 200  # 处理器缓存，提高性能
+    max-keep-alive-requests: 100  # 每个连接最大请求数
+    keep-alive-timeout: 60000  # Keep-Alive超时时间
+    # Gzip压缩配置 - 大幅减少数据传输时间
+    compression: on                    # 启用压缩
+    compressible-mime-types: application/json,application/xml,text/html,text/xml,text/plain,application/javascript,text/css
+    compression-min-size: 1024          # 最小压缩大小1KB，小于此值不压缩
+  
+  # Cache 配置项
+  cache:
+    type: REDIS
+    redis:
+      time-to-live: 1h # 设置过期时间为 1 小时
+  
+  # Redis 配置
+  data:
+    redis:
+      repositories:
+        enabled: false # 项目未使用到 Spring Data Redis 的 Repository，所以直接禁用，保证启动速度
+      host: 172.28.49.18 # redis地址
+      port: 36379 # redis端口
+      database: 1 # redis索引
+      password: 123456 # redis密码
+  
+  # 数据源配置
+  datasource:
+    dynamic: # 多数据源配置
+      primary: master # 设置默认的数据源或者数据源组,默认值即为 master
+      strict: false # 严格匹配数据源,默认false. true未匹配到指定数据源时抛异常,false使用默认数据源
+      datasource:
+        master:
+          url: jdbc:oracle:thin:@172.28.48.80:1521/ptestnew
+          username: system
+          password: ${DB_PASSWORD:PLan_Te23_} # 建议通过环境变量配置密码
+          driver-class-name: oracle.jdbc.OracleDriver
+          # Oracle Schema配置，设置默认schema（连接建立后执行）
+          connection-init-sql: ALTER SESSION SET CURRENT_SCHEMA = ${DB_SCHEMA:jasolar_budget}
+          # Oracle特定配置 - 优化支持100线程并发
+          druid:
+            validation-query: SELECT 1 FROM DUAL
+            validation-query-timeout: 3000
+            max-active: 400          # 最大连接数，支持100线程并发（100线程 * 4倍）
+            min-idle: 20             # 最小空闲连接数，降低启动压力
+            initial-size: 10         # 初始连接数，降低启动时连接压力，避免连接失败
+            max-wait: 60000          # 最大等待时间60秒，增加连接获取超时时间
+            connect-timeout: 10000   # 连接超时10秒，避免长时间等待
+            socket-timeout: 30000    # Socket超时30秒
+            # 连接回收配置
+            time-between-eviction-runs-millis: 300000  # 5分钟检查一次
+            min-evictable-idle-time-millis: 900000     # 空闲连接15分钟后回收
+            max-evictable-idle-time-millis: 1800000    # 最大空闲时间30分钟
+            # 性能优化配置
+            test-on-borrow: true     # 获取连接时检测，确保连接有效（修复连接失败问题）
+            test-while-idle: true    # 空闲时检测连接有效性
+            test-on-return: false    # 归还连接时不检测，提高性能
+            # 连接失败重试配置
+            break-after-acquire-failure: true  # 连接失败后中断
+            connection-error-retry-attempts: 3  # 连接错误重试3次
+            not-full-timeout-retry-count: 3    # 连接池未满时重试3次
+            # PSCache配置
+            pool-prepared-statements: true  # 开启PSCache
+            max-pool-prepared-statement-per-connection-size: 100  # PSCache大小
+            # 连接池性能优化
+            remove-abandoned: true   # 自动回收超时连接
+            remove-abandoned-timeout: 1800  # 30分钟超时
+            log-abandoned: false     # 不记录废弃连接的日志
+            # 连接获取优化
+            phy-timeout-millis: 28800000  # 物理连接超时8小时
+        syn-ehr:
+          url: jdbc:oracle:thin:@172.28.48.80:1521/ptestnew
+          username: system
+          password: ${DB_PASSWORD:PLan_Te23_} # 建议通过环境变量配置密码
+          driver-class-name: oracle.jdbc.OracleDriver
+          # Oracle Schema配置，设置默认schema（连接建立后执行）
+          connection-init-sql: ALTER SESSION SET CURRENT_SCHEMA = ${DB_SCHEMA:jasolar_budget}
+          # Oracle特定配置 - 优化支持100线程并发
+          druid:
+            validation-query: SELECT 1 FROM DUAL
+            validation-query-timeout: 3000
+            max-active: 400          # 最大连接数，支持100线程并发（100线程 * 4倍）
+            min-idle: 20             # 最小空闲连接数，降低启动压力
+            initial-size: 10         # 初始连接数，降低启动时连接压力，避免连接失败
+            max-wait: 60000          # 最大等待时间60秒，增加连接获取超时时间
+            connect-timeout: 10000   # 连接超时10秒，避免长时间等待
+            socket-timeout: 30000    # Socket超时30秒
+            # 连接回收配置
+            time-between-eviction-runs-millis: 300000  # 5分钟检查一次
+            min-evictable-idle-time-millis: 900000     # 空闲连接15分钟后回收
+            max-evictable-idle-time-millis: 1800000    # 最大空闲时间30分钟
+            # 性能优化配置
+            test-on-borrow: true     # 获取连接时检测，确保连接有效（修复连接失败问题）
+            test-while-idle: true    # 空闲时检测连接有效性
+            test-on-return: false    # 归还连接时不检测，提高性能
+            # 连接失败重试配置
+            break-after-acquire-failure: true  # 连接失败后中断
+            connection-error-retry-attempts: 3  # 连接错误重试3次
+            not-full-timeout-retry-count: 3    # 连接池未满时重试3次
+            # PSCache配置
+            pool-prepared-statements: true  # 开启PSCache
+            max-pool-prepared-statement-per-connection-size: 100  # PSCache大小
+            # 连接池性能优化
+            remove-abandoned: true   # 自动回收超时连接
+            remove-abandoned-timeout: 1800  # 30分钟超时
+            log-abandoned: false     # 不记录废弃连接的日志
+            # 连接获取优化
+            phy-timeout-millis: 28800000  # 物理连接超时8小时
+  
+  flyway:
+    enabled: false
+  
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: true # 设置 LocalDateTime 的格式，使用时间戳
+      WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS: false # 设置不使用 nanoseconds 的格式。例如说 1611460870.401，而是直接 1611460870401
+      WRITE_DURATIONS_AS_TIMESTAMPS: true # 设置 Duration 的格式，使用时间戳
+      FAIL_ON_EMPTY_BEANS: false # 允许序列化无属性的 Bean
+    deserialization:
+      FAIL_ON_UNKNOWN_PROPERTIES: false
+
+
+idaas:
+  init: jasolar123
+  client-id: 4d7f8e36dda257f4596889b7055f2468ycDle3fZkLJ
+  app-id: testplugin_oauth226
+  client-secret: HRDhXYy7cFx5FcFMnZiYEoRrWDvxDrTIc6dNOe125D
+  sso:
+    authorizeUri: https://idaas.jasolar.com:9092/oauth/authorize
+    getTokenUri: https://idaas.jasolar.com:9092/oauth/token
+    getUserinfoUri: https://idaas.jasolar.com:9092/api/bff/v1.2/oauth2/userinfo
+    logoutUri: https://idaas.jasolar.com:9092/public/sp/slo/
+    ssoCallBackUri: http://172.28.49.18:30090/web-budget
+    tokenCallBackUri:
+    responseType: code
+    scope: read
+    grantType:
+    portalRedirectUri:
+# JWT配置
+jwt:
+  tokenKey: jasolar
+  subject: jasolar
+
+# Session配置
+jasolar-session:
+  type: Bearer
+  expire-period: 5
+
+# MyBatis配置 - 解决Oracle数据库null值处理问题
+mybatis:
+  configuration:
+    # 设置null值的JDBC类型为VARCHAR，解决Oracle的ORA-17004错误
+    jdbc-type-for-null: VARCHAR
+    # 启用驼峰命名转换
+    map-underscore-to-camel-case: true
+    # 启用延迟加载
+    lazy-loading-enabled: true
+    # 设置积极的延迟加载
+    aggressive-lazy-loading: false
+
+# MyBatis Plus配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl # 不输出SQL日志
+  global-config:
+    db-config:
+      # Oracle数据库使用INPUT模式
+      id-type: ASSIGN_ID
+      # 逻辑删除配置
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+    banner: false
+
+logging:
+  file:
+    name: /app/logs/system-service/system-service.log
+  level:
+    default: INFO
+    com.jasolar.mis: DEBUG
+    com.jasolar.mis.module.system: DEBUG
+    com.jasolar.mis.module.system.dal: DEBUG
+    org.apache.ibatis: WARN  # 改为WARN级别，只输出警告和错误，不输出SQL语句
+    org.springframework: INFO
+
+# Swagger配置
+springdoc:
+  api-docs:
+    enabled: true # 是否开启 Swagger 接文档的元数据
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true # 是否开启 Swagger 文档的官方 UI 界面
+    path: /swagger-ui
+  default-flat-param-object: true
+
+# 安全配置
+jasolar:
+  info:
+    base-package: com.jasolar.mis.module.system  # 确保包扫描正确
+  security:
+    permit-all-urls:
+      - /admin-api/**  # 允许 Feign 调用组织管理接口
+      - /client-api/**
+
+scheduler:
+  project-sync:
+    enabled: true
+    cron: 0 0 0 * * ?
+  subject-sync:
+    enabled: true
+    cron: 0 0 2 * * ?
+  organization-sync:
+    enabled: true
+    cron: 0 0 4 * * ?
+  manage-org-sync:
+    enabled: true
+    cron: 0 0 6 * * ?
+  auth-project-sync:
+    enabled: true
+    cron: 0 0 8 * * ?
+
+
+schemas:
+  dataIntegration: DATAINTEGRATION
+
+erp:
+  oracle:
+    url: ${ERP_ORACLE_URL:jdbc:oracle:thin:@172.28.8.182:1521/prod}
+    username: ${ERP_ORACLE_USERNAME:cuxread}
+    password: ${ERP_ORACLE_PASSWORD:1234qwer}
+    driver-class-name: oracle.jdbc.OracleDriver
+
+# 预算科目编码配置
+budget:
+  oa:
+    python-run-url: http://172.28.49.16:18080/run  # 测试环境 Python 服务地址
+  # 预算校验开关（测试环境：跳过预算校验，直接扣减/占预算）
+  validation:
+    mode: 1  # 0=跳过校验，非0=执行校验
+  subject-code:
+    # 科目编码前缀白名单列表
+    # 如果科目编码为这些前缀开头，将继续执行后续流程
+    # 如果科目编码不以这些前缀开头，将直接返回合并后的参数，不执行后续流程
+    # 配置格式：用逗号分隔多个前缀
+    whitelist-prefixes:
+      - "5101"
+      - "6601"
+      - "6602"
+      - "M5101"
+      - "M5201"
+      - "6401014"
+      - "64010199"
+      - "64010150"
+
+# Spring Boot Actuator 健康检查配置（用于 K8S / Nginx 探针访问 /actuator/health）
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true

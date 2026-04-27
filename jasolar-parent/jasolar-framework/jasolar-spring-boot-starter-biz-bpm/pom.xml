@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.jasolar.mis</groupId>
+		<artifactId>jasolar-framework</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>jasolar-spring-boot-starter-biz-bpm</artifactId>
+	<packaging>jar</packaging>
+	<name>${project.artifactId}</name>
+	<description>BPM 流程服务，提供工作流相关功能</description>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>com.jasolar.mis</groupId>
+			<artifactId>jasolar-biz-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.jasolar.mis</groupId>
+			<artifactId>jasolar-spring-boot-starter-mq</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.jasolar.mis</groupId>
+			<artifactId>jasolar-spring-boot-starter-mybatis</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.jasolar.mis</groupId>
+			<artifactId>jasolar-spring-boot-starter-web</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- Spring Boot Starter -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-autoconfigure</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- RabbitMQ -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+
+		<!-- 工具类 -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-all</artifactId>
+		</dependency>
+	</dependencies>
+
+</project>

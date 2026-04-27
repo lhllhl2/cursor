@@ -1,0 +1,211 @@
+package com.jasolar.mis.module.supplier.api.admin.dto;
+
+import com.jasolar.mis.framework.common.pojo.PageParam;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
+
+import static com.jasolar.mis.framework.common.util.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
+
+@Schema(description = "管理后台 - 供应商主分页 Request VO")
+@Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class SupplierPageReqDTO extends PageParam {
+
+    @Schema(description = "供应商门户系统登录账号")
+    private String supplierNo;
+
+    @Schema(description = "注册状态 1.草稿 2.注册中 3.已注册 4.已拒绝", example = "2")
+    private String regStatus;
+
+    @Schema(description = "供应商状态", example = "1")
+    private String status;
+
+    @Schema(description = "供应商类型")
+    private String supplierClass;
+
+    @Schema(description = "是否强势供应商")
+    private Short powerful;
+
+    @Schema(description = "供应商注册名称", example = "赵六")
+    private String supplierName;
+
+    @Schema(description = "供应商限制类型", example = "2")
+    private String restrictionType;
+
+    @Schema(description = "限制性供应商有效期")
+    private String restrictionValidity;
+
+    @Schema(description = "供应商类型", example = "1")
+    private String supplierType;
+
+    @Schema(description = "启用限制性费用代码 1启用 0不启用")
+    private Short enableRestrictedFeeCode;
+
+    @Schema(description = "供应商名称（中文）")
+    private String supplierNameCn;
+
+    @Schema(description = "供应商名称（英文）")
+    private String supplierNameEn;
+
+    @Schema(description = "供应商名称（非中英文）")
+    private String supplierNameOther;
+
+    @Schema(description = "税务登记证号码")
+    private String taxRegNumber;
+
+    @Schema(description = "注册人名")
+    private String registrant;
+
+    @Schema(description = "注册人名电话")
+    private String registrantPhone;
+
+    @Schema(description = "注册人名邮箱")
+    private String registrantEmail;
+
+    @Schema(description = "注册国家（区域）编码")
+    private String regCountryCode;
+
+    @Schema(description = "注册国家（区域）名称", example = "赵六")
+    private String regCountryName;
+
+    @Schema(description = "供应商子集团名称", example = "王五")
+    private String subGroupName;
+
+    @Schema(description = "子集团码")
+    private String subGroupCode;
+
+    @Schema(description = "注册类型", example = "2")
+    private String regType;
+
+    @Schema(description = "注册省/直辖市编码CODE")
+    private String regProvinceCode;
+
+    @Schema(description = "注册省/直辖市名称", example = "xshe")
+    private String regProvinceName;
+
+    @Schema(description = "缴纳社保人数", example = "20506")
+    private Integer socialSecurityCount;
+
+    @Schema(description = "注册城市")
+    private String regCity;
+
+    @Schema(description = "注册资本")
+    private Short registeredCapital;
+
+    @Schema(description = "注册资本单位")
+    private String registeredCapitalUnit;
+
+    @Schema(description = "关联企业名称", example = "xshe")
+    private String associatedEnterpriseName;
+
+    @Schema(description = "实缴资本")
+    private Short paidInCapital;
+
+    @Schema(description = "实缴资本单位")
+    private String paidInCapitalUnit;
+
+    @Schema(description = "经营范围")
+    private String businessScope;
+
+    @Schema(description = "主营产品")
+    private String mainProducts;
+
+    @Schema(description = "供应商注册地址")
+    private String supplierRegAddress;
+
+    @Schema(description = "供应商生产地址")
+    private String supplierProdAddress;
+
+    @Schema(description = "供应商网址")
+    private String supplierWebsite;
+
+
+    @Schema(description = "邀请人名字", example = "张三")
+    private String inviterName;
+
+    @Schema(description = "邀请人电话")
+    private String inviterPhone;
+
+    @Schema(description = "邀请人邮箱")
+    private String inviterEmail;
+
+    @Schema(description = "供应商注册编号")
+    private String supplierRegNo;
+
+    @Schema(description = "新增理由原因")
+    private String reasonForAddition;
+
+    @Schema(description = "新增理由详细说明")
+    private String detailedReasonForAddition;
+
+    @Schema(description = "评鉴")
+    private String evaluation;
+
+    @Schema(description = "评鉴等级")
+    private String evaluationLevel;
+
+    @Schema(description = "评鉴说明", example = "你说的对")
+    private String evaluationDescription;
+
+    @Schema(description = "厂区位置")
+    private String factoryLocation;
+
+    @Schema(description = "事业群编码")
+    private String businessGroupCode;
+
+    @Schema(description = "事业群名称", example = "张三")
+    private String businessGroupName;
+
+    @Schema(description = "事业处编码")
+    private String businessUnitCode;
+
+    @Schema(description = "事业处名称", example = "赵六")
+    private String businessUnitName;
+
+    @Schema(description = "课级单位")
+    private String departmentLevel;
+
+    @Schema(description = "经管人员")
+    private String mgtPerson;
+
+    @Schema(description = "经管人员分机")
+    private String mgtPersonExtension;
+
+    @Schema(description = "采购人员")
+    private String purchaser;
+
+    @Schema(description = "采购人员分机")
+    private String purchaserExtension;
+
+    @Schema(description = "核买形态")
+    private String checkMode;
+
+    @Schema(description = "采购保荐人")
+    private String sponsor;
+
+    @Schema(description = "采购保荐人电话")
+    private String sponsorPhone;
+
+    @Schema(description = "采购保荐人职务")
+    private String sponsorPosition;
+
+    @Schema(description = "采购保荐人邮箱")
+    private String sponsorEmail;
+
+    @Schema(description = "采购保荐人部门")
+    private String sponsorDepartment;
+
+    @Schema(description = "创建时间")
+    @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
+    private LocalDateTime[] createTime;
+
+    @Schema(description = "数据归属人员CODE")
+    private String userNo;
+
+}

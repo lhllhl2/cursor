@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ja-fsms-fe-config
+  namespace: jasolar
+data:
+  # 前端环境配置
+  VITE_GLOB_API_URL: 'https://budgetcontrol.jasolar.com' # 通过nginx访问后端API
+  VITE_APP_TITLE: 'JA-FSMS'
+  # VITE_BASE 必须与外部 Nginx 的 location 路径一致
+  # 如果外部 Nginx 配置的是 location /，则设置为 '/'
+  # 如果外部 Nginx 配置的是 location /web，则设置为 '/web'
+  VITE_BASE: '/'  # 外部 Nginx 配置为 location /，所以设置为 '/'
+  NODE_ENV: 'production'  # 生产环境

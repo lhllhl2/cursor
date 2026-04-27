@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.ehr.SubjectInfoMapper">
+
+
+    <select id="getExceptData" resultType="com.jasolar.mis.module.system.resp.SubjectExceptResp">
+
+        (
+        SELECT CUST1_CD,CUST1_NM,acct_cd,acct_nm,par_acct_cd parAcctCd,par_acct_nm parAcctNm, is_leaf as leaf,'1' as to_add  FROM ${dataIntegration}.VIEW_HSP_FEE_ACCOUNT
+        MINUS
+        SELECT CUST1_CD,CUST1_NM,acct_cd,acct_nm,acct_par_cd parAcctCd,acct_par_nm parAcctNm,leaf,'1' as to_add FROM subject_info where year = #{year}
+        )
+        union
+        (
+        SELECT CUST1_CD,CUST1_NM,acct_cd,acct_nm,acct_par_cd parAcctCd,acct_par_nm parAcctNm,leaf,'2' as to_add  FROM subject_info where year = #{year}
+        MINUS
+        SELECT CUST1_CD,CUST1_NM,acct_cd,acct_nm,par_acct_cd parAcctCd,par_acct_nm parAcctNm,is_leaf as leaf,'2' as to_add  FROM ${dataIntegration}.VIEW_HSP_FEE_ACCOUNT
+        )
+
+    </select>
+    
+
+    <delete id="deleteByComFields" parameterType="java.util.List">
+        DELETE FROM subject_info WHERE
+        <foreach collection="list" item="item" separator="OR">
+            (cust1_cd = #{item.cust1Cd} AND acct_cd = #{item.acctCd} AND acct_nm = #{item.acctNm} AND acct_par_cd = #{item.parAcctCd} AND leaf = #{item.leaf})
+        </foreach>
+    </delete>
+
+    <select id="selectByCust1CdAndAcctCdList" resultType="com.jasolar.mis.module.system.domain.ehr.SubjectInfo">
+        SELECT * FROM subject_info WHERE
+        <foreach collection="list" item="item" separator="OR">
+            (cust1_cd = #{item.cust1Cd} AND acct_cd = #{item.acctCd} AND control_level = '1' AND deleted = 0)
+        </foreach>
+    </select>
+
+    <select id="selectByCust1CdAndAcctCdListWithoutControlLevel" resultType="com.jasolar.mis.module.system.domain.ehr.SubjectInfo">
+        SELECT * FROM subject_info WHERE
+        <foreach collection="list" item="item" separator="OR">
+            (cust1_cd = #{item.cust1Cd} AND acct_cd = #{item.acctCd} AND deleted = 0)
+        </foreach>
+    </select>
+
+    <update id="updateWithNullFields">
+        update subject_info
+        <set>
+                acct_cd = #{subjectInfo.acctCd},
+                acct_nm = #{subjectInfo.acctNm},
+                cust1_cd = #{subjectInfo.cust1Cd},
+                cust1_nm = #{subjectInfo.cust1Nm},
+                acct_par_cd = #{subjectInfo.acctParCd},
+                acct_par_nm = #{subjectInfo.acctParNm},
+                control_level = #{subjectInfo.controlLevel},
+                erp_acct_cd = #{subjectInfo.erpAcctCd},
+                erp_acct_nm = #{subjectInfo.erpAcctNm},
+                leaf = #{subjectInfo.leaf},
+                year = #{subjectInfo.year}
+        </set>
+        where id = #{subjectInfo.id}
+
+    </update>
+
+    <update id="batchUpdateControlLevelById" >
+
+        update subject_info set control_level = #{controlLevel} where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+
+    </update>
+
+    <select id="selectDistinctErpAcctCdsNotBlank" resultType="java.lang.String">
+        SELECT DISTINCT erp_acct_cd
+        FROM subject_info
+        WHERE deleted = 0
+          AND erp_acct_cd IS NOT NULL
+          AND TRIM(erp_acct_cd) IS NOT NULL
+    </select>
+</mapper>

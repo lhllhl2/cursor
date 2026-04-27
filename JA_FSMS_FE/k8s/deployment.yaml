@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ja-fsms-fe
+  namespace: jasolar
+  labels:
+    app: ja-fsms-fe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ja-fsms-fe
+  template:
+    metadata:
+      labels:
+        app: ja-fsms-fe
+    spec:
+      imagePullSecrets:
+        - name: harbor-secret
+      containers:
+        - name: ja-fsms-fe
+          image: docker.jasolar.com/budget/ja-fsms-fe:1.0.0
+          ports:
+            - containerPort: 4173
+          resources:
+            requests:
+              memory: '512Mi'
+              cpu: '200m'
+            limits:
+              memory: '1Gi'
+              cpu: '500m'
+          # 暂时注释掉健康检查，测试应用是否能正常启动
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: 4173
+          #   initialDelaySeconds: 300
+          #   periodSeconds: 120
+          #   timeoutSeconds: 30
+          #   failureThreshold: 10
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: 4173
+          #   initialDelaySeconds: 240
+          #   periodSeconds: 90
+          #   timeoutSeconds: 25
+          #   failureThreshold: 15
+          env:
+            - name: NODE_ENV
+              value: 'development'
+            - name: PORT
+              value: '4173'
+            - name: VITE_GLOB_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: ja-fsms-fe-config
+                  key: VITE_GLOB_API_URL
+            - name: VITE_APP_TITLE
+              valueFrom:
+                configMapKeyRef:
+                  name: ja-fsms-fe-config
+                  key: VITE_APP_TITLE
+            - name: VITE_BASE
+              valueFrom:
+                configMapKeyRef:
+                  name: ja-fsms-fe-config
+                  key: VITE_BASE

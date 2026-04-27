@@ -1,0 +1,169 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jasolar-system-prod
+  namespace: jasolar
+  labels:
+    app: jasolar-system-prod
+    version: v1.0.0
+    env: production
+spec:
+  replicas: 2  # 双活部署
+  selector:
+    matchLabels:
+      app: jasolar-system-prod
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0  # 保证至少有一个实例运行
+  template:
+    metadata:
+      labels:
+        app: jasolar-system-prod
+        version: v1.0.0
+        env: production
+    spec:
+      imagePullSecrets:
+        - name: harbor-secret
+      
+      # 节点亲和性配置 - 确保Pod分别部署在两个指定节点上
+      affinity:
+        podAntiAffinity:
+          # 强制要求两个Pod不在同一个节点上
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - jasolar-system-prod
+            topologyKey: kubernetes.io/hostname
+        nodeAffinity:
+          # 要求Pod只能调度到指定的两个节点上
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - "master-01"  # master节点
+                - "worker-01"  # worker节点
+      
+      # 容忍度配置 - 允许调度到有 master 污点的节点
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+      
+      containers:
+      - name: jasolar-system
+        image: docker.jasolar.com/budget/jasolar-system:1.0.406
+        imagePullPolicy: Always  # 生产环境总是拉取最新镜像
+        ports:
+        - containerPort: 8081
+          name: http
+          protocol: TCP
+        
+        env:
+        # 应用配置 - 生产环境
+        - name: SERVER_PORT
+          value: "8081"
+        # 使用生产环境主配置文件 application-prod.yaml
+        - name: ENV_CONFIG
+          value: "k8sprod"
+        - name: SPRING_PROFILES_ACTIVE
+          value: "k8sprod"
+        - name: SPRING_CONFIG_LOCATION
+          value: "classpath:/application-prod.yaml"
+        - name: LOG_FILE
+          value: "/app/logs/system-service/system-service.log"
+        # 禁用 Micrometer CPU 采集，避免 cgroup v1 读取异常（与 gateway 配置保持一致）
+        - name: MANAGEMENT_METRICS_BINDERS_PROCESSOR_ENABLED
+          value: "false"
+        # 排除系统指标自动配置，彻底绕过 ProcessorMetrics
+        - name: SPRING_AUTOCONFIGURE_EXCLUDE
+          value: "org.springframework.boot.actuate.autoconfigure.metrics.SystemMetricsAutoConfiguration"
+        # JVM 启动参数：关闭容器 cgroup 自动探测，避免 JDK 在读取 cgroup 指标时触发 NPE，
+        # 从而彻底消除 DruidDriver 注册 MBean 时的 InternalError/WARN 堆栈
+        - name: JAVA_TOOL_OPTIONS
+          value: "-XX:-UseContainerSupport"
+        
+        # 超时配置
+        - name: SPRING_MVC_ASYNC_REQUEST_TIMEOUT
+          value: "1200000"
+        - name: SERVER_TOMCAT_CONNECTION_TIMEOUT
+          value: "20000"
+        
+        # 功能开关
+        - name: SWAGGER_ENABLED
+          value: "true"
+        
+        # 敏感信息从 Secret 读取 - 生产环境
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: oracle-prod-secret
+              key: ORACLE_PASSWORD
+        - name: DB_SCHEMA
+          value: "JASOLAR_BUDGET"
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: redis-prod-secret
+              key: redis-password
+        
+        # 挂载配置文件
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/resources
+        - name: logs-volume
+          mountPath: /app/logs
+        
+        # 资源限制 - 生产环境适当提高
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "500m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+        
+        # 健康检查
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8081
+          initialDelaySeconds: 120
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8081
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        
+        # 生命周期钩子
+        lifecycle:
+          preStop:
+            exec:
+              command: ["sh", "-c", "sleep 15"]
+      
+      volumes:
+      - name: config-volume
+        configMap:
+          name: jasolar-system-config-prod
+      - name: logs-volume
+        emptyDir: {}
+      
+      # 重启策略
+      restartPolicy: Always
+

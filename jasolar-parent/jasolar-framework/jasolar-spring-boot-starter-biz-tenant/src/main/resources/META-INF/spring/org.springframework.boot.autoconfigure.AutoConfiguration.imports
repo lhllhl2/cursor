@@ -1,0 +1,2 @@
+com.jasolar.mis.framework.tenant.config.JasolarTenantRpcAutoConfiguration
+com.jasolar.mis.framework.tenant.config.JasolarTenantAutoConfiguration

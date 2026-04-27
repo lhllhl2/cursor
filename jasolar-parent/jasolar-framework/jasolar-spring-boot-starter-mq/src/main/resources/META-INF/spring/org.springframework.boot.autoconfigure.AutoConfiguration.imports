@@ -1,0 +1,5 @@
+com.jasolar.mis.framework.mq.redis.config.JasolarRedisMQProducerAutoConfiguration
+com.jasolar.mis.framework.mq.redis.config.JasolarRedisMQConsumerAutoConfiguration
+com.jasolar.mis.framework.mq.rabbitmq.config.JasolarRabbitMQAutoConfiguration
+com.jasolar.mis.framework.mq.delay.config.DelayAutoConfiguration
+com.jasolar.mis.framework.mq.rabbitmq.config.DeadLetterQueueAutoConfig

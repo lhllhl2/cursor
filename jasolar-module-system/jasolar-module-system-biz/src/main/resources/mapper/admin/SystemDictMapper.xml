@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jasolar.mis.module.system.mapper.admin.dict.SystemDictMapper">
+
+    <select id="selectPageBy" resultType="com.jasolar.mis.module.system.controller.admin.dict.vo.DictEditVo">
+        select
+            d.id,
+            d.code,
+            d.title
+        from system_dict d
+        <where>
+            d.deleted = 0
+            <if test="search.code != null and search.title != '' ">
+                and d.code like '%' || #{search.code} || '%' ESCAPE '/'
+            </if>
+            <if test="search.title != null and search.title != '' ">
+                and d.title '%' || #{search.title} || '%' ESCAPE '/'
+            </if>
+        </where>
+        order by d.create_time desc
+    </select>
+
+    <select id="selectDictSimpleInfoByCode"
+            resultType="com.jasolar.mis.module.system.controller.admin.dict.vo.DictEditVo">
+
+        select
+            d.id,
+            d.code,
+            d.title
+        from system_dict d
+        <where>
+            d.deleted = 0
+            and d.code in
+            <foreach collection="codes" item="code" open="(" close=")" separator=",">
+                #{code, jdbcType=VARCHAR}
+            </foreach>
+
+
+
+        </where>
+
+
+
+    </select>
+
+</mapper>

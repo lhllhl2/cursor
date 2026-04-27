@@ -1,0 +1,221 @@
+package com.jasolar.mis.module.system.enums;
+
+import com.jasolar.mis.framework.common.exception.ErrorCode;
+
+/**
+ * System 错误码枚举类
+ * <p>
+ * system 系统，使用 1-002-000-000 段
+ */
+public interface ErrorCodeConstants {
+    // 添加默认方法或抽象方法，以符合 Checkstyle 规则
+    default String getModule() {
+        return "System";
+    }
+
+    // ========== AUTH 模块 1-002-000-000 ==========
+    ErrorCode AUTH_LOGIN_BAD_CREDENTIALS = new ErrorCode("err.system.auth.login.bad_credentials", "登录失败，账号密码不正确");
+    ErrorCode AUTH_LOGIN_USER_DISABLED = new ErrorCode("err.system.auth.login.user_disabled", "登录失败，账号被禁用");
+    ErrorCode AUTH_LOGIN_CAPTCHA_CODE_ERROR = new ErrorCode("err.system.auth.login.captcha_code_error", "验证码不正确，原因：{}");
+    ErrorCode AUTH_THIRD_LOGIN_NOT_BIND = new ErrorCode("err.system.auth.third_login.not_bind", "未绑定账号，需要进行绑定");
+    ErrorCode AUTH_MOBILE_NOT_EXISTS = new ErrorCode("err.system.auth.mobile_not_exists", "手机号不存在");
+    ErrorCode AUTH_REGISTER_CAPTCHA_CODE_ERROR = new ErrorCode("err.system.auth.register.captcha_code_error", "验证码不正确，原因：{}");
+    ErrorCode AUTH_USER_DEPT_NOT_EXISTS = new ErrorCode("err.system.auth.user_dept_not_exists", "用户部门不存在，请联系管理员!");
+    // ========== 菜单模块 1-002-001-000 ==========
+    ErrorCode MENU_NAME_DUPLICATE = new ErrorCode("err.system.menu.name_duplicate", "已经存在该名字的菜单");
+    ErrorCode MENU_PARENT_NOT_EXISTS = new ErrorCode("err.system.menu.parent_not_exists", "父菜单不存在");
+    ErrorCode MENU_PARENT_ERROR = new ErrorCode("err.system.menu.parent_error", "不能设置自己为父菜单");
+    ErrorCode MENU_NOT_EXISTS = new ErrorCode("err.system.menu.not_exists", "菜单不存在");
+    ErrorCode MENU_EXISTS_CHILDREN = new ErrorCode("err.system.menu.exists_children", "存在子菜单，无法删除");
+    ErrorCode MENU_PARENT_NOT_DIR_OR_MENU = new ErrorCode("err.system.menu.parent_not_dir_or_menu", "父菜单的类型必须是目录或者菜单");
+
+    // ========== 角色模块 1-002-002-000 ==========
+    ErrorCode ROLE_NOT_EXISTS = new ErrorCode("err.system.role.not_exists", "角色不存在");
+    ErrorCode ROLE_NAME_DUPLICATE = new ErrorCode("err.system.role.name_duplicate", "已经存在名为【{}】的角色");
+    ErrorCode ROLE_CODE_DUPLICATE = new ErrorCode("err.system.role.code_duplicate", "已经存在标识为【{}】的角色");
+    ErrorCode ROLE_CAN_NOT_UPDATE_SYSTEM_TYPE_ROLE = new ErrorCode("err.system.role.can_not_update_system_type_role", "不能操作类型为系统内置的角色");
+    ErrorCode ROLE_IS_DISABLE = new ErrorCode("err.system.role.is_disable", "名字为【{}】的角色已被禁用");
+    ErrorCode ROLE_ADMIN_CODE_ERROR = new ErrorCode("err.system.role.admin_code_error", "标识【{}】不能使用");
+
+    // ========== 用户模块 1-002-003-000 ==========
+    ErrorCode USER_USERNAME_EXISTS = new ErrorCode("err.system.user.username_exists", "用户账号已经存在");
+    ErrorCode USER_MOBILE_EXISTS = new ErrorCode("err.system.user.mobile_exists", "手机号已经存在");
+    ErrorCode USER_EMAIL_EXISTS = new ErrorCode("err.system.user.email_exists", "邮箱已经存在");
+    ErrorCode USER_NOT_EXISTS = new ErrorCode("err.system.user.not_exists", "用户不存在");
+    ErrorCode USER_IMPORT_LIST_IS_EMPTY = new ErrorCode("err.system.user.import_list_is_empty", "导入用户数据不能为空！");
+    ErrorCode USER_PASSWORD_FAILED = new ErrorCode("err.system.user.password_failed", "用户密码校验失败");
+    ErrorCode USER_IS_DISABLE = new ErrorCode("err.system.user.is_disable", "名字为【{}】的用户已被禁用");
+    ErrorCode USER_COUNT_MAX = new ErrorCode("err.system.user.count_max", "创建用户失败，原因：超过租户最大租户配额({})！");
+    ErrorCode USER_IMPORT_INIT_PASSWORD = new ErrorCode("err.system.user.import_init_password", "初始密码不能为空");
+
+    // ========== 部门模块 1-002-004-000 ==========
+    ErrorCode DEPT_NAME_DUPLICATE = new ErrorCode("err.system.dept.name_duplicate", "已经存在该名字的部门");
+    ErrorCode DEPT_PARENT_NOT_EXITS = new ErrorCode("err.system.dept.parent_not_exits", "父级部门不存在");
+    ErrorCode DEPT_NOT_FOUND = new ErrorCode("err.system.dept.not_found", "当前部门不存在");
+    ErrorCode DEPT_EXITS_CHILDREN = new ErrorCode("err.system.dept.exits_children", "存在子部门，无法删除");
+    ErrorCode DEPT_PARENT_ERROR = new ErrorCode("err.system.dept.parent_error", "不能设置自己为父部门");
+    ErrorCode DEPT_NOT_ENABLE = new ErrorCode("err.system.dept.not_enable", "部门({})不处于开启状态，不允许选择");
+    ErrorCode DEPT_PARENT_IS_CHILD = new ErrorCode("err.system.dept.parent_is_child", "不能设置自己的子部门为父部门");
+    ErrorCode DEPT_CODE_DUPLICATE = new ErrorCode("err.system.dept.code_duplicate", "已经存在该编码的部门");
+
+    // ========== 岗位模块 1-002-005-000 ==========
+    ErrorCode POST_NOT_FOUND = new ErrorCode("err.system.post.not_found", "当前岗位不存在");
+    ErrorCode POST_NOT_ENABLE = new ErrorCode("err.system.post.not_enable", "岗位({}) 不处于开启状态，不允许选择");
+    ErrorCode POST_NAME_DUPLICATE = new ErrorCode("err.system.post.name_duplicate", "已经存在该名字的岗位");
+    ErrorCode POST_CODE_DUPLICATE = new ErrorCode("err.system.post.code_duplicate", "已经存在该标识的岗位");
+
+    // ========== 字典类型 1-002-006-000 ==========
+    ErrorCode DICT_TYPE_NOT_EXISTS = new ErrorCode("err.system.dict_type.not_exists", "当前字典类型不存在");
+    ErrorCode DICT_TYPE_NOT_ENABLE = new ErrorCode("err.system.dict_type.not_enable", "字典类型不处于开启状态，不允许选择");
+    ErrorCode DICT_TYPE_NAME_DUPLICATE = new ErrorCode("err.system.dict_type.name_duplicate", "已经存在该名字的字典类型");
+    ErrorCode DICT_TYPE_TYPE_DUPLICATE = new ErrorCode("err.system.dict_type.type_duplicate", "已经存在该类型的字典类型");
+    ErrorCode DICT_TYPE_HAS_CHILDREN = new ErrorCode("err.system.dict_type.has_children", "无法删除，该字典类型还有字典数据");
+
+    // ========== 字典数据 1-002-007-000 ==========
+    ErrorCode DICT_DATA_NOT_EXISTS = new ErrorCode("err.system.dict_data.not_exists", "当前字典数据不存在");
+    ErrorCode DICT_DATA_NOT_ENABLE = new ErrorCode("err.system.dict_data.not_enable", "字典数据({})不处于开启状态，不允许选择");
+    ErrorCode DICT_DATA_VALUE_DUPLICATE = new ErrorCode("err.system.dict_data.value_duplicate", "已经存在该值的字典数据");
+
+    // ========== 通知公告 1-002-008-000 ==========
+    ErrorCode NOTICE_NOT_FOUND = new ErrorCode("err.system.notice.not_found", "当前通知公告不存在");
+
+    // ========== 短信渠道 1-002-011-000 ==========
+    ErrorCode SMS_CHANNEL_NOT_EXISTS = new ErrorCode("err.system.sms_channel.not_exists", "短信渠道不存在");
+    ErrorCode SMS_CHANNEL_DISABLE = new ErrorCode("err.system.sms_channel.disable", "短信渠道不处于开启状态，不允许选择");
+    ErrorCode SMS_CHANNEL_HAS_CHILDREN = new ErrorCode("err.system.sms_channel.has_children", "无法删除，该短信渠道还有短信模板");
+
+    // ========== 短信模板 1-002-012-000 ==========
+    ErrorCode SMS_TEMPLATE_NOT_EXISTS = new ErrorCode("err.system.sms_template.not_exists", "短信模板不存在");
+    ErrorCode SMS_TEMPLATE_CODE_DUPLICATE = new ErrorCode("err.system.sms_template.code_duplicate", "已经存在编码为【{}】的短信模板");
+    ErrorCode SMS_TEMPLATE_API_ERROR = new ErrorCode("err.system.sms_template.api_error", "短信 API 模板调用失败，原因是：{}");
+    ErrorCode SMS_TEMPLATE_API_AUDIT_CHECKING = new ErrorCode("err.system.sms_template.api_audit_checking", "短信 API 模版无法使用，原因：审批中");
+    ErrorCode SMS_TEMPLATE_API_AUDIT_FAIL = new ErrorCode("err.system.sms_template.api_audit_fail", "短信 API 模版无法使用，原因：审批不通过，{}");
+    ErrorCode SMS_TEMPLATE_API_NOT_FOUND = new ErrorCode("err.system.sms_template.api_not_found", "短信 API 模版无法使用，原因：模版不存在");
+
+    // ========== 短信发送 1-002-013-000 ==========
+    ErrorCode SMS_SEND_MOBILE_NOT_EXISTS = new ErrorCode("err.system.sms_send.mobile_not_exists", "手机号不存在");
+    ErrorCode SMS_SEND_MOBILE_TEMPLATE_PARAM_MISS = new ErrorCode("err.system.sms_send.mobile_template_param_miss", "模板参数({})缺失");
+    ErrorCode SMS_SEND_TEMPLATE_NOT_EXISTS = new ErrorCode("err.system.sms_send.template_not_exists", "短信模板不存在");
+
+    // ========== 短信验证码 1-002-014-000 ==========
+    ErrorCode SMS_CODE_NOT_FOUND = new ErrorCode("err.system.sms_code.not_found", "验证码不存在");
+    ErrorCode SMS_CODE_EXPIRED = new ErrorCode("err.system.sms_code.expired", "验证码已过期");
+    ErrorCode SMS_CODE_USED = new ErrorCode("err.system.sms_code.used", "验证码已使用");
+    ErrorCode SMS_CODE_EXCEED_SEND_MAXIMUM_QUANTITY_PER_DAY = new ErrorCode("err.system.sms_code.exceed_send_maximum_quantity_per_day", "超过每日短信发送数量");
+    ErrorCode SMS_CODE_SEND_TOO_FAST = new ErrorCode("err.system.sms_code.send_too_fast", "短信发送过于频繁");
+
+    // ========== 租户信息 1-002-015-000 ==========
+    ErrorCode TENANT_NOT_EXISTS = new ErrorCode("err.system.tenant.not_exists", "租户不存在");
+    ErrorCode TENANT_DISABLE = new ErrorCode("err.system.tenant.disable", "名字为【{}】的租户已被禁用");
+    ErrorCode TENANT_EXPIRE = new ErrorCode("err.system.tenant.expire", "名字为【{}】的租户已过期");
+    ErrorCode TENANT_CAN_NOT_UPDATE_SYSTEM = new ErrorCode("err.system.tenant.can_not_update_system", "系统租户不能进行修改、删除等操作！");
+    ErrorCode TENANT_NAME_DUPLICATE = new ErrorCode("err.system.tenant.name_duplicate", "名字为【{}】的租户已存在");
+    ErrorCode TENANT_WEBSITE_DUPLICATE = new ErrorCode("err.system.tenant.website_duplicate", "域名为【{}】的租户已存在");
+
+    // ========== 租户套餐 1-002-016-000 ==========
+    ErrorCode TENANT_PACKAGE_NOT_EXISTS = new ErrorCode("err.system.tenant_package.not_exists", "租户套餐不存在");
+    ErrorCode TENANT_PACKAGE_USED = new ErrorCode("err.system.tenant_package.used", "租户正在使用该套餐，请给租户重新设置套餐后再尝试删除");
+    ErrorCode TENANT_PACKAGE_DISABLE = new ErrorCode("err.system.tenant_package.disable", "名字为【{}】的租户套餐已被禁用");
+    ErrorCode TENANT_PACKAGE_NAME_DUPLICATE = new ErrorCode("err.system.tenant_package.name_duplicate", "已经存在该名字的租户套餐");
+
+    // ========== 社交用户 1-002-018-000 ==========
+    ErrorCode SOCIAL_USER_AUTH_FAILURE = new ErrorCode("err.system.social_user.auth_failure", "社交授权失败，原因是：{}");
+    ErrorCode SOCIAL_USER_NOT_FOUND = new ErrorCode("err.system.social_user.not_found", "社交授权失败，找不到对应的用户");
+
+    ErrorCode SOCIAL_CLIENT_WEIXIN_MINI_APP_PHONE_CODE_ERROR = new ErrorCode("err.system.social_client.weixin_mini_app.phone_code_error", "获得手机号失败");
+    ErrorCode SOCIAL_CLIENT_WEIXIN_MINI_APP_QRCODE_ERROR = new ErrorCode("err.system.social_client.weixin_mini_app.qrcode_error", "获得小程序码失败");
+    ErrorCode SOCIAL_CLIENT_WEIXIN_MINI_APP_SUBSCRIBE_TEMPLATE_ERROR = new ErrorCode("err.system.social_client.weixin_mini_app.subscribe_template_error", "获得小程序订阅消息模版失败");
+    ErrorCode SOCIAL_CLIENT_WEIXIN_MINI_APP_SUBSCRIBE_MESSAGE_ERROR = new ErrorCode("err.system.social_client.weixin_mini_app.subscribe_message_error", "发送小程序订阅消息失败");
+    ErrorCode SOCIAL_CLIENT_NOT_EXISTS = new ErrorCode("err.system.social_client.not_exists", "社交客户端不存在");
+    ErrorCode SOCIAL_CLIENT_UNIQUE = new ErrorCode("err.system.social_client.unique", "社交客户端已存在配置");
+
+    // ========== OAuth2 客户端 1-002-020-000 =========
+    ErrorCode OAUTH2_CLIENT_NOT_EXISTS = new ErrorCode("err.system.oauth2.client.not_exists", "OAuth2 客户端不存在");
+    ErrorCode OAUTH2_CLIENT_EXISTS = new ErrorCode("err.system.oauth2.client.exists", "OAuth2 客户端编号已存在");
+    ErrorCode OAUTH2_CLIENT_DISABLE = new ErrorCode("err.system.oauth2.client.disable", "OAuth2 客户端已禁用");
+    ErrorCode OAUTH2_CLIENT_AUTHORIZED_GRANT_TYPE_NOT_EXISTS = new ErrorCode("err.system.oauth2.client.authorized_grant_type_not_exists", "不支持该授权类型");
+    ErrorCode OAUTH2_CLIENT_SCOPE_OVER = new ErrorCode("err.system.oauth2.client.scope_over", "授权范围过大");
+    ErrorCode OAUTH2_CLIENT_REDIRECT_URI_NOT_MATCH = new ErrorCode("err.system.oauth2.client.redirect_uri_not_match", "无效 redirect_uri: {}");
+    ErrorCode OAUTH2_CLIENT_CLIENT_SECRET_ERROR = new ErrorCode("err.system.oauth2.client.client_secret_error", "无效 client_secret: {}");
+
+    // ========== OAuth2 授权 1-002-021-000 =========
+    ErrorCode OAUTH2_GRANT_CLIENT_ID_MISMATCH = new ErrorCode("err.system.oauth2.grant.client_id_mismatch", "client_id 不匹配");
+    ErrorCode OAUTH2_GRANT_REDIRECT_URI_MISMATCH = new ErrorCode("err.system.oauth2.grant.redirect_uri_mismatch", "redirect_uri 不匹配");
+    ErrorCode OAUTH2_GRANT_STATE_MISMATCH = new ErrorCode("err.system.oauth2.grant.state_mismatch", "state 不匹配");
+
+    // ========== OAuth2 授权 1-002-022-000 =========
+    ErrorCode OAUTH2_CODE_NOT_EXISTS = new ErrorCode("err.system.oauth2.code.not_exists", "code 不存在");
+    ErrorCode OAUTH2_CODE_EXPIRE = new ErrorCode("err.system.oauth2.code.expire", "code 已过期");
+
+    // ========== 邮箱账号 1-002-023-000 ==========
+    ErrorCode MAIL_ACCOUNT_NOT_EXISTS = new ErrorCode("err.system.mail_account.not_exists", "邮箱账号不存在");
+    ErrorCode MAIL_ACCOUNT_RELATE_TEMPLATE_EXISTS = new ErrorCode("err.system.mail_account.relate_template_exists", "无法删除，该邮箱账号还有邮件模板");
+
+    // ========== 邮件模版 1-002-024-000 ==========
+    ErrorCode MAIL_TEMPLATE_NOT_EXISTS = new ErrorCode("err.system.mail_template.not_exists", "邮件模版不存在");
+    ErrorCode MAIL_TEMPLATE_CODE_EXISTS = new ErrorCode("err.system.mail_template.code_exists", "邮件模版 code({}) 已存在");
+
+    // ========== 邮件发送 1-002-025-000 ==========
+    ErrorCode MAIL_SEND_TEMPLATE_PARAM_MISS = new ErrorCode("err.system.mail_send.template_param_miss", "模板参数({})缺失");
+    ErrorCode MAIL_SEND_MAIL_NOT_EXISTS = new ErrorCode("err.system.mail_send.mail_not_exists", "邮箱不存在");
+
+    // ========== 站内信模版 1-002-026-000 ==========
+    ErrorCode NOTIFY_TEMPLATE_NOT_EXISTS = new ErrorCode("err.system.notify_template.not_exists", "站内信模版不存在");
+    ErrorCode NOTIFY_TEMPLATE_CODE_DUPLICATE = new ErrorCode("err.system.notify_template.code_duplicate", "已经存在编码为【{}】的站内信模板");
+
+    // ========== 站内信发送 1-002-028-000 ==========
+    ErrorCode NOTIFY_SEND_TEMPLATE_PARAM_MISS = new ErrorCode("err.system.notify_send.template_param_miss", "模板参数({})缺失");
+
+    // 法人
+    ErrorCode LEGAL_NOT_EXISTS = new ErrorCode("err.system.legal.not_exists", "法人不存在");
+    ErrorCode LEGAL_CODE_DUPLICATE = new ErrorCode("err.system.legal.code_duplicate", "已经存在该编码的法人");
+    ErrorCode LEGAL_NAME_DUPLICATE = new ErrorCode("err.system.legal.name_duplicate", "已经存在该名称的法人");
+
+    // ========== 供应商模块 1_002_030_000 ==========
+    ErrorCode SUPPLIER_NOT_EXISTS = new ErrorCode("err.system.supplier.not_exists", "供应商不存在");
+    ErrorCode SUPPLIER_DISABLED = new ErrorCode("err.system.supplier.disabled", "供应商已被禁用");
+    ErrorCode SUPPLIER_PASSWORD_ERROR = new ErrorCode("err.system.supplier.password_error", "供应商密码错误");
+    ErrorCode SUPPLIER_IS_REQUIRED = new ErrorCode("err.system.supplier.is_required", "供应商不能为空");
+
+    // ========== 付款条件 1-002-031-000 ==========
+    ErrorCode PAYMENT_CONDITION_NOT_EXISTS = new ErrorCode("err.system.payment_condition.not_exists", "付款条件不存在");
+    ErrorCode PAYMENT_CONDITION_CODE_DUPLICATE = new ErrorCode("err.system.payment_condition.code_duplicate", "付款条件编码已存在");
+
+    // ========== 税别税率 1-002-032-000 ==========
+    ErrorCode TAX_TYPE_RATE_NOT_EXISTS = new ErrorCode("err.system.tax_type_rate.not_exists", "税别税率不存在");
+    ErrorCode TAX_TYPE_RATE_CODE_DUPLICATE = new ErrorCode("err.system.tax_type_rate.code_duplicate", "税别税率编码已存在");
+
+    // ========== 汇率 1-002-033-000 ==========
+    ErrorCode EXCHANGE_RATE_NOT_EXISTS = new ErrorCode("err.system.exchange_rate.not_exists", "汇率不存在");
+    ErrorCode EXCHANGE_RATE_DUPLICATE = new ErrorCode("err.system.exchange_rate.duplicate", "汇率已存在");
+
+    // ========== 会计科目 1-002-034-000 ==========
+    ErrorCode ACCOUNTING_SUBJECT_NOT_EXISTS = new ErrorCode("err.system.accounting_subject.not_exists", "会计科目不存在");
+    ErrorCode ACCOUNTING_SUBJECT_DUPLICATE = new ErrorCode("err.system.accounting_subject.duplicate", "会计科目已存在");
+
+    // ========== 账款类别 1-002-035-000 ==========
+    ErrorCode ACCOUNT_CATEGORY_NOT_EXISTS = new ErrorCode("err.system.account_category.not_exists", "账款类别不存在");
+    ErrorCode ACCOUNT_CATEGORY_DUPLICATE = new ErrorCode("err.system.account_category.duplicate", "账款类别已存在");
+
+
+    ErrorCode ACCOUNT_CATEGORY_DETAIL_NOT_EXISTS = new ErrorCode("err.system.account_category_detail.not_exists", "账款类别预设会计科目明细不存在");
+    ErrorCode ACCOUNT_CATEGORY_DETAIL_DUPLICATE = new ErrorCode("err.system.account_category_detail.duplicate", "账款类别预设会计科目明细已存在");
+
+    // ========== 菜单接口 ==========
+    ErrorCode INTERFACE_RESOURCE_NOT_EXISTS = new ErrorCode("err.system.interface_resource.not_exists", "接口资源不存在");
+//    MENU_INTERFACE_NOT_EXISTS
+    ErrorCode MENU_INTERFACE_NOT_EXISTS = new ErrorCode("err.system.menu_interface.not_exists", "菜单接口不存在");
+
+    // ========== 组织模块 1-002-036-000 ==========
+    ErrorCode ORGANIZATION_NOT_EXISTS = new ErrorCode("err.system.organization.not_exists", "组织不存在");
+    ErrorCode ORGANIZATION_NAME_DUPLICATE = new ErrorCode("err.system.organization.name_duplicate", "组织名称已存在");
+    ErrorCode ORGANIZATION_CODE_DUPLICATE = new ErrorCode("err.system.organization.code_duplicate", "组织编码已存在");
+    ErrorCode ORGANIZATION_PARENT_ERROR = new ErrorCode("err.system.organization.parent_error", "不能设置自己为父组织");
+    ErrorCode ORGANIZATION_EXISTS_CHILDREN = new ErrorCode("err.system.organization.exists_children", "存在子组织，无法删除");
+    ErrorCode ORGANIZATION_PARENT_NOT_EXISTS = new ErrorCode("err.system.organization.parent_not_exists", "父组织不存在");
+    ErrorCode ORGANIZATION_ERROR_LEVEL = new ErrorCode("err.system.organization.error_level", "组织层级错误");
+
+    // ========== 报表跑批版本配置 1-002-037-000 ==========
+    ErrorCode REPORT_BATCH_VERSION_CODE_DUPLICATE = new ErrorCode("err.system.report_batch_version.code_duplicate", "版本编码已存在");
+
+}

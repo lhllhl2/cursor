@@ -1,0 +1,60 @@
+spring:
+  cloud:
+    gateway:
+      httpclient:
+        connect-timeout: 5000
+        response-timeout: 6m
+        pool:
+          type: fixed                  # 使用固定大小的连接池
+          max-connections: 500         # 最大连接数，支持300-500线程并发
+          acquire-timeout: 45000      # 获取连接的超时时间（45秒）
+          max-idle-time: 30s          # 连接最大空闲时间
+          max-life-time: 60s          # 连接最大生存时间
+          eviction-interval: 10s       # 连接池清理间隔
+      discovery:
+        locator:
+          enable: true
+          lower-case-service-id: true
+      # 路由配置项，对应 RouteDefinition 数组 
+      routes:
+        - id: system-service
+          uri: lb://jasolar-system-service
+          predicates:
+            - Path=/admin-api/**,/oauth-api/sso/**,/system/datasync/**,/api/admin-api/**
+          filters:
+            - RewritePath=/api/(?<path>.*), /${path}
+    kubernetes:
+      discovery:
+        enabled: true
+        namespaces:
+          - jasolar
+        client:
+          namespace: jasolar
+      loadbalancer:
+        mode: SERVICE
+ribbon:
+  ConnectTimeout: 5000
+  ReadTimeout: 360000
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 360000
+
+permission:
+  ignoreUrls:
+    - /admin-api/system/i18n-menu/getLangs
+    - /oauth-api/sso/oauth2/callback
+    - /oauth-api/sso/getSsoLoginRedirectUrl
+    - /oauth-api/local/login
+    - /oauth-api/local/logout
+  openUrls:
+    - /api/admin-api/user/update
+    - /api/admin-api/user/add
+    - /api/admin-api/user/delete
+  outerUrls:
+    - /bill-api/engine/start
+    - /bill-api/engine/group
+    - /bill-api/engine/starts

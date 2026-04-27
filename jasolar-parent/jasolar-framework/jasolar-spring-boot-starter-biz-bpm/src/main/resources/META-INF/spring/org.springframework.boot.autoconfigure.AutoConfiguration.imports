@@ -1,0 +1,2 @@
+com.jasolar.mis.framework.bpm.autoconfigure.BpmAutoConfiguration
+com.jasolar.mis.framework.biztask.config.BizTaskAutoConfiguration

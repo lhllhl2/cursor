@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.jasolar.mis</groupId>
+		<artifactId>jasolar-dependencies</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<packaging>pom</packaging>
+	<artifactId>jasolar-dependencies-api</artifactId>
+	<properties>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.jasolar.mis</groupId>
+				<artifactId>jasolar-module-system-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.jasolar.mis</groupId>
+				<artifactId>jasolar-module-infra-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.jasolar.mis</groupId>
+				<artifactId>jasolar-module-bpm-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.jasolar.mis</groupId>
+				<artifactId>jasolar-module-log-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.jasolar.mis</groupId>
+				<artifactId>jasolar-module-masterdata-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.jasolar.mis</groupId>
+				<artifactId>jasolar-module-budget-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>			
+			
+			<dependency>
+				<groupId>com.jasolar.mis</groupId>
+				<artifactId>jasolar-module-sourcing-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+						
+			<dependency>
+				<groupId>com.jasolar.mis</groupId>
+				<artifactId>jasolar-module-order-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.jasolar.mis</groupId>
+				<artifactId>jasolar-module-settlement-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		
+			<dependency>
+				<groupId>com.jasolar.mis</groupId>
+				<artifactId>jasolar-module-integration-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.jasolar.mis</groupId>
+				<artifactId>jasolar-module-supplier-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.jasolar.mis</groupId>
+				<artifactId>jasolar-module-supplier-portal-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.jasolar.mis</groupId>
+				<artifactId>jasolar-module-engineering-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+</project>

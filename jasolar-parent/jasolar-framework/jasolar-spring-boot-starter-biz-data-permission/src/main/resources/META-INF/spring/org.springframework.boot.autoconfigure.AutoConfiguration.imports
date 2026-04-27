@@ -1,0 +1,3 @@
+com.jasolar.mis.framework.datapermission.config.JasolarDataPermissionAutoConfiguration
+com.jasolar.mis.framework.datapermission.config.JasolarDataPermissionRuleAutoConfiguration
+com.jasolar.mis.framework.datapermission.config.JasolarDataPermissionRpcAutoConfiguration
