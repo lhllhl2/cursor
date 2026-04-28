@@ -65,9 +65,19 @@ public class SystemI18nMenuController {
     @GetMapping("/getLangs")
     @Operation(summary = "获取所有菜单的国际化配置（树形结构）")
     public CommonResult<List<SystemI18nMenuTreeRespVO>> getAllMenuI18nConfig() {
-        // 首先尝试从Redis缓存获取
-        List<SystemI18nMenuTreeRespVO> cachedResult = RedisUtils.get("i18n", List.class);
-        
+        // 首先尝试从Redis缓存获取（反序列化失败时 JsonUtils 会抛 RuntimeException，需降级走 DB，避免整页 500）
+        List<SystemI18nMenuTreeRespVO> cachedResult = null;
+        try {
+            cachedResult = RedisUtils.get("i18n", List.class);
+        } catch (Exception e) {
+            log.warn("读取或解析 Redis 菜单国际化缓存失败，将删除 key=i18n 并从数据库重建: {}", e.getMessage());
+            try {
+                RedisUtils.del("i18n");
+            } catch (Exception delEx) {
+                log.warn("删除损坏的 i18n 缓存失败: {}", delEx.getMessage());
+            }
+        }
+
         if (cachedResult != null) {
             log.info("从Redis缓存获取菜单国际化配置成功");
             return success(cachedResult);
