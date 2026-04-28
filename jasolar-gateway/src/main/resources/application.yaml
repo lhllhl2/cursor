@@ -54,6 +54,7 @@ logging.level.default: TRACE
 permission:
   ignoreUrls:
     - /admin-api/system/i18n-menu/getAllTree
+    - /admin-api/system/i18n-menu/getLangs
     - /oauth-api/sso/oauth2/callback
     - /system/datasync/fusion/report
     - /system/datasync/fusion/report-asia

@@ -37,7 +37,8 @@ spring:
           #predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             #- Path=/rpc-api/**
          - id: system-service
-           uri: lb://system-service
+           # 本地无 Nacos 时 lb://system-service 会 503；仍走网关进程，后端固定本机 system
+           uri: http://127.0.0.1:8081
            predicates:
              - Path=/admin-api/**,/oauth-api/sso/**,/system/datasync/**
 
