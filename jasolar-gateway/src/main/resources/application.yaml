@@ -1,5 +1,6 @@
+# 网关监听端口。不用 SERVER_PORT：与 system 同机启动时进程环境常带 SERVER_PORT=8081，会覆盖本配置导致网关抢 8081。
 server:
-  port: ${SERVER_PORT:8089}
+  port: ${JASOLAR_GATEWAY_PORT:8089}
 spring:
   application:
     name: gateway-service
@@ -54,7 +55,12 @@ logging.level.default: TRACE
 permission:
   ignoreUrls:
     - /admin-api/system/i18n-menu/getAllTree
+    - /admin-api/system/i18n-menu/getLangs
     - /oauth-api/sso/oauth2/callback
+    # 与 application-k8s.yaml 对齐：本地 profile 不加载 k8s 时仍需放行，否则无 token 登录会 401
+    - /oauth-api/sso/getSsoLoginRedirectUrl
+    - /oauth-api/local/login
+    - /oauth-api/local/logout
     - /system/datasync/fusion/report
     - /system/datasync/fusion/report-asia
   openUrls:

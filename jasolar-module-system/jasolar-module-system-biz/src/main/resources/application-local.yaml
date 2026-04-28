@@ -1,0 +1,6 @@
+# 先加载 k8s 全量业务配置，再由 overrides 覆盖连接信息（import 顺序：后者优先）
+spring:
+  config:
+    import:
+      - classpath:application-k8s.yaml
+      - classpath:application-local-overrides.yaml

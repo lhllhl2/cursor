@@ -124,8 +124,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function fetchUserInfo() {
-    let userInfo: null | UserInfo = null;
-    userInfo = await getUserInfoApi();
+    const userInfo = (await getUserInfoApi()) as null | UserInfo;
     userStore.setUserInfo(userInfo);
     // 设置权限码
     if (userInfo?.buttonList?.length) {

@@ -17,6 +17,7 @@ import com.jasolar.mis.module.system.properties.JwtProperties;
 import com.jasolar.mis.module.system.properties.SessionTimeProperties;
 import com.jasolar.mis.module.system.util.BCryptUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -62,6 +63,9 @@ public class LocalLoginServiceImpl implements LocalLoginService {
         }
         if(Objects.equals(systemUserDo.getStatus(), UserEnums.Status.BAN.getCode())){
             throw new ServiceException(UserErrorConstants.USER_HAS_BAN);
+        }
+        if (StringUtils.isBlank(localLoginVo.getPwd())) {
+            throw new ServiceException(UserErrorConstants.USER_NAME_OR_PWD_ERR);
         }
         boolean matches = BCryptUtil.matches(localLoginVo.getPwd(), systemUserDo.getPwd());
         if(!matches){
