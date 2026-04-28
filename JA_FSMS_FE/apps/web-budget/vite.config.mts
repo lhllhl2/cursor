@@ -64,8 +64,9 @@ function createDevBackendBootstrapMockPlugin(enabled: boolean): PluginOption {
   };
 }
 
-export default defineConfig(async ({ mode }) => {
-  const enableDevBackendBootstrapMock = mode === 'development';
+export default defineConfig(async ({ command, mode }) => {
+  const enableDevBackendBootstrapMock =
+    command === 'serve' && mode === 'development';
 
   return {
     application: {},
