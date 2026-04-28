@@ -36,3 +36,6 @@ WHEN NOT MATCHED THEN
   );
 
 COMMIT;
+
+-- 登录后需要菜单权限时，再执行（从 GBCS009 复制用户组关联）：
+-- @005_copy_user_group_r_from_user.sql
