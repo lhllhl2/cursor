@@ -1,8 +1,10 @@
 import { requestClient } from '#/api/request';
 
 export namespace AuthApi {
-  /** 登录接口参数 */
+  /** 登录接口参数（与后端 LocalLoginVo 对齐：userName + pwd；兼容 username/password） */
   export interface LoginParams {
+    userName?: string;
+    pwd?: string;
     password?: string;
     username?: string;
   }
@@ -54,12 +56,16 @@ export async function getAccessCodesApi() {
  * 登录
  */
 export async function loginApi(data: AuthApi.LoginParams) {
-  return requestClient.post<AuthApi.LoginResult>(API.LOGIN, data);
+  const body = {
+    userName: data.userName ?? data.username,
+    pwd: data.pwd ?? data.password,
+  };
+  return requestClient.post<AuthApi.LoginResult>(API.LOGIN, body);
 }
 
 /**
- * 修改密码
+ * 修改密码（字段与后端 updatePwd 接口一致，非登录接口）
  */
-export async function changePasswordApi(data: AuthApi.LoginParams) {
-  return requestClient.post<AuthApi.LoginParams>(API.CHANGE_PASSWORD, data);
+export async function changePasswordApi(data: Record<string, unknown>) {
+  return requestClient.post(API.CHANGE_PASSWORD, data);
 }

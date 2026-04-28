@@ -1,3 +1,8 @@
+# 拦截器 OracleSchemaInterceptor / OracleSchemaFilter 优先读取 DB_SCHEMA。
+# 部分运行环境会注入 spring.datasource.dynamic.datasource.*.connection-init-sql=...CURRENT_SCHEMA = SYSTEM，
+# 若仅依赖解析该属性会得到错误 schema，导致未限定表名解析为 SYSTEM.* 而 ORA-00942。
+DB_SCHEMA: jasolar_budget
+
 spring:
   data:
     redis:
@@ -6,14 +11,16 @@ spring:
   datasource:
     dynamic:
       datasource:
+        # 使用与应用表同名的 schema 用户连接，避免以 Oracle 内置用户 SYSTEM 登录时
+        # 未限定表名被解析为 SYSTEM.SYSTEM_USER（应用表在 JASOLAR_BUDGET 下）导致 ORA-00942。
         master:
           url: jdbc:oracle:thin:@127.0.0.1:1521/FREEPDB1
-          username: system
+          username: jasolar_budget
           password: Oracle123
           connection-init-sql: ALTER SESSION SET CURRENT_SCHEMA = JASOLAR_BUDGET
         syn-ehr:
           url: jdbc:oracle:thin:@127.0.0.1:1521/FREEPDB1
-          username: system
+          username: jasolar_budget
           password: Oracle123
           connection-init-sql: ALTER SESSION SET CURRENT_SCHEMA = JASOLAR_BUDGET
 

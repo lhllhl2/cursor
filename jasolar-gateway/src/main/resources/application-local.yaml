@@ -17,6 +17,15 @@ spring:
     service-registry:
       auto-registration:
         enabled: true # 关闭自动注册
+    # AuthFilter 等 Feign 调用 jasolar-system-service；无 Nacos 时需静态实例
+    discovery:
+      client:
+        simple:
+          instances:
+            jasolar-system-service:
+              - uri: http://127.0.0.1:8081
+            system-service:
+              - uri: http://127.0.0.1:8081
     gateway:
       # 路由配置项，对应 RouteDefinition 数组
       routes:
@@ -40,7 +49,7 @@ spring:
            # 本地无 Nacos 时 lb://system-service 会 503；仍走网关进程，后端固定本机 system
            uri: http://127.0.0.1:8081
            predicates:
-             - Path=/admin-api/**,/oauth-api/sso/**,/system/datasync/**
+             - Path=/admin-api/**,/oauth-api/sso/**,/oauth-api/local/**,/system/datasync/**
 
 feign:
   client:
