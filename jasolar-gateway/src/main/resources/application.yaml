@@ -57,6 +57,10 @@ permission:
     - /admin-api/system/i18n-menu/getAllTree
     - /admin-api/system/i18n-menu/getLangs
     - /oauth-api/sso/oauth2/callback
+    # 与 application-k8s.yaml 对齐：本地 profile 不加载 k8s 时仍需放行，否则无 token 登录会 401
+    - /oauth-api/sso/getSsoLoginRedirectUrl
+    - /oauth-api/local/login
+    - /oauth-api/local/logout
     - /system/datasync/fusion/report
     - /system/datasync/fusion/report-asia
   openUrls:
