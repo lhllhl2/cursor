@@ -10,12 +10,12 @@ spring:
           url: jdbc:oracle:thin:@127.0.0.1:1521/FREEPDB1
           username: system
           password: Oracle123
-          connection-init-sql: ALTER SESSION SET CURRENT_SCHEMA = SYSTEM
+          connection-init-sql: ALTER SESSION SET CURRENT_SCHEMA = JASOLAR_BUDGET
         syn-ehr:
           url: jdbc:oracle:thin:@127.0.0.1:1521/FREEPDB1
           username: system
           password: Oracle123
-          connection-init-sql: ALTER SESSION SET CURRENT_SCHEMA = SYSTEM
+          connection-init-sql: ALTER SESSION SET CURRENT_SCHEMA = JASOLAR_BUDGET
 
 scheduler:
   project-sync:
