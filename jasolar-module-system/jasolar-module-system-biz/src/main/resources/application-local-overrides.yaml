@@ -1,0 +1,40 @@
+spring:
+  data:
+    redis:
+      # 使用 URL 避免与 k8s 分段配置合并后 host/port/password 不一致
+      url: redis://:123456@127.0.0.1:6379/0
+  datasource:
+    dynamic:
+      datasource:
+        master:
+          url: jdbc:oracle:thin:@127.0.0.1:1521/FREEPDB1
+          username: system
+          password: Oracle123
+          connection-init-sql: ALTER SESSION SET CURRENT_SCHEMA = SYSTEM
+        syn-ehr:
+          url: jdbc:oracle:thin:@127.0.0.1:1521/FREEPDB1
+          username: system
+          password: Oracle123
+          connection-init-sql: ALTER SESSION SET CURRENT_SCHEMA = SYSTEM
+
+scheduler:
+  project-sync:
+    enabled: false
+  subject-sync:
+    enabled: false
+  organization-sync:
+    enabled: false
+  manage-org-sync:
+    enabled: false
+  auth-project-sync:
+    enabled: false
+
+erp:
+  oracle:
+    url: jdbc:oracle:thin:@127.0.0.1:1521/FREEPDB1
+    username: system
+    password: Oracle123
+
+logging:
+  file:
+    name: /tmp/system-service.log
