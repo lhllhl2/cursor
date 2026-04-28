@@ -1,5 +1,6 @@
+# 网关监听端口。不用 SERVER_PORT：与 system 同机启动时进程环境常带 SERVER_PORT=8081，会覆盖本配置导致网关抢 8081。
 server:
-  port: ${SERVER_PORT:8089}
+  port: ${JASOLAR_GATEWAY_PORT:8089}
 spring:
   application:
     name: gateway-service
