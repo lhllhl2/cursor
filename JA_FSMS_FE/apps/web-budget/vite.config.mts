@@ -8,6 +8,8 @@ export default defineConfig(async () => {
         allowedHosts: ['finreport.jasolar.com', 'budgetcontrol.jasolar.com'],
       },
       server: {
+        // trycloudflare / ngrok 等临时域名；否则 Host 校验会 403
+        allowedHosts: true,
         proxy: {
           '/api': {
             changeOrigin: true,
